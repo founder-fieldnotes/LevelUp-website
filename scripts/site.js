@@ -4,6 +4,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const toggle = document.querySelector("[data-nav-toggle]");
   const yearTarget = document.querySelector("[data-current-year]");
   const headerActions = document.querySelector(".header-actions");
+  const scriptEl =
+    document.querySelector('script[src$="scripts/site.js"]') ||
+    document.querySelector('script[src$="/scripts/site.js"]');
 
   const directoryGroups = [
     {
@@ -75,12 +78,24 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   const basePrefix = normalizeBase(window.location.pathname);
-  const scriptPath = document.currentScript?.getAttribute("src") || "";
-  const assetBasePrefix = scriptPath.startsWith("../") ? scriptPath.replace(/scripts\/site\.js$/, "") : basePrefix;
+  const scriptSrc = scriptEl?.getAttribute("src") || "";
+  let assetBasePrefix = basePrefix;
 
-  const brandLogoPath = `${assetBasePrefix}images/branding/logo-black.png`;
-  const footerLogoPath = `${assetBasePrefix}images/branding/logo-black.png`;
-  const faviconPath = `${assetBasePrefix}images/branding/favicon.png`;
+  if (scriptSrc) {
+    try {
+      const scriptUrl = new URL(scriptSrc, window.location.href);
+      const assetUrl = new URL("../images/branding/", scriptUrl);
+      assetBasePrefix = assetUrl.href;
+    } catch {
+      assetBasePrefix = `${basePrefix}images/branding/`;
+    }
+  } else {
+    assetBasePrefix = `${basePrefix}images/branding/`;
+  }
+
+  const brandLogoPath = `${assetBasePrefix}logo-black.png`;
+  const footerLogoPath = `${assetBasePrefix}logo-black.png`;
+  const faviconPath = `${assetBasePrefix}favicon.png`;
 
   let favicon = document.querySelector('link[rel="icon"]');
   if (!favicon) {
