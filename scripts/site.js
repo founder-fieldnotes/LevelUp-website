@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
+  const header = document.querySelector(".site-header");
   const nav = document.querySelector("[data-nav]");
   const toggle = document.querySelector("[data-nav-toggle]");
   const yearTarget = document.querySelector("[data-current-year]");
@@ -204,5 +205,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (yearTarget) {
     yearTarget.textContent = String(new Date().getFullYear());
+  }
+
+  if (header) {
+    const syncHeaderScrollState = () => {
+      header.classList.toggle("is-scrolled", window.scrollY > 12);
+    };
+
+    syncHeaderScrollState();
+    window.addEventListener("scroll", syncHeaderScrollState, { passive: true });
   }
 });
