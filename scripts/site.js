@@ -11,6 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const directoryGroups = [
     {
       title: "Who We Are",
+      color: "gold",
       links: [
         ["About", "about/"],
         ["Our Approach", "approach/"],
@@ -22,6 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
     },
     {
       title: "What We Do",
+      color: "green",
       links: [
         ["What We Do", "what-we-do/"],
         ["Build Talent Systems", "build-talent-systems/"],
@@ -33,6 +35,7 @@ document.addEventListener("DOMContentLoaded", () => {
     },
     {
       title: "Initiatives",
+      color: "blue",
       links: [
         ["Initiatives", "initiatives/"],
         ["AI.SPIRE", "ai-spire/"],
@@ -42,6 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {
     },
     {
       title: "Insights",
+      color: "clay",
       links: [
         ["Insights", "insights/"],
         ["Case Studies", "case-studies/"],
@@ -52,20 +56,34 @@ document.addEventListener("DOMContentLoaded", () => {
       ]
     },
     {
-      title: "Programs and Platform",
+      title: "Programs",
+      color: "gold",
       links: [
         ["Programs", "programs/"],
+        ["Workshops", "workshops/"],
+        ["Cohorts", "cohorts/"],
+        ["Institutional Training", "institutional-training/"],
+        ["Advisory Engagements", "advisory-engagements/"],
+        ["Accelerators and Labs", "accelerators-labs/"],
         ["LevHub", "levhub/"]
       ]
     },
     {
       title: "Get Involved",
+      color: "green",
       links: [
         ["Get Involved", "contact/"],
-        ["Legal and Policies", "legal/"],
         ["Partner With Us", "partner-with-us/"],
         ["Fund This Work", "fund-this-work/"],
-        ["Subscribe", "subscribe/"]
+        ["Subscribe", "subscribe/"],
+        ["Legal and Policies", "legal/"]
+      ]
+    },
+    {
+      title: "LevHub",
+      color: "blue",
+      links: [
+        ["LevHub", "levhub/"]
       ]
     }
   ];
@@ -136,78 +154,90 @@ document.addEventListener("DOMContentLoaded", () => {
   let currentPath = window.location.pathname.replace(/\/index\.html$/, "/");
   if (currentPath !== "/" && !currentPath.endsWith("/")) currentPath = `${currentPath}/`;
 
-  document.querySelectorAll(".site-nav .nav-link").forEach((link) => {
-    const href = link.getAttribute("href");
-    if (href && normalizeHrefPath(href) === currentPath) {
-      link.setAttribute("aria-current", "page");
-    }
-  });
+  if (nav) {
+    nav.innerHTML = directoryGroups
+      .map((group, index) => {
+        const topHref = resolveHref(group.links[0][1]);
+        const groupIsCurrent = group.links.some(([, href]) => normalizeHrefPath(href) === currentPath);
+        const submenuId = `nav-submenu-${index}`;
+        const linksMarkup = group.links
+          .map(([label, href]) => {
+            const resolvedHref = resolveHref(href);
+            const currentAttr = normalizeHrefPath(href) === currentPath ? ' aria-current="page"' : "";
+            return `<li><a href="${resolvedHref}"${currentAttr}>${label}</a></li>`;
+          })
+          .join("");
 
-  if (headerActions) {
-    const shell = document.createElement("div");
-    shell.className = "directory-shell";
-    shell.dataset.open = "false";
-
-    const directoryId = "site-directory-panel";
-    shell.innerHTML = `
-      <button class="button secondary directory-toggle" type="button" aria-expanded="false" aria-controls="${directoryId}">Browse</button>
-      <div class="directory-panel" id="${directoryId}">
-        <div class="directory-head">
-          <div>
-            <div class="label">Site Directory</div>
-            <h3>Explore the institutional architecture.</h3>
+        return `
+          <div class="nav-item${groupIsCurrent ? " is-current" : ""}" data-nav-color="${group.color}">
+            <button class="nav-link nav-trigger" type="button" aria-expanded="${groupIsCurrent ? "true" : "false"}" aria-controls="${submenuId}" data-nav-trigger>
+              <span>${group.title}</span>
+              <span class="nav-caret" aria-hidden="true"></span>
+            </button>
+            <div class="nav-submenu" id="${submenuId}">
+              <div class="nav-submenu-head">
+                <a class="nav-submenu-title" href="${topHref}">${group.title}</a>
+              </div>
+              <ul class="nav-submenu-links">${linksMarkup}</ul>
+            </div>
           </div>
-          <p>Browse the site by strategic area, public proof, and future platform layers.</p>
-        </div>
-        <div class="directory-grid"></div>
-      </div>
-    `;
+        `;
+      })
+      .join("");
 
-    const grid = shell.querySelector(".directory-grid");
-    directoryGroups.forEach((group) => {
-      const article = document.createElement("article");
-      article.className = "directory-group";
-      const linksMarkup = group.links
-        .map(([label, href]) => {
-          const resolvedHref = resolveHref(href);
-          const currentAttr = normalizeHrefPath(href) === currentPath ? ' aria-current="page"' : "";
-          return `<li><a href="${resolvedHref}"${currentAttr}>${label}</a></li>`;
-        })
-        .join("");
-      article.innerHTML = `<div class="directory-title">${group.title}</div><ul class="directory-links">${linksMarkup}</ul>`;
-      grid.appendChild(article);
+    const navItems = nav.querySelectorAll(".nav-item");
+    const closeAllMenus = () => {
+      navItems.forEach((item) => {
+        if (!item.classList.contains("is-current")) item.dataset.open = "false";
+        const trigger = item.querySelector("[data-nav-trigger]");
+        if (trigger) trigger.setAttribute("aria-expanded", item.dataset.open === "true" ? "true" : "false");
+      });
+    };
+
+    navItems.forEach((item) => {
+      const trigger = item.querySelector("[data-nav-trigger]");
+      const isCurrent = item.classList.contains("is-current");
+      item.dataset.open = isCurrent ? "true" : "false";
+
+      if (trigger) {
+        trigger.addEventListener("click", () => {
+          const open = item.dataset.open === "true";
+          navItems.forEach((other) => {
+            other.dataset.open = "false";
+            const otherTrigger = other.querySelector("[data-nav-trigger]");
+            if (otherTrigger) otherTrigger.setAttribute("aria-expanded", "false");
+          });
+          item.dataset.open = open ? "false" : "true";
+          trigger.setAttribute("aria-expanded", open ? "false" : "true");
+        });
+      }
+
+      item.addEventListener("mouseenter", () => {
+        if (window.innerWidth <= 820) return;
+        navItems.forEach((other) => {
+          other.dataset.open = "false";
+          const otherTrigger = other.querySelector("[data-nav-trigger]");
+          if (otherTrigger) otherTrigger.setAttribute("aria-expanded", "false");
+        });
+        item.dataset.open = "true";
+        if (trigger) trigger.setAttribute("aria-expanded", "true");
+      });
     });
 
-    headerActions.prepend(shell);
-
-    const directoryToggle = shell.querySelector(".directory-toggle");
-    const closeDirectory = () => {
-      shell.dataset.open = "false";
-      directoryToggle.setAttribute("aria-expanded", "false");
-    };
-    const openDirectory = () => {
-      shell.dataset.open = "true";
-      directoryToggle.setAttribute("aria-expanded", "true");
-    };
-
-    directoryToggle.addEventListener("click", () => {
-      const open = shell.dataset.open === "true";
-      if (open) {
-        closeDirectory();
-      } else {
-        openDirectory();
-      }
+    nav.addEventListener("mouseleave", () => {
+      if (window.innerWidth <= 820) return;
+      closeAllMenus();
     });
 
     document.addEventListener("click", (event) => {
-      if (!shell.contains(event.target)) {
-        closeDirectory();
+      if (!nav.contains(event.target)) {
+        closeAllMenus();
       }
     });
 
     document.addEventListener("keydown", (event) => {
       if (event.key === "Escape") {
-        closeDirectory();
+        closeAllMenus();
       }
     });
   }
