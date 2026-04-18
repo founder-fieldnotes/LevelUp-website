@@ -75,10 +75,12 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   const basePrefix = normalizeBase(window.location.pathname);
+  const scriptPath = document.currentScript?.getAttribute("src") || "";
+  const assetBasePrefix = scriptPath.startsWith("../") ? scriptPath.replace(/scripts\/site\.js$/, "") : basePrefix;
 
-  const brandLogoPath = `${basePrefix}images/branding/logo-black.png`;
-  const footerLogoPath = `${basePrefix}images/branding/logo-black.png`;
-  const faviconPath = `${basePrefix}images/branding/favicon.png`;
+  const brandLogoPath = `${assetBasePrefix}images/branding/logo-black.png`;
+  const footerLogoPath = `${assetBasePrefix}images/branding/logo-black.png`;
+  const faviconPath = `${assetBasePrefix}images/branding/favicon.png`;
 
   let favicon = document.querySelector('link[rel="icon"]');
   if (!favicon) {
