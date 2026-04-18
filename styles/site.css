@@ -166,7 +166,8 @@ select {
 .brand-title img {
   display: block;
   width: auto;
-  height: 34px;
+  height: clamp(24px, 2vw, 32px);
+  max-width: min(220px, 100%);
 }
 
 .site-nav-wrap {
@@ -182,20 +183,27 @@ select {
   color: var(--text);
   padding: 8px 10px;
   border-radius: 0;
-  font-size: 9px;
+  font-family: "Inter", sans-serif;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
 }
 
 .site-nav {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 10px 12px;
+  gap: 28px;
+  padding: 10px 16px;
 }
 
 .nav-link {
   text-decoration: none;
-  font-size: 9px;
-  font-weight: 600;
+  font-family: "Inter", sans-serif;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
   padding: 0;
   border: none;
   color: var(--ink, var(--text));
@@ -211,8 +219,8 @@ select {
 .header-actions {
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 8px 10px;
+  gap: 10px;
+  padding: 8px 14px;
   border-left: 2px solid var(--line);
 }
 
@@ -223,6 +231,9 @@ select {
 .directory-toggle {
   background: var(--surface-strong);
   color: var(--text);
+  font-family: "Inter", sans-serif;
+  font-weight: 800;
+  letter-spacing: 0.02em;
 }
 
 .directory-shell[data-open="true"] .directory-toggle {
