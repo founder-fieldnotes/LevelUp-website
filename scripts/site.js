@@ -76,7 +76,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const basePrefix = normalizeBase(window.location.pathname);
 
   const brandLogoPath = `${basePrefix}images/branding/logo-black.png`;
-  const footerLogoPath = `${basePrefix}images/branding/logo-white.png`;
+  const footerLogoPath = `${basePrefix}images/branding/logo-black.png`;
   const faviconPath = `${basePrefix}images/branding/favicon.png`;
 
   let favicon = document.querySelector('link[rel="icon"]');
