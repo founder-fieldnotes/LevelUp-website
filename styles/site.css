@@ -143,21 +143,22 @@ select {
 .brand-lockup a {
   height: 100%;
   padding: 10px 12px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 6px;
+  display: grid;
+  align-content: center;
+  gap: 8px;
   text-decoration: none;
 }
 
 .brand-name {
+  order: 2;
   font-size: 9px;
   color: var(--muted);
-  margin-bottom: 2px;
+  margin-bottom: 0;
   font-weight: 500;
 }
 
 .brand-title {
+  order: 1;
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.05em;

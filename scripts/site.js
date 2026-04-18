@@ -88,27 +88,32 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   ];
 
-  const normalizeBase = (path) => {
-    const cleaned = path.replace(/index\.html$/, "");
-    const parts = cleaned.split("/").filter(Boolean);
-    const level = parts.length;
-    return level === 0 ? "" : "../".repeat(level);
-  };
-
-  const basePrefix = normalizeBase(window.location.pathname);
   const scriptSrc = scriptEl?.getAttribute("src") || "";
-  let assetBasePrefix = basePrefix;
+  let siteRootPrefix = "";
+  let assetBasePrefix = "";
 
   if (scriptSrc) {
     try {
       const scriptUrl = new URL(scriptSrc, window.location.href);
+      const siteRootUrl = new URL("../", scriptUrl);
       const assetUrl = new URL("../images/branding/", scriptUrl);
+      siteRootPrefix = siteRootUrl.href;
       assetBasePrefix = assetUrl.href;
     } catch {
-      assetBasePrefix = `${basePrefix}images/branding/`;
+      const depth = Math.max(
+        0,
+        window.location.pathname.replace(/index\.html$/, "").split("/").filter(Boolean).length - 1
+      );
+      siteRootPrefix = depth === 0 ? "" : "../".repeat(depth);
+      assetBasePrefix = `${siteRootPrefix}images/branding/`;
     }
   } else {
-    assetBasePrefix = `${basePrefix}images/branding/`;
+    const depth = Math.max(
+      0,
+      window.location.pathname.replace(/index\.html$/, "").split("/").filter(Boolean).length - 1
+    );
+    siteRootPrefix = depth === 0 ? "" : "../".repeat(depth);
+    assetBasePrefix = `${siteRootPrefix}images/branding/`;
   }
 
   const brandLogoPath = `${assetBasePrefix}logo-black.png`;
@@ -136,7 +141,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const resolveHref = (href) => {
     if (/^(https?:|mailto:|#)/.test(href)) return href;
-    return `${basePrefix}${href}`;
+    if (/^https?:/.test(siteRootPrefix)) {
+      return new URL(href, siteRootPrefix).href;
+    }
+    return `${siteRootPrefix}${href}`;
   };
 
   const normalizeHrefPath = (href) => {
