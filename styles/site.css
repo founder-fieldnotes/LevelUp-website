@@ -1,13 +1,13 @@
 :root {
-  --bg: #f3f1ea;
+  --bg: #ffffff;
   --white: #ffffff;
-  --cream: #ece8dc;
+  --cream: #ffffff;
   --surface: #ffffff;
   --surface-strong: #ffffff;
   --surface-dark: #000000;
-  --surface-dark-2: #111111;
+  --surface-dark-2: #000000;
   --text: #000000;
-  --muted: #4f4b46;
+  --muted: #000000;
   --line: #000000;
   --green: #05c145;
   --green-dark: #000000;
@@ -105,8 +105,7 @@ select {
   top: 0;
   z-index: 90;
   padding: 14px var(--page-gutter) 0;
-  background: linear-gradient(180deg, rgba(243, 241, 234, 0.96), rgba(243, 241, 234, 0.84));
-  backdrop-filter: blur(10px);
+  background: #ffffff;
   transition: padding 0.18s ease, background-color 0.18s ease;
 }
 
@@ -127,8 +126,9 @@ select {
 }
 
 .site-header.is-scrolled .site-header-inner {
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
-  background: rgba(255, 255, 255, 0.96);
+  box-shadow: none;
+  background: #ffffff;
+  border-bottom-width: 4px;
 }
 
 .brand-lockup {
@@ -504,7 +504,7 @@ section,
 .hero-side p,
 .hero-side li,
 .hero-side .muted-on-dark {
-  color: #222;
+  color: #000000;
 }
 
 .kicker {
@@ -596,7 +596,7 @@ h3,
   padding: 8px 12px;
   border-radius: 0;
   border: 2px solid var(--line);
-  background: var(--cream);
+  background: var(--white);
   font-size: 0.72rem;
   color: var(--muted);
 }
@@ -618,7 +618,7 @@ h3,
 
 .side-list li {
   padding-top: 14px;
-  border-top: 2px solid rgba(17, 17, 17, 0.45);
+  border-top: 2px solid var(--line);
 }
 
 .side-list strong {
@@ -733,7 +733,7 @@ h3,
 .pillar-card:nth-child(2) { border-top: 6px solid var(--clay); }
 .pillar-card:nth-child(3) { border-top: 6px solid var(--blue); }
 .pillar-card:nth-child(4) { border-top: 6px solid var(--gold); }
-.pillar-card:nth-child(5) { border-top: 6px solid #b67a00; }
+.pillar-card:nth-child(5) { border-top: 6px solid var(--green); }
 
 .diagram-card {
   background: var(--cream);
@@ -818,7 +818,7 @@ h3,
 }
 
 .quote-card p {
-  color: #222;
+  color: #000000;
 }
 
 .cta-banner {
@@ -827,12 +827,12 @@ h3,
   grid-template-columns: minmax(0, 1fr) auto;
   gap: 20px;
   align-items: center;
-  background: var(--yellow, var(--gold));
+  background: var(--gold);
   color: var(--text);
 }
 
 .cta-banner p {
-  color: #222;
+  color: #000000;
 }
 
 .form-stack {
@@ -1180,7 +1180,7 @@ h3,
 
 .editorial-note p {
   max-width: 22rem;
-  color: #222;
+  color: #000000;
 }
 
 .editorial-chip {
@@ -1334,7 +1334,7 @@ h3,
   align-items: center;
   padding: clamp(26px, 4vw, 40px);
   border-radius: 0;
-  background: var(--cream);
+  background: var(--white);
   color: var(--text);
 }
 
@@ -1423,7 +1423,7 @@ h3,
   align-items: center;
   padding: clamp(28px, 4vw, 44px);
   border-radius: 0;
-  background: var(--cream);
+  background: var(--white);
   border: 2px solid var(--line);
 }
 
@@ -1524,7 +1524,7 @@ h3,
 }
 
 .subscribe-banner-guide {
-  background: var(--cream, #ece8dc);
+  background: var(--white);
   border: 2px solid var(--line);
 }
 
