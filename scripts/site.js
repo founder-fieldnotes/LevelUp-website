@@ -75,6 +75,29 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const basePrefix = normalizeBase(window.location.pathname);
 
+  const brandLogoPath = `${basePrefix}images/branding/logo-black.png`;
+  const footerLogoPath = `${basePrefix}images/branding/logo-white.png`;
+  const faviconPath = `${basePrefix}images/branding/favicon.png`;
+
+  let favicon = document.querySelector('link[rel="icon"]');
+  if (!favicon) {
+    favicon = document.createElement("link");
+    favicon.rel = "icon";
+    favicon.type = "image/png";
+    document.head.appendChild(favicon);
+  }
+  favicon.href = faviconPath;
+
+  const brandTitle = document.querySelector(".brand-title");
+  if (brandTitle) {
+    brandTitle.innerHTML = `<img src="${brandLogoPath}" alt="LevelUp Economy" />`;
+  }
+
+  const footerTitle = document.querySelector(".footer-grid > div:first-child .footer-title");
+  if (footerTitle) {
+    footerTitle.innerHTML = `<img class="footer-logo" src="${footerLogoPath}" alt="LevelUp Economy" />`;
+  }
+
   const resolveHref = (href) => {
     if (/^(https?:|mailto:|#)/.test(href)) return href;
     return `${basePrefix}${href}`;
