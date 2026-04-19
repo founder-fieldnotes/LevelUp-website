@@ -15,9 +15,9 @@
   --indigo: #29baee;
   --clay: #ff624a;
   --gold: #fdd837;
-  --max: 1380px;
-  --page-gutter: clamp(12px, 2vw, 20px);
-  --section-gap: clamp(16px, 2.4vw, 28px);
+  --max: 1440px;
+  --page-gutter: clamp(14px, 1.8vw, 24px);
+  --section-gap: clamp(18px, 2.2vw, 34px);
   --radius: 0px;
   --shadow: none;
 }
@@ -35,15 +35,15 @@ body {
   font-family: "Inter", sans-serif;
   background: var(--bg);
   color: var(--text);
-  line-height: 1.36;
+  line-height: 1.42;
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
 
 p {
-  font-size: 14px;
-  line-height: 1.42;
+  font-size: clamp(0.95rem, 0.95vw, 1.08rem);
+  line-height: 1.48;
 }
 
 img {
@@ -137,13 +137,13 @@ select {
 
 .brand-lockup {
   border-right: 2px solid var(--line);
-  min-width: clamp(210px, 15vw, 280px);
+  min-width: clamp(160px, 13vw, 220px);
 }
 
 .brand-lockup a {
   height: 100%;
-  min-height: clamp(92px, 7.5vw, 124px);
-  padding: 18px 24px;
+  min-height: clamp(72px, 6vw, 96px);
+  padding: 14px 18px;
   display: grid;
   align-content: center;
   gap: 10px;
@@ -152,7 +152,7 @@ select {
 
 .brand-name {
   order: 2;
-  font-size: clamp(0.65rem, 0.72vw, 0.82rem);
+  font-size: clamp(0.56rem, 0.62vw, 0.72rem);
   color: var(--muted);
   margin-bottom: 0;
   font-weight: 600;
@@ -169,8 +169,8 @@ select {
 .brand-title img {
   display: block;
   width: auto;
-  height: clamp(38px, 3.3vw, 58px);
-  max-width: min(260px, 100%);
+  height: clamp(30px, 2.5vw, 44px);
+  max-width: min(190px, 100%);
 }
 
 .site-nav-wrap {
@@ -198,8 +198,8 @@ select {
 .site-nav {
   display: flex;
   align-items: center;
-  gap: clamp(20px, 2vw, 42px);
-  padding: 0 clamp(22px, 2.1vw, 42px);
+  gap: clamp(8px, 1vw, 18px);
+  padding: 0 clamp(12px, 1.4vw, 24px);
   min-width: 0;
   position: relative;
 }
@@ -213,9 +213,9 @@ select {
 .nav-link {
   text-decoration: none;
   font-family: "Inter", sans-serif;
-  font-size: clamp(0.9rem, 0.95vw, 1.12rem);
+  font-size: clamp(0.68rem, 0.78vw, 0.92rem);
   font-weight: 800;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.035em;
   text-transform: uppercase;
   padding: 0;
   border: none;
@@ -226,9 +226,9 @@ select {
 .nav-trigger {
   display: inline-flex;
   align-items: center;
-  gap: 14px;
+  gap: 10px;
   min-height: 100%;
-  padding: clamp(26px, 2.4vw, 38px) 16px;
+  padding: clamp(22px, 2vw, 32px) 12px;
   background: transparent;
   transition: background-color 0.16s ease, color 0.16s ease;
 }
@@ -241,9 +241,9 @@ select {
 .nav-caret {
   width: 0;
   height: 0;
-  border-left: 7px solid transparent;
-  border-right: 7px solid transparent;
-  border-top: 8px solid currentColor;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 6px solid currentColor;
   transition: transform 0.16s ease;
 }
 
@@ -279,7 +279,7 @@ select {
   position: absolute;
   top: calc(100% + 2px);
   left: 0;
-  min-width: clamp(320px, 28vw, 520px);
+  min-width: clamp(300px, 27vw, 460px);
   padding: 0;
   border: 2px solid var(--line);
   background: var(--white);
@@ -342,9 +342,9 @@ select {
 
 .nav-submenu-links a {
   display: block;
-  padding: 24px 34px;
+  padding: 22px 32px;
   text-decoration: none;
-  font-size: clamp(1.15rem, 1.35vw, 1.65rem);
+  font-size: clamp(1.1rem, 1.25vw, 1.5rem);
   line-height: 1;
   font-weight: 800;
   letter-spacing: -0.02em;
@@ -373,8 +373,8 @@ select {
 .header-actions {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 16px 20px;
+  gap: 8px;
+  padding: 12px 14px;
   border-left: 2px solid var(--line);
   flex-shrink: 0;
 }
@@ -385,11 +385,11 @@ select {
   justify-content: center;
   gap: 8px;
   min-height: 0;
-  padding: 14px 18px;
+  padding: 11px 14px;
   border-radius: 0;
   border: 2px solid var(--line);
   text-decoration: none;
-  font-size: clamp(0.72rem, 0.72vw, 0.9rem);
+  font-size: clamp(0.62rem, 0.68vw, 0.8rem);
   font-weight: 800;
   transition: background-color 0.18s ease, color 0.18s ease, border-color 0.18s ease, transform 0.12s ease;
 }
@@ -455,7 +455,7 @@ section,
 .hero-grid,
 .page-intro {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
   gap: 24px;
 }
 
@@ -511,8 +511,8 @@ section,
 .hero-main {
   position: relative;
   overflow: hidden;
-  padding: clamp(54px, 6vw, 92px);
-  min-height: clamp(560px, 42vw, 760px);
+  padding: clamp(54px, 5.4vw, 86px);
+  min-height: clamp(500px, 38vw, 680px);
   background: var(--surface-strong);
 }
 
@@ -523,25 +523,38 @@ section,
 .hero-side {
   position: relative;
   overflow: hidden;
-  padding: clamp(54px, 5.2vw, 86px);
+  display: grid;
+  align-content: start;
+  padding: clamp(54px, 5vw, 82px);
   background: var(--blue);
   color: var(--text);
   border-left: 2px solid var(--line);
 }
 
+.hero-side::before {
+  content: "";
+  position: absolute;
+  inset: auto auto clamp(72px, 8vw, 140px) clamp(52px, 7vw, 120px);
+  width: clamp(140px, 16vw, 260px);
+  height: clamp(120px, 13vw, 220px);
+  border: 2px solid var(--line);
+  background: var(--gold);
+  transform: rotate(4deg);
+}
+
 .hero-side::after {
   content: "";
   position: absolute;
-  right: clamp(28px, 4vw, 72px);
-  bottom: clamp(28px, 4vw, 72px);
-  width: clamp(96px, 11vw, 190px);
-  height: clamp(96px, 11vw, 190px);
+  right: clamp(40px, 5vw, 90px);
+  bottom: clamp(40px, 5vw, 90px);
+  width: clamp(110px, 12vw, 210px);
+  height: clamp(110px, 12vw, 210px);
   border: 2px solid var(--line);
   background:
     linear-gradient(90deg, transparent 47%, var(--line) 47% 53%, transparent 53%),
     linear-gradient(0deg, transparent 47%, var(--line) 47% 53%, transparent 53%),
-    var(--gold);
-  transform: rotate(-7deg);
+    var(--green);
+  transform: rotate(-5deg);
 }
 
 .page-intro .hero-main,
@@ -557,9 +570,11 @@ section,
 .hero-side li,
 .hero-side .muted-on-dark {
   color: #000000;
-  font-size: clamp(1.15rem, 1.45vw, 1.55rem);
-  line-height: 1.25;
-  max-width: 38rem;
+  font-size: clamp(1.15rem, 1.32vw, 1.45rem);
+  line-height: 1.32;
+  max-width: 30rem;
+  position: relative;
+  z-index: 1;
 }
 
 .kicker {
@@ -567,7 +582,7 @@ section,
   align-items: center;
   gap: 8px;
   margin-bottom: 18px;
-  font-size: clamp(0.78rem, 0.86vw, 1rem);
+  font-size: clamp(0.72rem, 0.78vw, 0.9rem);
   color: var(--muted);
 }
 
@@ -590,17 +605,17 @@ section,
 h1,
 .h1 {
   margin: 0;
-  font-size: clamp(4.2rem, 6.2vw, 7.8rem);
-  line-height: 0.88;
-  letter-spacing: -0.06em;
-  font-weight: 800;
-  max-width: 11ch;
+  font-size: clamp(3.8rem, 5.4vw, 6.6rem);
+  line-height: 0.92;
+  letter-spacing: -0.055em;
+  font-weight: 900;
+  max-width: 13.5ch;
 }
 
 h2,
 .h2 {
   margin: 0;
-  font-size: clamp(1.95rem, 3.1vw, 3rem);
+  font-size: clamp(2.2rem, 3.4vw, 4rem);
   line-height: 0.92;
   letter-spacing: -0.055em;
   font-weight: 800;
@@ -609,18 +624,18 @@ h2,
 h3,
 .h3 {
   margin: 0;
-  font-size: clamp(1.14rem, 1.45vw, 1.5rem);
-  line-height: 0.98;
+  font-size: clamp(1.35rem, 1.65vw, 2rem);
+  line-height: 1;
   letter-spacing: -0.045em;
   font-weight: 800;
 }
 
 .lead {
-  font-size: clamp(1.1rem, 1.35vw, 1.45rem);
+  font-size: clamp(1.08rem, 1.22vw, 1.32rem);
   color: var(--muted);
-  max-width: 48rem;
-  margin-top: 28px;
-  line-height: 1.38;
+  max-width: 38rem;
+  margin-top: 24px;
+  line-height: 1.42;
 }
 
 .hero-actions,
@@ -734,7 +749,7 @@ h3,
 .story-card,
 .pillar-card,
 .stat-card {
-  padding: 18px;
+  padding: clamp(22px, 2.2vw, 34px);
 }
 
 .feature-card {
@@ -842,7 +857,7 @@ h3,
 .stakeholder-band,
 .system-diagram {
   display: grid;
-  gap: 14px;
+  gap: clamp(16px, 1.6vw, 24px);
 }
 
 .stats-grid {
@@ -873,7 +888,15 @@ h3,
 .program-grid .card,
 .signal-grid .card,
 .pillar-card {
-  min-height: 220px;
+  min-height: clamp(220px, 18vw, 300px);
+}
+
+.card p,
+.resource-card p,
+.story-card p,
+.contact-card p,
+.pillar-card p {
+  max-width: 36rem;
 }
 
 .stat-value {
@@ -980,7 +1003,7 @@ h3,
   align-content: space-between;
   gap: 20px;
   min-height: 240px;
-  padding: 18px;
+  padding: clamp(22px, 2.2vw, 34px);
   border: 2px solid var(--line);
   background: var(--white);
 }
@@ -1041,14 +1064,14 @@ h3,
 
 .editorial-split {
   display: grid;
-  grid-template-columns: minmax(0, 1.05fr) minmax(280px, 0.95fr);
-  gap: 14px;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 0.86fr);
+  gap: clamp(16px, 1.6vw, 24px);
 }
 
 .editorial-note {
   display: grid;
-  gap: 14px;
-  padding: 18px;
+  gap: 18px;
+  padding: clamp(26px, 2.8vw, 44px);
   border: 2px solid var(--line);
   background: var(--white);
 }
@@ -1070,7 +1093,7 @@ h3,
 }
 
 .cta-banner {
-  padding: clamp(18px, 3vw, 28px);
+  padding: clamp(28px, 3.6vw, 52px);
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   gap: 20px;
@@ -1111,7 +1134,7 @@ h3,
 }
 
 .footer-shell {
-  padding: 16px 18px;
+  padding: clamp(22px, 2.2vw, 34px);
   background: var(--bg);
   color: var(--text);
   border-top: 2px solid var(--line);
@@ -1220,16 +1243,16 @@ h3,
 
 @media (max-width: 1120px) {
   .brand-lockup {
-    min-width: 190px;
+    min-width: 160px;
   }
 
   .brand-lockup a {
-    min-height: 86px;
+    min-height: 76px;
     padding: 14px 16px;
   }
 
   .brand-title img {
-    height: 34px;
+    height: 30px;
   }
 
   .site-nav {
@@ -1238,11 +1261,11 @@ h3,
   }
 
   .nav-link {
-    font-size: 0.78rem;
+    font-size: 0.7rem;
   }
 
   .nav-trigger {
-    padding: 24px 8px;
+    padding: 22px 7px;
   }
 
   .header-actions {
@@ -1250,7 +1273,7 @@ h3,
   }
 
   .button {
-    padding: 12px 14px;
+    padding: 10px 12px;
   }
 
   .hero-grid,
@@ -1270,7 +1293,8 @@ h3,
     padding-top: 20px;
   }
 
-  .hero-side::after {
+  .hero-side::after,
+  .hero-side::before {
     width: 110px;
     height: 110px;
   }
@@ -1351,7 +1375,7 @@ h3,
   }
 
   .nav-submenu-links a {
-    padding: 10px 12px;
+    padding: 14px 12px;
   }
 
   .header-actions {
@@ -1388,6 +1412,10 @@ h3,
   }
 
   .hero-side::after {
+    display: none;
+  }
+
+  .hero-side::before {
     display: none;
   }
 
