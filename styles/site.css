@@ -1495,6 +1495,7 @@ h3,
   background: var(--blue);
   padding: 0;
   border: none;
+  border-left: 2px solid var(--line);
   box-shadow: none;
 }
 
@@ -1510,6 +1511,10 @@ h3,
 .editorial-art-primary {
   min-height: clamp(440px, 36vw, 640px);
   background: var(--blue);
+}
+
+.editorial-art-primary .editorial-note {
+  max-width: 62%;
 }
 
 .editorial-art-primary::before {
@@ -1673,7 +1678,7 @@ h3,
 
 .workstream-card {
   padding: 14px;
-  border-top: 4px solid #000000;
+  border-top: 2px solid #000000;
   border-right: 2px solid var(--line);
   border-bottom: none;
   border-left: none;
@@ -1790,7 +1795,7 @@ h3,
   border-color: var(--line);
   color: var(--text);
   box-shadow: none;
-  border-top: 6px solid var(--blue);
+  border-top: 2px solid var(--blue);
   border-right: none;
   border-bottom: none;
   border-left: none;
