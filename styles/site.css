@@ -279,7 +279,7 @@ select {
   position: absolute;
   top: calc(100% + 2px);
   left: 0;
-  min-width: clamp(300px, 27vw, 460px);
+  min-width: clamp(260px, 22vw, 360px);
   padding: 0;
   border: 2px solid var(--line);
   background: var(--white);
@@ -342,12 +342,12 @@ select {
 
 .nav-submenu-links a {
   display: block;
-  padding: 22px 32px;
+  padding: 14px 20px;
   text-decoration: none;
-  font-size: clamp(1.1rem, 1.25vw, 1.5rem);
-  line-height: 1;
+  font-size: clamp(0.82rem, 0.92vw, 1rem);
+  line-height: 1.15;
   font-weight: 800;
-  letter-spacing: -0.02em;
+  letter-spacing: 0.005em;
 }
 
 .nav-item[data-nav-color="gold"] .nav-submenu-links a:hover,
