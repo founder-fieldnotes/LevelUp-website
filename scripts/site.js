@@ -10,15 +10,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const directoryGroups = [
     {
-      title: "Who We Are",
+      title: "About",
       color: "gold",
       links: [
         ["About", "about/"],
         ["Our Approach", "approach/"],
-        ["Leadership", "leadership/"],
-        ["Team", "team/"],
-        ["Partners and Funders", "partners-funders/"],
-        ["Careers", "careers/"]
+        ["Partners and Funders", "partners-funders/"]
       ]
     },
     {
@@ -30,7 +27,8 @@ document.addEventListener("DOMContentLoaded", () => {
         ["Support Venture Creation", "support-venture-creation/"],
         ["Align Capital", "align-capital/"],
         ["Enabling Policy and Institutions", "enabling-policy-institutions/"],
-        ["Design Innovation Ecosystems", "design-innovation-ecosystems/"]
+        ["Design Innovation Ecosystems", "design-innovation-ecosystems/"],
+        ["Programs", "programs/"]
       ]
     },
     {
@@ -56,34 +54,13 @@ document.addEventListener("DOMContentLoaded", () => {
       ]
     },
     {
-      title: "Programs",
-      color: "gold",
-      links: [
-        ["Programs", "programs/"],
-        ["Workshops", "workshops/"],
-        ["Cohorts", "cohorts/"],
-        ["Institutional Training", "institutional-training/"],
-        ["Advisory Engagements", "advisory-engagements/"],
-        ["Accelerators and Labs", "accelerators-labs/"],
-        ["LevHub", "levhub/"]
-      ]
-    },
-    {
       title: "Get Involved",
       color: "green",
       links: [
         ["Get Involved", "contact/"],
         ["Partner With Us", "partner-with-us/"],
         ["Fund This Work", "fund-this-work/"],
-        ["Subscribe", "subscribe/"],
-        ["Legal and Policies", "legal/"]
-      ]
-    },
-    {
-      title: "LevHub",
-      color: "blue",
-      links: [
-        ["LevHub", "levhub/"]
+        ["Subscribe", "subscribe/"]
       ]
     }
   ];
@@ -134,11 +111,6 @@ document.addEventListener("DOMContentLoaded", () => {
     brandTitle.innerHTML = `<img src="${brandLogoPath}" alt="LevelUp Economy" />`;
   }
 
-  const footerTitle = document.querySelector(".footer-grid > div:first-child .footer-title");
-  if (footerTitle) {
-    footerTitle.innerHTML = `<img class="footer-logo" src="${footerLogoPath}" alt="LevelUp Economy" />`;
-  }
-
   const resolveHref = (href) => {
     if (/^(https?:|mailto:|#)/.test(href)) return href;
     if (/^https?:/.test(siteRootPrefix)) {
@@ -146,6 +118,45 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     return `${siteRootPrefix}${href}`;
   };
+
+  const footerGrid = document.querySelector(".footer-grid");
+  if (footerGrid) {
+    footerGrid.innerHTML = `
+      <div>
+        <div class="footer-title"><img class="footer-logo" src="${footerLogoPath}" alt="LevelUp Economy" /></div>
+        <p>LevelUp designs holistic systems that connect talent, innovation, capital, and institutions.</p>
+        <ul class="footer-links">
+          <li><a href="${resolveHref("about/")}">About</a></li>
+          <li><a href="${resolveHref("approach/")}">Our Approach</a></li>
+          <li><a href="${resolveHref("what-we-do/")}">What We Do</a></li>
+          <li><a href="${resolveHref("levhub/")}">LevHub</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-title">Programs & Initiatives</div>
+        <ul class="footer-links">
+          <li><a href="${resolveHref("initiatives/")}">Initiatives</a></li>
+          <li><a href="${resolveHref("ai-spire/")}">AI.SPIRE</a></li>
+          <li><a href="${resolveHref("programs/")}">Programs</a></li>
+          <li><a href="${resolveHref("insights/")}">Insights</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-title">Connect</div>
+        <ul class="footer-links">
+          <li><a href="${resolveHref("partner-with-us/")}">Partner With Us</a></li>
+          <li><a href="${resolveHref("fund-this-work/")}">Fund This Work</a></li>
+          <li><a href="${resolveHref("subscribe/")}">Subscribe</a></li>
+          <li><a href="https://www.linkedin.com/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+        </ul>
+      </div>
+    `;
+  }
+
+  const footerMeta = document.querySelector(".footer-meta-row");
+  if (footerMeta) {
+    footerMeta.innerHTML = `<span>&copy; <span data-current-year></span> LevelUp Economy</span>`;
+  }
 
   const normalizeHrefPath = (href) => {
     const resolved = resolveHref(href);
@@ -276,8 +287,11 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  if (yearTarget) {
-    yearTarget.textContent = String(new Date().getFullYear());
+  const currentYearTargets = document.querySelectorAll("[data-current-year]");
+  if (currentYearTargets.length) {
+    currentYearTargets.forEach((target) => {
+      target.textContent = String(new Date().getFullYear());
+    });
   }
 
   if (header) {
