@@ -107,7 +107,7 @@ select {
   position: sticky;
   top: 0;
   z-index: 90;
-  padding: 10px 0 0;
+  padding: 0;
   background: #ffffff;
   transition: padding 0.18s ease, background-color 0.18s ease;
 }
@@ -137,24 +137,25 @@ select {
 
 .brand-lockup {
   border-right: 2px solid var(--line);
-  min-width: clamp(140px, 16vw, 180px);
+  min-width: clamp(210px, 15vw, 280px);
 }
 
 .brand-lockup a {
   height: 100%;
-  padding: 10px 12px;
+  min-height: clamp(92px, 7.5vw, 124px);
+  padding: 18px 24px;
   display: grid;
   align-content: center;
-  gap: 8px;
+  gap: 10px;
   text-decoration: none;
 }
 
 .brand-name {
   order: 2;
-  font-size: 9px;
+  font-size: clamp(0.65rem, 0.72vw, 0.82rem);
   color: var(--muted);
   margin-bottom: 0;
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .brand-title {
@@ -168,8 +169,8 @@ select {
 .brand-title img {
   display: block;
   width: auto;
-  height: clamp(24px, 2vw, 32px);
-  max-width: min(220px, 100%);
+  height: clamp(38px, 3.3vw, 58px);
+  max-width: min(260px, 100%);
 }
 
 .site-nav-wrap {
@@ -197,8 +198,8 @@ select {
 .site-nav {
   display: flex;
   align-items: center;
-  gap: clamp(14px, 1.6vw, 26px);
-  padding: 10px 16px;
+  gap: clamp(20px, 2vw, 42px);
+  padding: 0 clamp(22px, 2.1vw, 42px);
   min-width: 0;
   position: relative;
 }
@@ -212,9 +213,9 @@ select {
 .nav-link {
   text-decoration: none;
   font-family: "Inter", sans-serif;
-  font-size: 10px;
+  font-size: clamp(0.9rem, 0.95vw, 1.12rem);
   font-weight: 800;
-  letter-spacing: 0.015em;
+  letter-spacing: 0.02em;
   text-transform: uppercase;
   padding: 0;
   border: none;
@@ -225,24 +226,28 @@ select {
 .nav-trigger {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
+  gap: 14px;
   min-height: 100%;
-  padding: 14px 10px;
+  padding: clamp(26px, 2.4vw, 38px) 16px;
   background: transparent;
   transition: background-color 0.16s ease, color 0.16s ease;
+}
+
+.nav-trigger:focus-visible {
+  outline: 2px solid var(--line);
+  outline-offset: -2px;
 }
 
 .nav-caret {
   width: 0;
   height: 0;
-  border-left: 5px solid transparent;
-  border-right: 5px solid transparent;
-  border-top: 6px solid currentColor;
+  border-left: 7px solid transparent;
+  border-right: 7px solid transparent;
+  border-top: 8px solid currentColor;
   transition: transform 0.16s ease;
 }
 
-.nav-item[data-open="true"] .nav-caret,
-.nav-item.is-current .nav-caret {
+.nav-item[data-open="true"] .nav-caret {
   transform: rotate(180deg);
 }
 
@@ -274,7 +279,7 @@ select {
   position: absolute;
   top: calc(100% + 2px);
   left: 0;
-  min-width: 280px;
+  min-width: clamp(320px, 28vw, 520px);
   padding: 0;
   border: 2px solid var(--line);
   background: var(--white);
@@ -337,10 +342,12 @@ select {
 
 .nav-submenu-links a {
   display: block;
-  padding: 12px 14px;
+  padding: 24px 34px;
   text-decoration: none;
-  font-size: 13px;
-  font-weight: 600;
+  font-size: clamp(1.15rem, 1.35vw, 1.65rem);
+  line-height: 1;
+  font-weight: 800;
+  letter-spacing: -0.02em;
 }
 
 .nav-item[data-nav-color="gold"] .nav-submenu-links a:hover,
@@ -367,7 +374,7 @@ select {
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 8px 14px;
+  padding: 16px 20px;
   border-left: 2px solid var(--line);
   flex-shrink: 0;
 }
@@ -378,12 +385,12 @@ select {
   justify-content: center;
   gap: 8px;
   min-height: 0;
-  padding: 8px 10px;
+  padding: 14px 18px;
   border-radius: 0;
   border: 2px solid var(--line);
   text-decoration: none;
-  font-size: 10px;
-  font-weight: 700;
+  font-size: clamp(0.72rem, 0.72vw, 0.9rem);
+  font-weight: 800;
   transition: background-color 0.18s ease, color 0.18s ease, border-color 0.18s ease, transform 0.12s ease;
 }
 
@@ -448,7 +455,7 @@ section,
 .hero-grid,
 .page-intro {
   display: grid;
-  grid-template-columns: minmax(0, 1.35fr) minmax(320px, 0.85fr);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: 24px;
 }
 
@@ -504,8 +511,8 @@ section,
 .hero-main {
   position: relative;
   overflow: hidden;
-  padding: clamp(22px, 3.8vw, 38px);
-  min-height: 440px;
+  padding: clamp(54px, 6vw, 92px);
+  min-height: clamp(560px, 42vw, 760px);
   background: var(--surface-strong);
 }
 
@@ -514,10 +521,27 @@ section,
 }
 
 .hero-side {
-  padding: 22px;
+  position: relative;
+  overflow: hidden;
+  padding: clamp(54px, 5.2vw, 86px);
   background: var(--blue);
   color: var(--text);
   border-left: 2px solid var(--line);
+}
+
+.hero-side::after {
+  content: "";
+  position: absolute;
+  right: clamp(28px, 4vw, 72px);
+  bottom: clamp(28px, 4vw, 72px);
+  width: clamp(96px, 11vw, 190px);
+  height: clamp(96px, 11vw, 190px);
+  border: 2px solid var(--line);
+  background:
+    linear-gradient(90deg, transparent 47%, var(--line) 47% 53%, transparent 53%),
+    linear-gradient(0deg, transparent 47%, var(--line) 47% 53%, transparent 53%),
+    var(--gold);
+  transform: rotate(-7deg);
 }
 
 .page-intro .hero-main,
@@ -533,6 +557,9 @@ section,
 .hero-side li,
 .hero-side .muted-on-dark {
   color: #000000;
+  font-size: clamp(1.15rem, 1.45vw, 1.55rem);
+  line-height: 1.25;
+  max-width: 38rem;
 }
 
 .kicker {
@@ -540,7 +567,7 @@ section,
   align-items: center;
   gap: 8px;
   margin-bottom: 18px;
-  font-size: 0.72rem;
+  font-size: clamp(0.78rem, 0.86vw, 1rem);
   color: var(--muted);
 }
 
@@ -563,11 +590,11 @@ section,
 h1,
 .h1 {
   margin: 0;
-  font-size: clamp(2.6rem, 4.8vw, 4.2rem);
+  font-size: clamp(4.2rem, 6.2vw, 7.8rem);
   line-height: 0.88;
   letter-spacing: -0.06em;
   font-weight: 800;
-  max-width: 10.5ch;
+  max-width: 11ch;
 }
 
 h2,
@@ -589,10 +616,10 @@ h3,
 }
 
 .lead {
-  font-size: clamp(0.98rem, 1.3vw, 1.08rem);
+  font-size: clamp(1.1rem, 1.35vw, 1.45rem);
   color: var(--muted);
-  max-width: 44rem;
-  margin-top: 18px;
+  max-width: 48rem;
+  margin-top: 28px;
   line-height: 1.38;
 }
 
@@ -619,6 +646,11 @@ h3,
   margin-bottom: 18px;
   color: var(--muted);
   font-size: 0.66rem;
+}
+
+.page-hero .hero-main > .breadcrumbs,
+.page-hero .hero-main > .kicker {
+  display: none;
 }
 
 .meta-pill,
@@ -1187,6 +1219,40 @@ h3,
 }
 
 @media (max-width: 1120px) {
+  .brand-lockup {
+    min-width: 190px;
+  }
+
+  .brand-lockup a {
+    min-height: 86px;
+    padding: 14px 16px;
+  }
+
+  .brand-title img {
+    height: 34px;
+  }
+
+  .site-nav {
+    gap: 12px;
+    padding: 0 14px;
+  }
+
+  .nav-link {
+    font-size: 0.78rem;
+  }
+
+  .nav-trigger {
+    padding: 24px 8px;
+  }
+
+  .header-actions {
+    padding: 12px;
+  }
+
+  .button {
+    padding: 12px 14px;
+  }
+
   .hero-grid,
   .page-intro,
   .section-head,
@@ -1202,6 +1268,11 @@ h3,
     border-top: 2px solid var(--line);
     padding-left: 0;
     padding-top: 20px;
+  }
+
+  .hero-side::after {
+    width: 110px;
+    height: 110px;
   }
 
   .stats-grid,
@@ -1260,7 +1331,7 @@ h3,
   .nav-trigger {
     width: 100%;
     justify-content: space-between;
-    padding: 12px;
+    padding: 14px 12px;
   }
 
   .nav-submenu {
@@ -1316,6 +1387,10 @@ h3,
     border-top: 2px solid var(--line);
   }
 
+  .hero-side::after {
+    display: none;
+  }
+
   .stats-grid,
   .card-grid,
   .resource-grid,
@@ -1337,7 +1412,7 @@ h3,
 
   h1,
   .h1 {
-    font-size: clamp(2.6rem, 16vw, 4rem);
+    font-size: clamp(3rem, 14vw, 5rem);
   }
 
   h2,

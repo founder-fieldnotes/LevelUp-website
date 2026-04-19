@@ -168,7 +168,8 @@ document.addEventListener("DOMContentLoaded", () => {
         const topHref = resolveHref(group.links[0][1]);
         const groupIsCurrent = group.links.some(([, href]) => normalizeHrefPath(href) === currentPath);
         const submenuId = `nav-submenu-${index}`;
-        const linksMarkup = group.links
+        const submenuLinks = group.links.slice(1);
+        const linksMarkup = submenuLinks
           .map(([label, href]) => {
             const resolvedHref = resolveHref(href);
             const currentAttr = normalizeHrefPath(href) === currentPath ? ' aria-current="page"' : "";
@@ -176,16 +177,23 @@ document.addEventListener("DOMContentLoaded", () => {
           })
           .join("");
 
+        if (!submenuLinks.length) {
+          return `
+            <div class="nav-item${groupIsCurrent ? " is-current" : ""}" data-nav-color="${group.color}">
+              <a class="nav-link nav-trigger" href="${topHref}">
+                <span>${group.title}</span>
+              </a>
+            </div>
+          `;
+        }
+
         return `
           <div class="nav-item${groupIsCurrent ? " is-current" : ""}" data-nav-color="${group.color}">
-            <button class="nav-link nav-trigger" type="button" aria-expanded="${groupIsCurrent ? "true" : "false"}" aria-controls="${submenuId}" data-nav-trigger>
+            <a class="nav-link nav-trigger" href="${topHref}" aria-expanded="false" aria-controls="${submenuId}" data-nav-trigger>
               <span>${group.title}</span>
               <span class="nav-caret" aria-hidden="true"></span>
-            </button>
+            </a>
             <div class="nav-submenu" id="${submenuId}">
-              <div class="nav-submenu-head">
-                <a class="nav-submenu-title" href="${topHref}">${group.title}</a>
-              </div>
               <ul class="nav-submenu-links">${linksMarkup}</ul>
             </div>
           </div>
@@ -196,7 +204,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const navItems = nav.querySelectorAll(".nav-item");
     const closeAllMenus = () => {
       navItems.forEach((item) => {
-        if (!item.classList.contains("is-current")) item.dataset.open = "false";
+        item.dataset.open = "false";
         const trigger = item.querySelector("[data-nav-trigger]");
         if (trigger) trigger.setAttribute("aria-expanded", item.dataset.open === "true" ? "true" : "false");
       });
@@ -204,21 +212,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     navItems.forEach((item) => {
       const trigger = item.querySelector("[data-nav-trigger]");
-      const isCurrent = item.classList.contains("is-current");
-      item.dataset.open = isCurrent ? "true" : "false";
-
-      if (trigger) {
-        trigger.addEventListener("click", () => {
-          const open = item.dataset.open === "true";
-          navItems.forEach((other) => {
-            other.dataset.open = "false";
-            const otherTrigger = other.querySelector("[data-nav-trigger]");
-            if (otherTrigger) otherTrigger.setAttribute("aria-expanded", "false");
-          });
-          item.dataset.open = open ? "false" : "true";
-          trigger.setAttribute("aria-expanded", open ? "false" : "true");
-        });
-      }
+      item.dataset.open = "false";
 
       item.addEventListener("mouseenter", () => {
         if (window.innerWidth <= 820) return;
@@ -229,6 +223,30 @@ document.addEventListener("DOMContentLoaded", () => {
         });
         item.dataset.open = "true";
         if (trigger) trigger.setAttribute("aria-expanded", "true");
+      });
+
+      item.addEventListener("focusin", () => {
+        if (window.innerWidth <= 820) return;
+        navItems.forEach((other) => {
+          other.dataset.open = "false";
+          const otherTrigger = other.querySelector("[data-nav-trigger]");
+          if (otherTrigger) otherTrigger.setAttribute("aria-expanded", "false");
+        });
+        item.dataset.open = "true";
+        if (trigger) trigger.setAttribute("aria-expanded", "true");
+      });
+
+      item.addEventListener("mouseleave", () => {
+        if (window.innerWidth <= 820) return;
+        item.dataset.open = "false";
+        if (trigger) trigger.setAttribute("aria-expanded", "false");
+      });
+
+      item.addEventListener("focusout", (event) => {
+        if (window.innerWidth <= 820) return;
+        if (item.contains(event.relatedTarget)) return;
+        item.dataset.open = "false";
+        if (trigger) trigger.setAttribute("aria-expanded", "false");
       });
     });
 
