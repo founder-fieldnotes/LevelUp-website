@@ -342,12 +342,14 @@ select {
 
 .nav-submenu-links a {
   display: block;
-  padding: 14px 20px;
+  padding: 12px 18px;
   text-decoration: none;
-  font-size: clamp(0.82rem, 0.92vw, 1rem);
-  line-height: 1.15;
+  font-family: "Inter", sans-serif;
+  font-size: clamp(0.58rem, 0.64vw, 0.78rem);
+  line-height: 1.2;
   font-weight: 800;
-  letter-spacing: 0.005em;
+  letter-spacing: 0.035em;
+  text-transform: uppercase;
 }
 
 .nav-item[data-nav-color="gold"] .nav-submenu-links a:hover,
