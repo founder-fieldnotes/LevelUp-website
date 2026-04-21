@@ -919,7 +919,7 @@ h3,
 .program-grid .card .inline-actions,
 .signal-grid .card .inline-actions {
   align-self: end;
-  margin-top: clamp(28px, 3vw, 54px);
+  margin-top: clamp(20px, 2.2vw, 36px);
 }
 
 .card p,
