@@ -422,8 +422,8 @@ select {
 
 .button.secondary:hover,
 .button.secondary:focus-visible {
-  background: var(--gold);
-  color: #000;
+  background: #000;
+  color: #fff;
   border-color: var(--line);
 }
 
@@ -435,7 +435,8 @@ select {
 
 .button.ghost:hover,
 .button.ghost:focus-visible {
-  background: var(--gold);
+  background: #000;
+  color: #fff;
 }
 
 section,
@@ -3130,5 +3131,456 @@ h3,
   .editorial-card-rail .story-card-dark + .story-card-dark {
     border: 2px solid var(--line);
     border-top-width: 6px;
+  }
+}
+
+/* Shared white-card behavior: the What We Do card system is the sitewide baseline. */
+.card-grid > *,
+.resource-grid > *,
+.story-grid > *,
+.contact-grid > *,
+.program-grid > *,
+.signal-grid > *,
+.pillar-card,
+.stat-card,
+.logo-tile,
+.profile-card,
+.workstream-card,
+.knowledge-card,
+.story-card-dark {
+  border: 2px solid var(--line);
+  border-top-width: 6px;
+  background: #ffffff;
+}
+
+.card-grid > *:hover,
+.resource-grid > *:hover,
+.story-grid > *:hover,
+.contact-grid > *:hover,
+.program-grid > *:hover,
+.signal-grid > *:hover,
+.pillar-card:hover,
+.stat-card:hover,
+.logo-tile:hover,
+.profile-card:hover,
+.workstream-card:hover,
+.knowledge-card:hover,
+.story-card-dark:hover {
+  border-color: var(--line);
+}
+
+.card-grid > *:nth-child(4n + 1),
+.resource-grid > *:nth-child(4n + 1),
+.story-grid > *:nth-child(4n + 1),
+.contact-grid > *:nth-child(4n + 1),
+.program-grid > *:nth-child(4n + 1),
+.signal-grid > *:nth-child(4n + 1),
+.pillar-card:nth-child(4n + 1),
+.stat-card:nth-child(4n + 1),
+.logo-tile:nth-child(4n + 1),
+.profile-card:nth-child(4n + 1),
+.workstream-card:nth-child(4n + 1),
+.knowledge-card:nth-child(4n + 1),
+.story-card-dark:nth-child(4n + 1) {
+  border-top-color: var(--gold);
+}
+
+.card-grid > *:nth-child(4n + 2),
+.resource-grid > *:nth-child(4n + 2),
+.story-grid > *:nth-child(4n + 2),
+.contact-grid > *:nth-child(4n + 2),
+.program-grid > *:nth-child(4n + 2),
+.signal-grid > *:nth-child(4n + 2),
+.pillar-card:nth-child(4n + 2),
+.stat-card:nth-child(4n + 2),
+.logo-tile:nth-child(4n + 2),
+.profile-card:nth-child(4n + 2),
+.workstream-card:nth-child(4n + 2),
+.knowledge-card:nth-child(4n + 2),
+.story-card-dark:nth-child(4n + 2) {
+  border-top-color: var(--blue);
+}
+
+.card-grid > *:nth-child(4n + 3),
+.resource-grid > *:nth-child(4n + 3),
+.story-grid > *:nth-child(4n + 3),
+.contact-grid > *:nth-child(4n + 3),
+.program-grid > *:nth-child(4n + 3),
+.signal-grid > *:nth-child(4n + 3),
+.pillar-card:nth-child(4n + 3),
+.stat-card:nth-child(4n + 3),
+.logo-tile:nth-child(4n + 3),
+.profile-card:nth-child(4n + 3),
+.workstream-card:nth-child(4n + 3),
+.knowledge-card:nth-child(4n + 3),
+.story-card-dark:nth-child(4n + 3) {
+  border-top-color: var(--green);
+}
+
+.card-grid > *:nth-child(4n),
+.resource-grid > *:nth-child(4n),
+.story-grid > *:nth-child(4n),
+.contact-grid > *:nth-child(4n),
+.program-grid > *:nth-child(4n),
+.signal-grid > *:nth-child(4n),
+.pillar-card:nth-child(4n),
+.stat-card:nth-child(4n),
+.logo-tile:nth-child(4n),
+.profile-card:nth-child(4n),
+.workstream-card:nth-child(4n),
+.knowledge-card:nth-child(4n),
+.story-card-dark:nth-child(4n) {
+  border-top-color: var(--clay);
+}
+
+.card-grid > *:nth-child(4n + 1):hover,
+.resource-grid > *:nth-child(4n + 1):hover,
+.story-grid > *:nth-child(4n + 1):hover,
+.contact-grid > *:nth-child(4n + 1):hover,
+.program-grid > *:nth-child(4n + 1):hover,
+.signal-grid > *:nth-child(4n + 1):hover,
+.pillar-card:nth-child(4n + 1):hover,
+.stat-card:nth-child(4n + 1):hover,
+.logo-tile:nth-child(4n + 1):hover,
+.profile-card:nth-child(4n + 1):hover,
+.workstream-card:nth-child(4n + 1):hover,
+.knowledge-card:nth-child(4n + 1):hover,
+.story-card-dark:nth-child(4n + 1):hover {
+  background: var(--gold);
+}
+
+.card-grid > *:nth-child(4n + 2):hover,
+.resource-grid > *:nth-child(4n + 2):hover,
+.story-grid > *:nth-child(4n + 2):hover,
+.contact-grid > *:nth-child(4n + 2):hover,
+.program-grid > *:nth-child(4n + 2):hover,
+.signal-grid > *:nth-child(4n + 2):hover,
+.pillar-card:nth-child(4n + 2):hover,
+.stat-card:nth-child(4n + 2):hover,
+.logo-tile:nth-child(4n + 2):hover,
+.profile-card:nth-child(4n + 2):hover,
+.workstream-card:nth-child(4n + 2):hover,
+.knowledge-card:nth-child(4n + 2):hover,
+.story-card-dark:nth-child(4n + 2):hover {
+  background: var(--blue);
+}
+
+.card-grid > *:nth-child(4n + 3):hover,
+.resource-grid > *:nth-child(4n + 3):hover,
+.story-grid > *:nth-child(4n + 3):hover,
+.contact-grid > *:nth-child(4n + 3):hover,
+.program-grid > *:nth-child(4n + 3):hover,
+.signal-grid > *:nth-child(4n + 3):hover,
+.pillar-card:nth-child(4n + 3):hover,
+.stat-card:nth-child(4n + 3):hover,
+.logo-tile:nth-child(4n + 3):hover,
+.profile-card:nth-child(4n + 3):hover,
+.workstream-card:nth-child(4n + 3):hover,
+.knowledge-card:nth-child(4n + 3):hover,
+.story-card-dark:nth-child(4n + 3):hover {
+  background: var(--green);
+}
+
+.card-grid > *:nth-child(4n):hover,
+.resource-grid > *:nth-child(4n):hover,
+.story-grid > *:nth-child(4n):hover,
+.contact-grid > *:nth-child(4n):hover,
+.program-grid > *:nth-child(4n):hover,
+.signal-grid > *:nth-child(4n):hover,
+.pillar-card:nth-child(4n):hover,
+.stat-card:nth-child(4n):hover,
+.logo-tile:nth-child(4n):hover,
+.profile-card:nth-child(4n):hover,
+.workstream-card:nth-child(4n):hover,
+.knowledge-card:nth-child(4n):hover,
+.story-card-dark:nth-child(4n):hover {
+  background: var(--clay);
+}
+
+.card:hover .button.secondary,
+.resource-card:hover .button.secondary,
+.story-card:hover .button.secondary,
+.contact-card:hover .button.secondary,
+.pillar-card:hover .button.secondary,
+.program-grid .card:hover .button.secondary,
+.signal-grid .card:hover .button.secondary,
+.workstream-card:hover .button.secondary,
+.knowledge-card:hover .button.secondary,
+.story-card-dark:hover .button.secondary,
+.card:hover .text-link,
+.resource-card:hover .text-link,
+.story-card:hover .text-link,
+.contact-card:hover .text-link,
+.pillar-card:hover .text-link,
+.workstream-card:hover .text-link,
+.knowledge-card:hover .text-link,
+.story-card-dark:hover .text-link {
+  background: #ffffff;
+  color: #000000;
+}
+
+.card:hover .button.secondary:hover,
+.card:hover .button.secondary:focus-visible,
+.resource-card:hover .button.secondary:hover,
+.resource-card:hover .button.secondary:focus-visible,
+.story-card:hover .button.secondary:hover,
+.story-card:hover .button.secondary:focus-visible,
+.contact-card:hover .button.secondary:hover,
+.contact-card:hover .button.secondary:focus-visible,
+.pillar-card:hover .button.secondary:hover,
+.pillar-card:hover .button.secondary:focus-visible,
+.program-grid .card:hover .button.secondary:hover,
+.program-grid .card:hover .button.secondary:focus-visible,
+.signal-grid .card:hover .button.secondary:hover,
+.signal-grid .card:hover .button.secondary:focus-visible,
+.workstream-card:hover .button.secondary:hover,
+.workstream-card:hover .button.secondary:focus-visible,
+.knowledge-card:hover .button.secondary:hover,
+.knowledge-card:hover .button.secondary:focus-visible,
+.story-card-dark:hover .button.secondary:hover,
+.story-card-dark:hover .button.secondary:focus-visible,
+.card:hover .text-link:hover,
+.card:hover .text-link:focus-visible,
+.resource-card:hover .text-link:hover,
+.resource-card:hover .text-link:focus-visible,
+.story-card:hover .text-link:hover,
+.story-card:hover .text-link:focus-visible,
+.contact-card:hover .text-link:hover,
+.contact-card:hover .text-link:focus-visible,
+.pillar-card:hover .text-link:hover,
+.pillar-card:hover .text-link:focus-visible,
+.workstream-card:hover .text-link:hover,
+.workstream-card:hover .text-link:focus-visible,
+.knowledge-card:hover .text-link:hover,
+.knowledge-card:hover .text-link:focus-visible,
+.story-card-dark:hover .text-link:hover,
+.story-card-dark:hover .text-link:focus-visible {
+  background: #000000;
+  color: #ffffff;
+}
+
+.partner-logo-wall {
+  display: grid;
+  gap: clamp(18px, 2vw, 28px);
+}
+
+.partner-logo-wall .section-head {
+  margin-bottom: 0;
+}
+
+.logo-wall-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(14px, 1.4vw, 20px);
+}
+
+.logo-wall-grid.compact {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.partner-logo-card {
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  min-height: clamp(128px, 12vw, 180px);
+  padding: clamp(18px, 2vw, 28px);
+  border: 2px solid var(--line);
+  border-top-width: 6px;
+  background: #ffffff;
+}
+
+.partner-logo-card:nth-child(4n + 1) {
+  border-top-color: var(--gold);
+}
+
+.partner-logo-card:nth-child(4n + 2) {
+  border-top-color: var(--blue);
+}
+
+.partner-logo-card:nth-child(4n + 3) {
+  border-top-color: var(--green);
+}
+
+.partner-logo-card:nth-child(4n) {
+  border-top-color: var(--clay);
+}
+
+.partner-logo-card img {
+  width: 100%;
+  max-width: 220px;
+  max-height: 72px;
+  object-fit: contain;
+}
+
+.partner-logo-card.is-wide img {
+  max-width: 280px;
+}
+
+.partner-logo-card.is-tall img {
+  max-height: 96px;
+}
+
+.partner-logo-caption {
+  margin-top: 14px;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.055em;
+  line-height: 1.25;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  width: max-content;
+  margin-bottom: 16px;
+  padding: 8px 10px;
+  border: 2px solid var(--line);
+  background: #ffffff;
+  color: #000000;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.055em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.status-pill.active {
+  background: var(--green);
+}
+
+.status-pill.development {
+  background: var(--blue);
+}
+
+.status-pill.planned {
+  background: var(--gold);
+}
+
+.role-list {
+  display: grid;
+  gap: clamp(14px, 1.4vw, 20px);
+}
+
+.role-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: clamp(18px, 2vw, 28px);
+  align-items: center;
+  padding: clamp(22px, 2.4vw, 34px);
+  border: 2px solid var(--line);
+  border-top-width: 6px;
+  background: #ffffff;
+}
+
+.role-card:nth-child(4n + 1) {
+  border-top-color: var(--gold);
+}
+
+.role-card:nth-child(4n + 2) {
+  border-top-color: var(--blue);
+}
+
+.role-card:nth-child(4n + 3) {
+  border-top-color: var(--green);
+}
+
+.role-card:nth-child(4n) {
+  border-top-color: var(--clay);
+}
+
+.policy-stack {
+  display: grid;
+  gap: clamp(18px, 2vw, 28px);
+}
+
+.policy-card {
+  padding: clamp(26px, 3vw, 44px);
+  border: 2px solid var(--line);
+  border-top-width: 6px;
+  background: #ffffff;
+}
+
+.policy-card:nth-child(4n + 1) {
+  border-top-color: var(--gold);
+}
+
+.policy-card:nth-child(4n + 2) {
+  border-top-color: var(--blue);
+}
+
+.policy-card:nth-child(4n + 3) {
+  border-top-color: var(--green);
+}
+
+.policy-card:nth-child(4n) {
+  border-top-color: var(--clay);
+}
+
+.policy-card ul {
+  margin-top: 16px;
+}
+
+.policy-card li + li {
+  margin-top: 8px;
+}
+
+.field-note-list {
+  display: grid;
+  gap: clamp(16px, 1.8vw, 24px);
+}
+
+.field-note-list .timeline-step {
+  border: 2px solid var(--line);
+  border-top-width: 6px;
+  background: #ffffff;
+}
+
+.field-note-list .timeline-step:nth-child(4n + 1) {
+  border-top-color: var(--gold);
+}
+
+.field-note-list .timeline-step:nth-child(4n + 2) {
+  border-top-color: var(--blue);
+}
+
+.field-note-list .timeline-step:nth-child(4n + 3) {
+  border-top-color: var(--green);
+}
+
+.field-note-list .timeline-step:nth-child(4n) {
+  border-top-color: var(--clay);
+}
+
+@media (max-width: 820px) {
+  .role-card {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 1120px) {
+  .logo-wall-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 820px) {
+  .logo-wall-grid,
+  .logo-wall-grid.compact {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .partner-logo-card {
+    min-height: 120px;
+  }
+}
+
+@media (max-width: 520px) {
+  .logo-wall-grid,
+  .logo-wall-grid.compact {
+    grid-template-columns: 1fr;
   }
 }

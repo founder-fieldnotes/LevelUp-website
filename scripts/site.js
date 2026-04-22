@@ -294,6 +294,35 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  const mailtoForms = document.querySelectorAll("[data-mailto-form]");
+  mailtoForms.forEach((form) => {
+    const destination = form.getAttribute("data-mailto-to") || "info@levelupeconomy.com";
+    const fallbackSubject = form.getAttribute("data-mailto-subject") || "LevelUp Economy inquiry";
+
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const formData = new FormData(form);
+      const subject = formData.get("subject") || fallbackSubject;
+      const lines = [];
+
+      formData.forEach((value, key) => {
+        if (key === "subject") return;
+        const normalized = String(value).trim();
+        if (!normalized) return;
+        const label = key
+          .replace(/[-_]/g, " ")
+          .replace(/\b\w/g, (letter) => letter.toUpperCase());
+        lines.push(`${label}: ${normalized}`);
+      });
+
+      const body = lines.length
+        ? lines.join("\n\n")
+        : "Hello LevelUp Economy,\n\nI would like to start a conversation.";
+
+      window.location.href = `mailto:${destination}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    });
+  });
+
   if (header) {
     const syncHeaderScrollState = () => {
       header.classList.toggle("is-scrolled", window.scrollY > 12);
