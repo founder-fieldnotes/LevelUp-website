@@ -2729,3 +2729,170 @@ h3,
     border-bottom: none;
   }
 }
+
+/* Final border policy:
+   - Navigation keeps its frame.
+   - Page/section/image/color-block frames are removed.
+   - Cards, CTAs, and footer keep strong borders. */
+.page-intro,
+.hero-main,
+.hero-side,
+.editorial-hero-grid,
+.editorial-hero-main,
+.editorial-side-panel,
+.visual-hero,
+.visual-hero figcaption,
+.image-feature,
+.image-frame,
+.image-frame-sketch,
+.editorial-feature,
+.editorial-copy,
+.editorial-visual,
+.proof-band,
+.impact-band,
+.audience-pathways,
+.trust-strip,
+.homepage-band,
+.homepage-band-head,
+.systems-callout,
+.editorial-dark-band {
+  border: none;
+}
+
+.page-intro .hero-side,
+.editorial-hero-main,
+.editorial-copy,
+.image-frame,
+.trust-intro {
+  border-right: none;
+  border-left: none;
+  border-bottom: none;
+}
+
+.feature-card,
+.card,
+.quote-card,
+.resource-card,
+.matrix-card,
+.timeline-card,
+.contact-card,
+.form-card,
+.diagram-card,
+.story-card,
+.pillar-card,
+.stat-card,
+.logo-tile,
+.profile-card,
+.knowledge-card,
+.workstream-card,
+.story-card-dark,
+.system-node,
+.media-placeholder,
+.cta-banner,
+.subscribe-banner-guide,
+.systems-actions,
+.footer-shell {
+  border: 2px solid var(--line);
+}
+
+.card-grid > *,
+.resource-grid > *,
+.story-grid > *,
+.contact-grid > *,
+.program-grid > *,
+.signal-grid > *,
+.pillar-card,
+.stat-card,
+.impact-item,
+.audience-card,
+.trust-item,
+.workstream-card,
+.knowledge-card,
+.story-card-dark {
+  border-top-width: 6px;
+}
+
+.systems-actions a {
+  border-top: none;
+  border-right: 2px solid var(--line);
+  border-bottom: none;
+  border-left: none;
+}
+
+.systems-actions a:last-child {
+  border-right: none;
+}
+
+.footer-shell {
+  border-top: 2px solid var(--line);
+  border-right: 2px solid var(--line);
+  border-bottom: 2px solid var(--line);
+  border-left: 2px solid var(--line);
+}
+
+@media (max-width: 1120px) {
+  .page-intro,
+  .editorial-feature,
+  .image-feature,
+  .audience-pathways,
+  .trust-strip,
+  .systems-callout,
+  .editorial-dark-band,
+  .subscribe-banner-guide {
+    border: none;
+  }
+
+  .subscribe-banner-guide {
+    border: 2px solid var(--line);
+  }
+
+  .editorial-copy,
+  .image-frame,
+  .trust-intro {
+    border-right: none;
+    border-bottom: none;
+  }
+
+  .systems-actions a {
+    border-right: none;
+    border-bottom: 2px solid var(--line);
+  }
+
+  .systems-actions a:last-child {
+    border-bottom: none;
+  }
+}
+
+@media (max-width: 820px) {
+  .hero-side,
+  .editorial-hero-main,
+  .editorial-side-panel {
+    border: none;
+  }
+
+  .feature-card,
+  .card,
+  .quote-card,
+  .resource-card,
+  .matrix-card,
+  .timeline-card,
+  .contact-card,
+  .form-card,
+  .diagram-card,
+  .story-card,
+  .pillar-card,
+  .stat-card,
+  .logo-tile,
+  .profile-card,
+  .knowledge-card,
+  .workstream-card,
+  .story-card-dark,
+  .system-node,
+  .media-placeholder,
+  .cta-banner,
+  .subscribe-banner-guide,
+  .systems-actions,
+  .footer-shell {
+    border: 2px solid var(--line);
+  }
+}
