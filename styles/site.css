@@ -146,20 +146,14 @@ select {
   padding: 12px 16px;
   display: grid;
   align-content: center;
-  gap: 10px;
   text-decoration: none;
 }
 
 .brand-name {
-  order: 2;
-  font-size: clamp(0.56rem, 0.62vw, 0.72rem);
-  color: var(--muted);
-  margin-bottom: 0;
-  font-weight: 600;
+  display: none;
 }
 
 .brand-title {
-  order: 1;
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.05em;

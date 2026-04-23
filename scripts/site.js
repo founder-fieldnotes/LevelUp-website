@@ -111,6 +111,11 @@ document.addEventListener("DOMContentLoaded", () => {
     brandTitle.innerHTML = `<img src="${brandLogoPath}" alt="LevelUp Economy" />`;
   }
 
+  const brandName = document.querySelector(".brand-name");
+  if (brandName) {
+    brandName.remove();
+  }
+
   const resolveHref = (href) => {
     if (/^(https?:|mailto:|#)/.test(href)) return href;
     if (/^https?:/.test(siteRootPrefix)) {
