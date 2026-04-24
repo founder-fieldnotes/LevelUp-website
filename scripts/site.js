@@ -127,32 +127,43 @@ document.addEventListener("DOMContentLoaded", () => {
   const footerGrid = document.querySelector(".footer-grid");
   if (footerGrid) {
     footerGrid.innerHTML = `
-      <div>
+      <div class="footer-column footer-brand-column">
         <div class="footer-title"><img class="footer-logo" src="${footerLogoPath}" alt="LevelUp Economy" /></div>
-        <p>LevelUp designs holistic systems that connect talent, innovation, capital, and institutions.</p>
+        <p class="footer-brand-copy">LevelUp designs holistic systems that connect talent, innovation, capital, employer demand, and institutions.</p>
+        <div class="footer-mini-note">Seattle-based. Global in scope. Built for practical implementation.</div>
+      </div>
+      <div class="footer-column">
+        <div class="footer-title">Explore</div>
         <ul class="footer-links">
           <li><a href="${resolveHref("about/")}">About</a></li>
           <li><a href="${resolveHref("approach/")}">Our Approach</a></li>
           <li><a href="${resolveHref("what-we-do/")}">What We Do</a></li>
-          <li><a href="${resolveHref("levhub/")}">LevHub</a></li>
-        </ul>
-      </div>
-      <div>
-        <div class="footer-title">Programs & Initiatives</div>
-        <ul class="footer-links">
           <li><a href="${resolveHref("initiatives/")}">Initiatives</a></li>
-          <li><a href="${resolveHref("ai-spire/")}">AI.SPIRE</a></li>
-          <li><a href="${resolveHref("programs/")}">Programs</a></li>
           <li><a href="${resolveHref("insights/")}">Insights</a></li>
         </ul>
       </div>
-      <div>
-        <div class="footer-title">Connect</div>
+      <div class="footer-column">
+        <div class="footer-title">Programs & Platform</div>
         <ul class="footer-links">
-          <li><a href="${resolveHref("partner-with-us/")}">Partner With Us</a></li>
-          <li><a href="${resolveHref("fund-this-work/")}">Fund This Work</a></li>
-          <li><a href="${resolveHref("subscribe/")}">Subscribe</a></li>
-          <li><a href="https://www.linkedin.com/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+          <li><a href="${resolveHref("programs/")}">Programs</a></li>
+          <li><a href="${resolveHref("ai-spire/")}">AI.SPIRE</a></li>
+          <li><a href="${resolveHref("darb-tech/")}">Darb.Tech</a></li>
+          <li><a href="${resolveHref("levhub/")}">LevHub</a></li>
+          <li><a href="${resolveHref("questions-from-the-field.html")}">Questions from the Field</a></li>
+        </ul>
+      </div>
+      <div class="footer-column footer-contact-column">
+        <div class="footer-title">Get Involved</div>
+        <p class="footer-contact-copy">For governments, employers, institutions, funders, and ecosystem partners exploring serious systems work.</p>
+        <div class="footer-action-stack">
+          <a class="button secondary" href="${resolveHref("partner-with-us/")}">Partner with us</a>
+          <a class="button secondary" href="${resolveHref("fund-this-work/")}">Fund this work</a>
+          <a class="button secondary" href="${resolveHref("subscribe/")}">Subscribe</a>
+        </div>
+        <ul class="footer-links footer-links-compact">
+          <li><a href="mailto:info@levelupeconomy.com">info@levelupeconomy.com</a></li>
+          <li><a href="${resolveHref("legal/")}">Legal & Policies</a></li>
+          <li><a href="${resolveHref("careers/")}">Careers</a></li>
         </ul>
       </div>
     `;
@@ -160,7 +171,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const footerMeta = document.querySelector(".footer-meta-row");
   if (footerMeta) {
-    footerMeta.innerHTML = `<span>&copy; <span data-current-year></span> LevelUp Economy</span>`;
+    footerMeta.innerHTML = `
+      <span>Stronger systems. More opportunity. Shared prosperity.</span>
+      <span>&copy; <span data-current-year></span> LevelUp Economy</span>
+    `;
   }
 
   const normalizeHrefPath = (href) => {
