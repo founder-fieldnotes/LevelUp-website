@@ -192,6 +192,151 @@ document.addEventListener("DOMContentLoaded", () => {
   let currentPath = window.location.pathname.replace(/\/index\.html$/, "/");
   if (currentPath !== "/" && !currentPath.endsWith("/")) currentPath = `${currentPath}/`;
 
+  const heroPanelBlueprints = [
+    {
+      match: /^\/about\//,
+      tags: ["Systems thesis", "Institutional credibility", "Long-term prosperity"],
+      cards: [
+        ["Positioning", "Ecosystem builder, not a course catalog."],
+        ["Model", "Talent, ventures, capital, and institutions reinforce one another."]
+      ]
+    },
+    {
+      match: /^\/approach\//,
+      tags: ["Integrated model", "Shared value", "Execution logic"],
+      cards: [
+        ["Core idea", "Each lever becomes stronger inside the larger system."],
+        ["Use case", "Design before delivery, alignment before scale."]
+      ]
+    },
+    {
+      match: /^\/what-we-do\//,
+      tags: ["Five pillars", "One agenda", "System design"],
+      cards: [
+        ["Levers", "Talent, ventures, capital, institutions, ecosystems."],
+        ["Result", "A stronger regional economy, not a disconnected intervention set."]
+      ]
+    },
+    {
+      match: /^\/(build-talent-systems|support-venture-creation|align-capital|enabling-policy-institutions|design-innovation-ecosystems)\//,
+      tags: ["Strategic pillar", "Delivery logic", "Economic growth"],
+      cards: [
+        ["Why it matters", "This lever matters most when it reinforces the others."],
+        ["How LevelUp works", "Design, implementation, and stakeholder alignment move together."]
+      ]
+    },
+    {
+      match: /^\/initiatives\//,
+      tags: ["Public proof", "Partner logic", "Visible outcomes"],
+      cards: [
+        ["What initiatives do", "Turn systems thinking into visible delivery."],
+        ["What they show", "Partners, pathways, and evidence working together."]
+      ]
+    },
+    {
+      match: /^\/(ai-spire|fsf|darb-tech)\//,
+      tags: ["Flagship work", "Applied delivery", "Institutional partnership"],
+      cards: [
+        ["Throughline", "Real partners, real pathways, real economic relevance."],
+        ["Signal", "Capability-building tied to implementation, not just instruction."]
+      ]
+    },
+    {
+      match: /^\/insights\//,
+      tags: ["Frameworks", "Case studies", "Field notes"],
+      cards: [
+        ["Purpose", "Make the model legible to partners and funders."],
+        ["Value", "Public evidence builds trust faster than abstract claims."]
+      ]
+    },
+    {
+      match: /^\/(case-studies|research-frameworks|news|events)\//,
+      tags: ["Public evidence", "Institutional trust", "Knowledge layer"],
+      cards: [
+        ["Audience", "Funders, employers, institutions, and ecosystem partners."],
+        ["Role", "Translate activity into interpretable public proof."]
+      ]
+    },
+    {
+      match: /^\/questions-from-the-field\.html$/,
+      tags: ["Common questions", "Clear answers", "Practical guidance"],
+      cards: [
+        ["Why this page exists", "Turn recurring conversations into reusable guidance."],
+        ["Best use", "Start here when the model needs to become concrete quickly."]
+      ]
+    },
+    {
+      match: /^\/programs\//,
+      tags: ["Applied work", "Operating layer", "Program formats"],
+      cards: [
+        ["Formats", "Workshops, cohorts, training, advisory, labs."],
+        ["Connection", "Programs sit inside the wider economic systems model."]
+      ]
+    },
+    {
+      match: /^\/(workshops|cohorts|institutional-training|advisory-engagements|accelerators-labs)\//,
+      tags: ["Program type", "Delivery format", "Capability building"],
+      cards: [
+        ["Designed for", "Institutions, employers, founders, and ecosystem actors."],
+        ["Built to show", "Visible progress, operational clarity, and stakeholder value."]
+      ]
+    },
+    {
+      match: /^\/(contact|partner-with-us|fund-this-work|subscribe)\//,
+      tags: ["Get involved", "Structured intake", "Shared outcomes"],
+      cards: [
+        ["Best starting point", "Begin with the challenge, stakeholders, and intended outcome."],
+        ["Why this matters", "The strongest conversations start with system goals, not narrow asks."]
+      ]
+    },
+    {
+      match: /^\/(leadership|team|founder-ceo-profile|delivery-leadership-profile|ecosystem-advisory-profile)\//,
+      tags: ["Leadership", "Delivery depth", "Operational trust"],
+      cards: [
+        ["What this signals", "Strategy credibility paired with implementation experience."],
+        ["Why it matters", "Economic systems work requires operating depth, not just ideas."]
+      ]
+    },
+    {
+      match: /^\/careers\//,
+      tags: ["Open roles", "Delivery team", "Applied programs"],
+      cards: [
+        ["Who should engage", "People who can move between instruction, operations, and partner trust."],
+        ["What matters here", "Clear role ownership and strong delivery discipline."]
+      ]
+    }
+  ];
+
+  const heroSide = document.querySelector(".page-intro .hero-side");
+  if (heroSide) {
+    const existingDetail = heroSide.querySelector(".hero-side-detail");
+    if (!existingDetail) {
+      const blueprint = heroPanelBlueprints.find((entry) => entry.match.test(currentPath));
+      if (blueprint) {
+        const detail = document.createElement("div");
+        detail.className = "hero-side-detail";
+        detail.innerHTML = `
+          <div class="hero-side-tags">
+            ${blueprint.tags.map((tag) => `<span class="hero-side-tag">${tag}</span>`).join("")}
+          </div>
+          <div class="hero-side-mini-grid">
+            ${blueprint.cards
+              .map(
+                ([label, copy]) => `
+                  <article class="hero-side-mini-card">
+                    <div class="hero-side-mini-label">${label}</div>
+                    <p>${copy}</p>
+                  </article>
+                `
+              )
+              .join("")}
+          </div>
+        `;
+        heroSide.appendChild(detail);
+      }
+    }
+  }
+
   if (nav) {
     nav.innerHTML = directoryGroups
       .map((group, index) => {

@@ -53,19 +53,19 @@
         </article>
         <aside class="hero-side editorial-side-panel hero-map-shell">
           <div class="hero-map-panel" aria-label="Animated world map showing LevelUp's global reach">
-            <div class="hero-map-stage">
-              <div class="hero-map-world" aria-hidden="true"></div>
-              <span class="hero-route route-west" aria-hidden="true"></span>
-              <span class="hero-route route-atlantic" aria-hidden="true"></span>
-              <span class="hero-route route-south" aria-hidden="true"></span>
-              <span class="hero-route route-europe" aria-hidden="true"></span>
-              <span class="hero-route route-asia" aria-hidden="true"></span>
-              <span class="hero-pin pin-seattle"><span class="hero-pin-label">Seattle</span></span>
-              <span class="hero-pin pin-brazil"><span class="hero-pin-label">Americas</span></span>
-              <span class="hero-pin pin-jordan"><span class="hero-pin-label">Jordan</span></span>
-              <span class="hero-pin pin-europe"><span class="hero-pin-label">Europe</span></span>
-              <span class="hero-pin pin-africa"><span class="hero-pin-label">Africa</span></span>
-              <span class="hero-pin pin-asia"><span class="hero-pin-label">Asia Pacific</span></span>
+            <div class="hero-map-stage hero-map-stage-video">
+              <video
+                class="hero-map-video"
+                autoplay
+                muted
+                loop
+                playsinline
+                preload="metadata"
+                poster="images/home-page.png"
+                aria-hidden="true"
+              >
+                <source src="images/home-page-systems-map.mp4" type="video/mp4" />
+              </video>
               <div class="hero-map-callout">
                 <div class="label">Operating logic</div>
                 <h2 class="h3">Seattle-rooted. Globally deployed. Built around practical local delivery.</h2>
@@ -310,18 +310,7 @@
         </div>
         <div class="systems-side">
           <figure class="image-frame image-frame-sketch">
-            <video
-              class="systems-map-video"
-              autoplay
-              muted
-              loop
-              playsinline
-              preload="metadata"
-              poster="images/home-page.png"
-              aria-label="Animated systems map showing Seattle, global connectivity, talent, innovation, capital, institutions, employers, and collaborative program design"
-            >
-              <source src="images/home-page-systems-map.mp4" type="video/mp4" />
-            </video>
+            <img src="images/home-page.png" alt="Editorial systems map showing Seattle, global connectivity, talent, innovation, capital, institutions, employers, and collaborative program design" />
           </figure>
           <div class="systems-actions">
             <a class="button secondary" href="approach/">Explore our approach</a>

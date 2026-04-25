@@ -611,6 +611,7 @@ section,
     linear-gradient(rgba(0, 0, 0, 0.08) 1px, transparent 1px);
   background-size: auto, 64px 64px, 64px 64px;
   background-position: 0 0, 0 0, 0 0;
+  align-content: space-between;
 }
 
 .hero-side p,
@@ -649,6 +650,66 @@ section,
 
 .hero-side .kicker::before {
   background: var(--text);
+}
+
+.hero-side-detail {
+  display: grid;
+  gap: 16px;
+  margin-top: clamp(22px, 2.6vw, 34px);
+  width: 100%;
+  max-width: 30rem;
+}
+
+.hero-side-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.hero-side-tag {
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px;
+  padding: 8px 12px;
+  border: 2px solid rgba(0, 0, 0, 0.22);
+  background: rgba(255, 255, 255, 0.46);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #000000;
+  backdrop-filter: blur(3px);
+}
+
+.hero-side-mini-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.hero-side-mini-card {
+  min-width: 0;
+  padding: 14px 14px 16px;
+  border: 2px solid var(--line);
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(4px);
+}
+
+.hero-side-mini-label {
+  margin-bottom: 8px;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.hero-side-mini-card p {
+  margin: 0;
+  font-size: 0.92rem;
+  line-height: 1.35;
+  max-width: none;
 }
 
 h1,
@@ -1777,6 +1838,23 @@ h3,
   opacity: 0.88;
 }
 
+.hero-map-stage-video {
+  background: #ffffff;
+}
+
+.hero-map-stage-video::after {
+  display: none;
+}
+
+.hero-map-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
 .hero-map-world {
   position: absolute;
   inset: 0;
@@ -2197,10 +2275,6 @@ h3,
 .image-frame-sketch {
   min-height: 180px;
   border: 2px solid var(--line);
-}
-
-.systems-map-video {
-  aspect-ratio: 16 / 9;
 }
 
 .proof-band {
@@ -2996,6 +3070,10 @@ h3,
 
   .hero-pin-label {
     display: none;
+  }
+
+  .hero-side-mini-grid {
+    grid-template-columns: 1fr;
   }
 
   .image-frame {
@@ -3875,6 +3953,26 @@ h3,
 .story-card-dark:hover .text-link:focus-visible {
   background: color-mix(in srgb, var(--card-cta) 86%, #ffffff 14%);
   color: var(--card-cta-text);
+}
+
+/* Final guardrail: white-card system keeps a full black frame with a colored top rule. */
+.card-grid > *,
+.resource-grid > *,
+.story-grid > *,
+.contact-grid > *,
+.program-grid > *,
+.signal-grid > *,
+.pillar-card,
+.stat-card,
+.logo-tile,
+.profile-card,
+.knowledge-card,
+.workstream-card,
+.story-card-dark {
+  border-right: 2px solid var(--line);
+  border-bottom: 2px solid var(--line);
+  border-left: 2px solid var(--line);
+  border-top-width: 6px;
 }
 
 .partner-logo-wall {
