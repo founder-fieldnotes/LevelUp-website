@@ -2139,6 +2139,14 @@ h3,
   object-fit: cover;
 }
 
+.image-frame video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background: #ffffff;
+}
+
 .visual-hero img {
   aspect-ratio: 16 / 7;
 }
@@ -2189,6 +2197,10 @@ h3,
 .image-frame-sketch {
   min-height: 180px;
   border: 2px solid var(--line);
+}
+
+.systems-map-video {
+  aspect-ratio: 16 / 9;
 }
 
 .proof-band {
