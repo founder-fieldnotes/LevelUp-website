@@ -2493,10 +2493,13 @@ h3,
 
 .trust-icon {
   position: relative;
-  width: 52px;
-  height: 52px;
+  width: 88px;
+  height: 88px;
   margin-bottom: 22px;
-  color: #000000;
+  background-image: url("../images/icons-sheet.png");
+  background-repeat: no-repeat;
+  background-size: 400% 200%;
+  background-color: transparent;
 }
 
 .trust-card {
@@ -2524,109 +2527,40 @@ h3,
   border-top: 6px solid var(--gold);
 }
 
-.trust-icon::before,
-.trust-icon::after {
-  content: "";
-  position: absolute;
-  box-sizing: border-box;
+.trust-icon-government,
+.ecosystem-icon-government {
+  background-position: 0% 0%;
 }
 
-.trust-icon-government::before {
-  left: 4px;
-  right: 4px;
-  bottom: 7px;
-  height: 24px;
-  border: 3px solid currentColor;
-  border-top: none;
-  background:
-    linear-gradient(90deg, transparent 0 18%, currentColor 18% 24%, transparent 24% 44%, currentColor 44% 50%, transparent 50% 70%, currentColor 70% 76%, transparent 76%);
+.trust-icon-builders,
+.ecosystem-icon-startups {
+  background-position: 33.333% 0%;
 }
 
-.trust-icon-government::after {
-  left: 0;
-  right: 0;
-  top: 5px;
-  height: 18px;
-  background:
-    linear-gradient(145deg, transparent 0 44%, currentColor 45% 55%, transparent 56%),
-    linear-gradient(35deg, transparent 0 44%, currentColor 45% 55%, transparent 56%);
+.trust-icon-institutions {
+  background-position: 66.666% 0%;
 }
 
-.trust-icon-funders::before {
-  left: 4px;
-  top: 7px;
-  width: 28px;
-  height: 28px;
-  border: 3px solid currentColor;
-  border-radius: 999px;
-  box-shadow: 12px 10px 0 -3px #ffffff, 12px 10px 0 0 currentColor;
+.trust-icon-funders,
+.ecosystem-icon-capital {
+  background-position: 100% 0%;
 }
 
-.trust-icon-funders::after {
-  left: 14px;
-  top: 17px;
-  width: 12px;
-  height: 12px;
-  border-top: 3px solid currentColor;
-  border-bottom: 3px solid currentColor;
+.ecosystem-icon-ai {
+  background-position: 0% 100%;
 }
 
-.trust-icon-employers::before {
-  left: 4px;
-  right: 4px;
-  bottom: 8px;
-  height: 28px;
-  border: 3px solid currentColor;
-  background: transparent;
+.ecosystem-icon-education {
+  background-position: 33.333% 100%;
 }
 
-.trust-icon-employers::after {
-  left: 17px;
-  top: 7px;
-  width: 18px;
-  height: 12px;
-  border: 3px solid currentColor;
-  border-bottom: none;
+.ecosystem-icon-innovation {
+  background-position: 66.666% 100%;
 }
 
-.trust-icon-builders::before {
-  left: 6px;
-  top: 5px;
-  width: 14px;
-  height: 14px;
-  border: 3px solid currentColor;
-  border-radius: 999px;
-  box-shadow: 24px 0 0 -3px #ffffff, 24px 0 0 0 currentColor, 12px 24px 0 -3px #ffffff, 12px 24px 0 0 currentColor;
-}
-
-.trust-icon-builders::after {
-  left: 16px;
-  top: 18px;
-  width: 22px;
-  height: 18px;
-  border-top: 3px solid currentColor;
-  border-left: 3px solid currentColor;
-  transform: rotate(45deg);
-}
-
-.trust-icon-institutions::before {
-  left: 5px;
-  right: 5px;
-  top: 9px;
-  height: 10px;
-  border: 3px solid currentColor;
-  border-bottom: none;
-  transform: skewX(-18deg);
-}
-
-.trust-icon-institutions::after {
-  left: 7px;
-  right: 7px;
-  bottom: 8px;
-  height: 24px;
-  border-bottom: 3px solid currentColor;
-  background:
-    linear-gradient(90deg, currentColor 0 4px, transparent 4px 13px, currentColor 13px 17px, transparent 17px 26px, currentColor 26px 30px, transparent 30px 39px, currentColor 39px 43px);
+.trust-icon-employers,
+.ecosystem-icon-partnerships {
+  background-position: 100% 100%;
 }
 
 .homepage-band {
@@ -4048,15 +3982,13 @@ h3,
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 48px;
-  height: 48px;
+  width: 88px;
+  height: 88px;
   margin-bottom: 18px;
-  border: 2px solid var(--line);
-  background: #ffffff;
-  font-family: "IBM Plex Mono", monospace;
-  font-size: 0.76rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
+  background-image: url("../images/icons-sheet.png");
+  background-repeat: no-repeat;
+  background-size: 400% 200%;
+  background-color: transparent;
 }
 
 .partner-logo-card.is-wide img {
