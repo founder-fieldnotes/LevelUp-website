@@ -4163,3 +4163,12 @@ h3,
     grid-template-columns: 1fr;
   }
 }
+
+/* Final homepage guardrail: feature cards must keep a full frame. */
+.homepage-band-grid > .workstream-card {
+  border-top-width: 6px;
+  border-top-style: solid;
+  border-right: 2px solid var(--line) !important;
+  border-bottom: 2px solid var(--line) !important;
+  border-left: 2px solid var(--line) !important;
+}
