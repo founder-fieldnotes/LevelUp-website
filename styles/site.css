@@ -4330,21 +4330,21 @@ h3,
 
 .home-workstream-grid .workstream-card:nth-child(4) {
   --card-fill: var(--clay);
-  --card-cta: var(--blue);
+  --card-cta: var(--green);
   --card-cta-hover: #ffffff;
   border-top-color: var(--clay);
 }
 
 .home-workstream-grid .workstream-card:nth-child(5) {
   --card-fill: var(--gold);
-  --card-cta: var(--green);
+  --card-cta: var(--clay);
   --card-cta-hover: #ffffff;
   border-top-color: var(--gold);
 }
 
 .home-workstream-grid .workstream-card:nth-child(6) {
   --card-fill: var(--blue);
-  --card-cta: var(--clay);
+  --card-cta: var(--green);
   --card-cta-hover: #ffffff;
   border-top-color: var(--blue);
 }
