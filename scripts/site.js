@@ -2,99 +2,31 @@ document.addEventListener("DOMContentLoaded", () => {
   const header = document.querySelector(".site-header");
   const nav = document.querySelector("[data-nav]");
   const toggle = document.querySelector("[data-nav-toggle]");
-  const yearTarget = document.querySelector("[data-current-year]");
-  const headerActions = document.querySelector(".header-actions");
   const scriptEl =
     document.querySelector('script[src$="scripts/site.js"]') ||
     document.querySelector('script[src$="/scripts/site.js"]');
 
-  const directoryGroups = [
-    {
-      title: "About",
-      color: "gold",
-      links: [
-        ["About", "about/"],
-        ["Our Approach", "approach/"],
-        ["Partners and Funders", "partners-funders/"]
-      ]
-    },
-    {
-      title: "What We Do",
-      color: "green",
-      links: [
-        ["What We Do", "what-we-do/"],
-        ["Build Talent Systems", "build-talent-systems/"],
-        ["Support Venture Creation", "support-venture-creation/"],
-        ["Align Capital", "align-capital/"],
-        ["Enabling Policy and Institutions", "enabling-policy-institutions/"],
-        ["Design Innovation Ecosystems", "design-innovation-ecosystems/"],
-        ["Programs", "programs/"]
-      ]
-    },
-    {
-      title: "Initiatives",
-      color: "blue",
-      links: [
-        ["Initiatives", "initiatives/"],
-        ["AI.SPIRE", "ai-spire/"],
-        ["FSF", "fsf/"],
-        ["Darb.Tech", "darb-tech/"]
-      ]
-    },
-    {
-      title: "Insights",
-      color: "clay",
-      links: [
-        ["Insights", "insights/"],
-        ["Case Studies", "case-studies/"],
-        ["Research and Frameworks", "research-frameworks/"],
-        ["News", "news/"],
-        ["Events", "events/"],
-        ["Questions from the Field", "questions-from-the-field.html"]
-      ]
-    },
-    {
-      title: "Get Involved",
-      color: "green",
-      links: [
-        ["Get Involved", "contact/"],
-        ["Partner With Us", "partner-with-us/"],
-        ["Fund This Work", "fund-this-work/"],
-        ["Subscribe", "subscribe/"]
-      ]
-    }
-  ];
-
   const scriptSrc = scriptEl?.getAttribute("src") || "";
-  let siteRootPrefix = "";
-  let assetBasePrefix = "";
-
-  if (scriptSrc) {
-    try {
-      const scriptUrl = new URL(scriptSrc, window.location.href);
-      const siteRootUrl = new URL("../", scriptUrl);
-      const assetUrl = new URL("../images/branding/", scriptUrl);
-      siteRootPrefix = siteRootUrl.href;
-      assetBasePrefix = assetUrl.href;
-    } catch {
-      const depth = Math.max(
-        0,
-        window.location.pathname.replace(/index\.html$/, "").split("/").filter(Boolean).length - 1
-      );
-      siteRootPrefix = depth === 0 ? "" : "../".repeat(depth);
-      assetBasePrefix = `${siteRootPrefix}images/branding/`;
-    }
-  } else {
+  const getRelativePrefix = () => {
     const depth = Math.max(
       0,
       window.location.pathname.replace(/index\.html$/, "").split("/").filter(Boolean).length - 1
     );
-    siteRootPrefix = depth === 0 ? "" : "../".repeat(depth);
-    assetBasePrefix = `${siteRootPrefix}images/branding/`;
+    return depth === 0 ? "" : "../".repeat(depth);
+  };
+
+  let assetBasePrefix = `${getRelativePrefix()}images/branding/`;
+
+  if (scriptSrc) {
+    try {
+      const scriptUrl = new URL(scriptSrc, window.location.href);
+      const assetUrl = new URL("../images/branding/", scriptUrl);
+      assetBasePrefix = assetUrl.href;
+    } catch {
+      assetBasePrefix = `${getRelativePrefix()}images/branding/`;
+    }
   }
 
-  const brandLogoPath = `${assetBasePrefix}logo-black.png`;
-  const footerLogoPath = `${assetBasePrefix}logo-black.png`;
   const faviconPath = `${assetBasePrefix}favicon.png`;
 
   let favicon = document.querySelector('link[rel="icon"]');
@@ -106,277 +38,37 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   favicon.href = faviconPath;
 
-  const brandTitle = document.querySelector(".brand-title");
-  if (brandTitle) {
-    brandTitle.innerHTML = `<img src="${brandLogoPath}" alt="LevelUp Economy" />`;
-  }
-
-  const brandName = document.querySelector(".brand-name");
-  if (brandName) {
-    brandName.remove();
-  }
-
-  const resolveHref = (href) => {
-    if (/^(https?:|mailto:|#)/.test(href)) return href;
-    if (/^https?:/.test(siteRootPrefix)) {
-      return new URL(href, siteRootPrefix).href;
-    }
-    return `${siteRootPrefix}${href}`;
-  };
-
-  const footerGrid = document.querySelector(".footer-grid");
-  if (footerGrid) {
-    footerGrid.innerHTML = `
-      <div class="footer-column footer-brand-column">
-        <div class="footer-title"><img class="footer-logo" src="${footerLogoPath}" alt="LevelUp Economy" /></div>
-        <p class="footer-brand-copy">LevelUp designs holistic systems that connect talent, innovation, capital, employer demand, and institutions.</p>
-        <div class="footer-mini-note">Seattle-based. Global in scope. Built for practical implementation.</div>
-      </div>
-      <div class="footer-column">
-        <div class="footer-title">Explore</div>
-        <ul class="footer-links">
-          <li><a href="${resolveHref("about/")}">About</a></li>
-          <li><a href="${resolveHref("approach/")}">Our Approach</a></li>
-          <li><a href="${resolveHref("what-we-do/")}">What We Do</a></li>
-          <li><a href="${resolveHref("initiatives/")}">Initiatives</a></li>
-          <li><a href="${resolveHref("insights/")}">Insights</a></li>
-        </ul>
-      </div>
-      <div class="footer-column">
-        <div class="footer-title">Programs & Platform</div>
-        <ul class="footer-links">
-          <li><a href="${resolveHref("programs/")}">Programs</a></li>
-          <li><a href="${resolveHref("ai-spire/")}">AI.SPIRE</a></li>
-          <li><a href="${resolveHref("darb-tech/")}">Darb.Tech</a></li>
-          <li><a href="${resolveHref("levhub/")}">LevHub</a></li>
-          <li><a href="${resolveHref("questions-from-the-field.html")}">Questions from the Field</a></li>
-        </ul>
-      </div>
-      <div class="footer-column footer-contact-column">
-        <div class="footer-title">Get Involved</div>
-        <p class="footer-contact-copy">For governments, employers, institutions, funders, and ecosystem partners exploring serious systems work.</p>
-        <div class="footer-action-stack">
-          <a class="button secondary" href="${resolveHref("partner-with-us/")}">Partner with us</a>
-          <a class="button secondary" href="${resolveHref("fund-this-work/")}">Fund this work</a>
-          <a class="button secondary" href="${resolveHref("subscribe/")}">Subscribe</a>
-        </div>
-        <ul class="footer-links footer-links-compact">
-          <li><a href="mailto:info@levelupeconomy.com">info@levelupeconomy.com</a></li>
-          <li><a href="${resolveHref("legal/")}">Legal & Policies</a></li>
-          <li><a href="${resolveHref("careers/")}">Careers</a></li>
-        </ul>
-      </div>
-    `;
-  }
-
-  const footerMeta = document.querySelector(".footer-meta-row");
-  if (footerMeta) {
-    footerMeta.innerHTML = `
-      <span>Stronger systems. More opportunity. Shared prosperity.</span>
-      <span>&copy; <span data-current-year></span> LevelUp Economy</span>
-    `;
-  }
-
   const normalizeHrefPath = (href) => {
-    const resolved = resolveHref(href);
     try {
-      const url = new URL(resolved, window.location.href);
+      const url = new URL(href, window.location.href);
       let pathname = url.pathname.replace(/\/index\.html$/, "/");
       if (pathname !== "/" && !pathname.endsWith("/")) pathname = `${pathname}/`;
       return pathname;
     } catch {
-      return resolved;
+      return href;
     }
   };
 
   let currentPath = window.location.pathname.replace(/\/index\.html$/, "/");
   if (currentPath !== "/" && !currentPath.endsWith("/")) currentPath = `${currentPath}/`;
 
-  const heroPanelBlueprints = [
-    {
-      match: /^\/about\//,
-      tags: ["Systems thesis", "Institutional credibility", "Long-term prosperity"],
-      cards: [
-        ["Positioning", "Ecosystem builder, not a course catalog."],
-        ["Model", "Talent, ventures, capital, and institutions reinforce one another."]
-      ]
-    },
-    {
-      match: /^\/approach\//,
-      tags: ["Integrated model", "Shared value", "Execution logic"],
-      cards: [
-        ["Core idea", "Each lever becomes stronger inside the larger system."],
-        ["Use case", "Design before delivery, alignment before scale."]
-      ]
-    },
-    {
-      match: /^\/what-we-do\//,
-      tags: ["Five pillars", "One agenda", "System design"],
-      cards: [
-        ["Levers", "Talent, ventures, capital, institutions, ecosystems."],
-        ["Result", "A stronger regional economy, not a disconnected intervention set."]
-      ]
-    },
-    {
-      match: /^\/(build-talent-systems|support-venture-creation|align-capital|enabling-policy-institutions|design-innovation-ecosystems)\//,
-      tags: ["Strategic pillar", "Delivery logic", "Economic growth"],
-      cards: [
-        ["Why it matters", "This lever matters most when it reinforces the others."],
-        ["How LevelUp works", "Design, implementation, and stakeholder alignment move together."]
-      ]
-    },
-    {
-      match: /^\/initiatives\//,
-      tags: ["Public proof", "Partner logic", "Visible outcomes"],
-      cards: [
-        ["What initiatives do", "Turn systems thinking into visible delivery."],
-        ["What they show", "Partners, pathways, and evidence working together."]
-      ]
-    },
-    {
-      match: /^\/(ai-spire|fsf|darb-tech)\//,
-      tags: ["Flagship work", "Applied delivery", "Institutional partnership"],
-      cards: [
-        ["Throughline", "Real partners, real pathways, real economic relevance."],
-        ["Signal", "Capability-building tied to implementation, not just instruction."]
-      ]
-    },
-    {
-      match: /^\/insights\//,
-      tags: ["Frameworks", "Case studies", "Field notes"],
-      cards: [
-        ["Purpose", "Make the model legible to partners and funders."],
-        ["Value", "Public evidence builds trust faster than abstract claims."]
-      ]
-    },
-    {
-      match: /^\/(case-studies|research-frameworks|news|events)\//,
-      tags: ["Public evidence", "Institutional trust", "Knowledge layer"],
-      cards: [
-        ["Audience", "Funders, employers, institutions, and ecosystem partners."],
-        ["Role", "Translate activity into interpretable public proof."]
-      ]
-    },
-    {
-      match: /^\/questions-from-the-field\.html$/,
-      tags: ["Common questions", "Clear answers", "Practical guidance"],
-      cards: [
-        ["Why this page exists", "Turn recurring conversations into reusable guidance."],
-        ["Best use", "Start here when the model needs to become concrete quickly."]
-      ]
-    },
-    {
-      match: /^\/programs\//,
-      tags: ["Applied work", "Operating layer", "Program formats"],
-      cards: [
-        ["Formats", "Workshops, cohorts, training, advisory, labs."],
-        ["Connection", "Programs sit inside the wider economic systems model."]
-      ]
-    },
-    {
-      match: /^\/(workshops|cohorts|institutional-training|advisory-engagements|accelerators-labs)\//,
-      tags: ["Program type", "Delivery format", "Capability building"],
-      cards: [
-        ["Designed for", "Institutions, employers, founders, and ecosystem actors."],
-        ["Built to show", "Visible progress, operational clarity, and stakeholder value."]
-      ]
-    },
-    {
-      match: /^\/(contact|partner-with-us|fund-this-work|subscribe)\//,
-      tags: ["Get involved", "Structured intake", "Shared outcomes"],
-      cards: [
-        ["Best starting point", "Begin with the challenge, stakeholders, and intended outcome."],
-        ["Why this matters", "The strongest conversations start with system goals, not narrow asks."]
-      ]
-    },
-    {
-      match: /^\/(leadership|team|founder-ceo-profile|delivery-leadership-profile|ecosystem-advisory-profile)\//,
-      tags: ["Leadership", "Delivery depth", "Operational trust"],
-      cards: [
-        ["What this signals", "Strategy credibility paired with implementation experience."],
-        ["Why it matters", "Economic systems work requires operating depth, not just ideas."]
-      ]
-    },
-    {
-      match: /^\/careers\//,
-      tags: ["Open roles", "Delivery team", "Applied programs"],
-      cards: [
-        ["Who should engage", "People who can move between instruction, operations, and partner trust."],
-        ["What matters here", "Clear role ownership and strong delivery discipline."]
-      ]
-    }
-  ];
-
-  const heroSide = document.querySelector(".page-intro .hero-side");
-  if (heroSide) {
-    const existingDetail = heroSide.querySelector(".hero-side-detail");
-    if (!existingDetail) {
-      const blueprint = heroPanelBlueprints.find((entry) => entry.match.test(currentPath));
-      if (blueprint) {
-        const detail = document.createElement("div");
-        detail.className = "hero-side-detail";
-        detail.innerHTML = `
-          <div class="hero-side-tags">
-            ${blueprint.tags.map((tag) => `<span class="hero-side-tag">${tag}</span>`).join("")}
-          </div>
-          <div class="hero-side-mini-grid">
-            ${blueprint.cards
-              .map(
-                ([label, copy]) => `
-                  <article class="hero-side-mini-card">
-                    <div class="hero-side-mini-label">${label}</div>
-                    <p>${copy}</p>
-                  </article>
-                `
-              )
-              .join("")}
-          </div>
-        `;
-        heroSide.appendChild(detail);
-      }
-    }
-  }
-
   if (nav) {
-    nav.innerHTML = directoryGroups
-      .map((group, index) => {
-        const topHref = resolveHref(group.links[0][1]);
-        const groupIsCurrent = group.links.some(([, href]) => normalizeHrefPath(href) === currentPath);
-        const submenuId = `nav-submenu-${index}`;
-        const submenuLinks = group.links.slice(1);
-        const linksMarkup = submenuLinks
-          .map(([label, href]) => {
-            const resolvedHref = resolveHref(href);
-            const currentAttr = normalizeHrefPath(href) === currentPath ? ' aria-current="page"' : "";
-            return `<li><a href="${resolvedHref}"${currentAttr}>${label}</a></li>`;
-          })
-          .join("");
-
-        if (!submenuLinks.length) {
-          return `
-            <div class="nav-item${groupIsCurrent ? " is-current" : ""}" data-nav-color="${group.color}">
-              <a class="nav-link nav-trigger" href="${topHref}">
-                <span>${group.title}</span>
-              </a>
-            </div>
-          `;
-        }
-
-        return `
-          <div class="nav-item${groupIsCurrent ? " is-current" : ""}" data-nav-color="${group.color}">
-            <a class="nav-link nav-trigger" href="${topHref}" aria-expanded="false" aria-controls="${submenuId}" data-nav-trigger>
-              <span>${group.title}</span>
-              <span class="nav-caret" aria-hidden="true"></span>
-            </a>
-            <div class="nav-submenu" id="${submenuId}">
-              <ul class="nav-submenu-links">${linksMarkup}</ul>
-            </div>
-          </div>
-        `;
-      })
-      .join("");
-
     const navItems = nav.querySelectorAll(".nav-item");
+    navItems.forEach((item) => {
+      const links = item.querySelectorAll("a[href]");
+      let isCurrent = false;
+      links.forEach((link) => {
+        const matchesCurrent = normalizeHrefPath(link.href) === currentPath;
+        if (matchesCurrent) {
+          link.setAttribute("aria-current", "page");
+          isCurrent = true;
+        } else {
+          link.removeAttribute("aria-current");
+        }
+      });
+      item.classList.toggle("is-current", isCurrent);
+    });
+
     const closeAllMenus = () => {
       navItems.forEach((item) => {
         item.dataset.open = "false";
@@ -494,5 +186,32 @@ document.addEventListener("DOMContentLoaded", () => {
 
     syncHeaderScrollState();
     window.addEventListener("scroll", syncHeaderScrollState, { passive: true });
+  }
+
+  const heroMapVideo = document.querySelector(".hero-map-video");
+  const heroMapStage = document.querySelector(".hero-map-stage-video");
+  if (heroMapVideo && heroMapStage) {
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const syncHeroMotion = () => {
+      if (prefersReducedMotion.matches) {
+        heroMapStage.classList.add("is-static");
+        heroMapVideo.pause();
+        heroMapVideo.removeAttribute("autoplay");
+      } else {
+        heroMapStage.classList.remove("is-static");
+        heroMapVideo.setAttribute("autoplay", "");
+        const playback = heroMapVideo.play();
+        if (playback && typeof playback.catch === "function") {
+          playback.catch(() => {});
+        }
+      }
+    };
+
+    syncHeroMotion();
+    if (typeof prefersReducedMotion.addEventListener === "function") {
+      prefersReducedMotion.addEventListener("change", syncHeroMotion);
+    } else if (typeof prefersReducedMotion.addListener === "function") {
+      prefersReducedMotion.addListener(syncHeroMotion);
+    }
   }
 });
