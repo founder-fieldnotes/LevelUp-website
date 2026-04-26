@@ -4150,22 +4150,23 @@ h3,
 .home-systems-visual,
 .home-initiative-visual {
   display: grid;
-  grid-template-rows: auto auto;
+  grid-template-rows: minmax(360px, 1fr) auto;
   margin: 0;
   border: 2px solid var(--line);
   background: #ffffff;
+  overflow: hidden;
 }
 
 .home-systems-visual img,
 .home-initiative-visual img {
   display: block;
   width: 100%;
-  height: auto;
-  max-height: min(74vh, 820px);
-  padding: clamp(16px, 1.8vw, 24px);
-  object-fit: contain;
+  height: 100%;
+  min-height: clamp(360px, 40vw, 720px);
+  padding: 0;
+  object-fit: cover;
   object-position: center center;
-  background: #ffffff;
+  background: var(--panel-rose);
 }
 
 .home-systems-visual figcaption,
@@ -4815,12 +4816,13 @@ h3,
   background: var(--panel-rose);
 }
 
-.hero-visual-frame img[src*="framework"],
-.hero-visual-frame img[src*="home-page"],
-.hero-visual-frame img[src*="foundation"],
-.hero-visual-frame img[src*="collage"] {
+.hero-visual-panel.is-diagram .hero-visual-frame img,
+.hero-visual-panel.is-diagram .hero-visual-frame video,
+.home-systems-visual.is-diagram img,
+.home-initiative-visual.is-diagram img {
   object-fit: contain;
   padding: clamp(14px, 1.5vw, 22px);
+  background: #ffffff;
 }
 
 .editorial-side-panel.hero-map-shell {
@@ -5272,6 +5274,16 @@ h3,
 
   .footprint-map-stage {
     min-height: 420px;
+  }
+
+  .home-systems-visual,
+  .home-initiative-visual {
+    grid-template-rows: minmax(280px, 1fr) auto;
+  }
+
+  .home-systems-visual img,
+  .home-initiative-visual img {
+    min-height: 280px;
   }
 }
 
