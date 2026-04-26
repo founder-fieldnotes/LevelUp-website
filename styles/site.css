@@ -5387,3 +5387,46 @@ h3,
     min-height: 320px;
   }
 }
+
+/* Explicit homepage card pairings so workstream cards do not inherit fallback sequences. */
+.home-workstream-grid .workstream-card.card-pair-gold-blue {
+  --card-fill: var(--gold);
+  --card-cta: var(--blue);
+  --card-cta-hover: #ffffff;
+  border-top-color: var(--gold);
+}
+
+.home-workstream-grid .workstream-card.card-pair-blue-gold {
+  --card-fill: var(--blue);
+  --card-cta: var(--gold);
+  --card-cta-hover: #ffffff;
+  border-top-color: var(--blue);
+}
+
+.home-workstream-grid .workstream-card.card-pair-green-clay {
+  --card-fill: var(--green);
+  --card-cta: var(--clay);
+  --card-cta-hover: #ffffff;
+  border-top-color: var(--green);
+}
+
+.home-workstream-grid .workstream-card.card-pair-clay-green {
+  --card-fill: var(--clay);
+  --card-cta: var(--green);
+  --card-cta-hover: #ffffff;
+  border-top-color: var(--clay);
+}
+
+.home-workstream-grid .workstream-card.card-pair-gold-clay {
+  --card-fill: var(--gold);
+  --card-cta: var(--clay);
+  --card-cta-hover: #ffffff;
+  border-top-color: var(--gold);
+}
+
+.home-workstream-grid .workstream-card.card-pair-blue-green {
+  --card-fill: var(--blue);
+  --card-cta: var(--green);
+  --card-cta-hover: #ffffff;
+  border-top-color: var(--blue);
+}
