@@ -4307,6 +4307,48 @@ h3,
   color: #000000;
 }
 
+.home-workstream-grid .workstream-card:nth-child(1) {
+  --card-fill: var(--gold);
+  --card-cta: var(--blue);
+  --card-cta-hover: #ffffff;
+  border-top-color: var(--gold);
+}
+
+.home-workstream-grid .workstream-card:nth-child(2) {
+  --card-fill: var(--blue);
+  --card-cta: var(--gold);
+  --card-cta-hover: #ffffff;
+  border-top-color: var(--blue);
+}
+
+.home-workstream-grid .workstream-card:nth-child(3) {
+  --card-fill: var(--green);
+  --card-cta: var(--clay);
+  --card-cta-hover: #ffffff;
+  border-top-color: var(--green);
+}
+
+.home-workstream-grid .workstream-card:nth-child(4) {
+  --card-fill: var(--clay);
+  --card-cta: var(--blue);
+  --card-cta-hover: #ffffff;
+  border-top-color: var(--clay);
+}
+
+.home-workstream-grid .workstream-card:nth-child(5) {
+  --card-fill: var(--gold);
+  --card-cta: var(--green);
+  --card-cta-hover: #ffffff;
+  border-top-color: var(--gold);
+}
+
+.home-workstream-grid .workstream-card:nth-child(6) {
+  --card-fill: var(--blue);
+  --card-cta: var(--clay);
+  --card-cta-hover: #ffffff;
+  border-top-color: var(--blue);
+}
+
 .proof-hub {
   border: 2px solid var(--line);
   padding: clamp(20px, 2.4vw, 28px);
@@ -4794,6 +4836,7 @@ h3,
   display: grid;
   align-items: stretch;
   min-height: clamp(460px, 44vw, 720px);
+  overflow: hidden;
   padding: 0;
   background: var(--panel-rose);
 }
@@ -4802,8 +4845,10 @@ h3,
 .hero-visual-frame video,
 .hero-map-panel img,
 .hero-map-panel video {
+  display: block;
   width: 100%;
   height: 100%;
+  max-height: none;
   object-fit: cover;
   object-position: center;
 }
