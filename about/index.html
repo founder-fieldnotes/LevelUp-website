@@ -80,6 +80,48 @@
 
 <section><div class="feature-shell card-grid"><article class="card"><div class="card-kicker">Why We Exist</div><h3>Short-term interventions rarely produce durable prosperity.</h3><p>Regions need systems that make talent, employers, founders, institutions, and funders stronger together.</p></article><article class="card"><div class="card-kicker">Capital Philosophy</div><h3>Capital aligns stakeholders instead of isolating them.</h3><p>We believe corporations, governments, and philanthropists can fund holistic solutions where all stakeholders have a seat at the table.</p></article><article class="card"><div class="card-kicker">What Makes Us Different</div><h3>We do not treat education, venture support, and policy as separate worlds.</h3><p>The design principle is reinforcement: each intervention should increase the value of the others.</p></article></div></section>
 <section><div class="feature-shell timeline-card"><div class="section-head"><div><div class="label">Theory of Change</div><h2>How LevelUp thinks about long-term prosperity.</h2></div><p>Economic growth becomes more durable when talent, innovation, funding, and institutions move in coordination.</p></div><div class="timeline"><div class="timeline-step"><div class="timeline-label">Step 01</div><div><h3>Build capability</h3><p>Create high-quality learning and applied pathways tied to real work and employer needs.</p></div></div><div class="timeline-step"><div class="timeline-label">Step 02</div><div><h3>Convert capability into output</h3><p>Support founders, teams, and institutions in building exportable products and services.</p></div></div><div class="timeline-step"><div class="timeline-label">Step 03</div><div><h3>Strengthen enabling conditions</h3><p>Align capital, shape institutional support, and improve policy pathways.</p></div></div><div class="timeline-step"><div class="timeline-label">Step 04</div><div><h3>Create visible proof</h3><p>Use initiatives, case studies, and reporting to show what is working.</p></div></div></div></div></section>
+<section>
+  <div class="feature-shell footprint-section" data-footprint-map>
+    <div class="section-head section-head-wide">
+      <div>
+        <div class="label">Global Footprint</div>
+        <h2>Interactive view of where LevelUp has worked and what the work focused on.</h2>
+      </div>
+      <p>Search and filter the footprint by region or focus area. This module is structured so the full city list can be expanded cleanly as the public record grows.</p>
+    </div>
+    <div class="footprint-controls">
+      <label class="footprint-search">
+        <span class="screen-reader-text">Search cities</span>
+        <input type="search" placeholder="Search cities..." data-footprint-search />
+      </label>
+      <div class="footprint-filter-label">Filter</div>
+      <label class="footprint-select">
+        <span class="screen-reader-text">Filter by region</span>
+        <select data-footprint-region>
+          <option value="all">Region</option>
+        </select>
+      </label>
+      <label class="footprint-select">
+        <span class="screen-reader-text">Filter by focus area</span>
+        <select data-footprint-focus>
+          <option value="all">Focus Area</option>
+        </select>
+      </label>
+      <button class="footprint-reset" type="button" data-footprint-reset>Clear</button>
+    </div>
+    <div class="footprint-map">
+      <div class="footprint-map-stage">
+        <img class="footprint-map-image" src="../images/world-map-ghost.svg" alt="" aria-hidden="true" />
+        <div class="footprint-marker-layer" data-footprint-markers></div>
+      </div>
+      <div class="footprint-panel" data-footprint-panel>
+        <div class="label">Select a marker</div>
+        <h3>Explore the footprint</h3>
+        <p class="footprint-empty">Choose a marker or use the filters to see how LevelUp’s work is distributed across regions and focus areas.</p>
+      </div>
+    </div>
+  </div>
+</section>
 <section><div class="feature-shell card-grid"><article class="card"><div class="card-kicker">Leadership</div><h3>Meet the people shaping the strategy</h3><p>Founder and leadership profiles help institutional audiences assess credibility quickly.</p><div class="inline-actions"><a class="button secondary" href="../leadership/">Leadership</a></div></article><article class="card"><div class="card-kicker">Team</div><h3>Understand the operating depth behind the work</h3><p>The team page explains the roles that make the delivery model possible.</p><div class="inline-actions"><a class="button secondary" href="../team/">Team</a></div></article><article class="card"><div class="card-kicker">Partners and Funders</div><h3>Clarify the stakeholder logic</h3><p>Collaborators can see how they fit into the model and what shared value looks like.</p><div class="inline-actions"><a class="button secondary" href="../partners-funders/">Partners and Funders</a></div></article></div></section>
 </main>
 <footer class="footer-wrap footer-wrap-dark">
@@ -131,6 +173,7 @@
     </div>
   </div>
 </footer>
+<script src="../scripts/footprint-data.js"></script>
 <script src="../scripts/site.js"></script>
 </body>
 </html>

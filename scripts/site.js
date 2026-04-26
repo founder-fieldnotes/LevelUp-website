@@ -214,4 +214,128 @@ document.addEventListener("DOMContentLoaded", () => {
       prefersReducedMotion.addListener(syncHeroMotion);
     }
   }
+
+  const footprintRoot = document.querySelector("[data-footprint-map]");
+  if (footprintRoot) {
+    const searchInput = footprintRoot.querySelector("[data-footprint-search]");
+    const regionSelect = footprintRoot.querySelector("[data-footprint-region]");
+    const focusSelect = footprintRoot.querySelector("[data-footprint-focus]");
+    const resetButton = footprintRoot.querySelector("[data-footprint-reset]");
+    const markerLayer = footprintRoot.querySelector("[data-footprint-markers]");
+    const panel = footprintRoot.querySelector("[data-footprint-panel]");
+    const footprintData = Array.isArray(window.levelupFootprint) ? window.levelupFootprint : [];
+
+    const uniqueValues = (items, key) =>
+      [...new Set(items.map((item) => item[key]).filter(Boolean))].sort((a, b) => a.localeCompare(b));
+
+    const createOption = (value, label) => {
+      const option = document.createElement("option");
+      option.value = value;
+      option.textContent = label;
+      return option;
+    };
+
+    uniqueValues(footprintData, "region").forEach((region) => {
+      regionSelect?.appendChild(createOption(region, region));
+    });
+
+    uniqueValues(footprintData, "focus").forEach((focus) => {
+      const label = focus === "accelerators"
+        ? "Accelerators"
+        : focus.charAt(0).toUpperCase() + focus.slice(1);
+      focusSelect?.appendChild(createOption(focus, label));
+    });
+
+    const projectPoint = ({ lat, lng }) => ({
+      left: `${((lng + 180) / 360) * 100}%`,
+      top: `${((90 - lat) / 180) * 100}%`
+    });
+
+    const renderPanel = (item, count) => {
+      if (!panel) return;
+
+      if (!item) {
+        panel.innerHTML = `
+          <div class="label">Filtered view</div>
+          <h3>${count} location${count === 1 ? "" : "s"} visible</h3>
+          <p class="footprint-empty">Choose a marker to inspect the city, region, and focus area.</p>
+        `;
+        return;
+      }
+
+      panel.innerHTML = `
+        <div class="label">${item.region} / ${item.focus === "accelerators" ? "Accelerators" : item.focus}</div>
+        <h3>${item.city}, ${item.country}</h3>
+        <p>${item.summary}</p>
+        <ul>${item.highlights.map((highlight) => `<li>${highlight}</li>`).join("")}</ul>
+      `;
+    };
+
+    const applyFilters = () => {
+      const searchValue = (searchInput?.value || "").trim().toLowerCase();
+      const regionValue = regionSelect?.value || "all";
+      const focusValue = focusSelect?.value || "all";
+
+      const visibleMarkers = [];
+
+      markerLayer?.querySelectorAll(".footprint-marker").forEach((marker) => {
+        const city = marker.getAttribute("data-city") || "";
+        const country = marker.getAttribute("data-country") || "";
+        const region = marker.getAttribute("data-region") || "";
+        const focus = marker.getAttribute("data-focus") || "";
+
+        const matchesSearch =
+          !searchValue ||
+          city.toLowerCase().includes(searchValue) ||
+          country.toLowerCase().includes(searchValue);
+        const matchesRegion = regionValue === "all" || region === regionValue;
+        const matchesFocus = focusValue === "all" || focus === focusValue;
+        const isVisible = matchesSearch && matchesRegion && matchesFocus;
+
+        marker.hidden = !isVisible;
+        marker.classList.remove("is-active");
+        if (isVisible) visibleMarkers.push(marker);
+      });
+
+      renderPanel(null, visibleMarkers.length);
+    };
+
+    footprintData.forEach((item, index) => {
+      const marker = document.createElement("button");
+      const position = projectPoint(item);
+      marker.type = "button";
+      marker.className = "footprint-marker";
+      marker.style.left = position.left;
+      marker.style.top = position.top;
+      marker.setAttribute("data-city", item.city);
+      marker.setAttribute("data-country", item.country);
+      marker.setAttribute("data-region", item.region);
+      marker.setAttribute("data-focus", item.focus);
+      marker.setAttribute("aria-label", `${item.city}, ${item.country}`);
+      marker.setAttribute("title", `${item.city}, ${item.country}`);
+      marker.style.zIndex = String(10 + index);
+
+      marker.addEventListener("click", () => {
+        markerLayer?.querySelectorAll(".footprint-marker").forEach((entry) => {
+          entry.classList.remove("is-active");
+        });
+        marker.classList.add("is-active");
+        renderPanel(item, 1);
+      });
+
+      markerLayer?.appendChild(marker);
+    });
+
+    searchInput?.addEventListener("input", applyFilters);
+    regionSelect?.addEventListener("change", applyFilters);
+    focusSelect?.addEventListener("change", applyFilters);
+    resetButton?.addEventListener("click", () => {
+      if (searchInput) searchInput.value = "";
+      if (regionSelect) regionSelect.value = "all";
+      if (focusSelect) focusSelect.value = "all";
+      applyFilters();
+    });
+
+    applyFilters();
+  }
 });
