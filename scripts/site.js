@@ -223,10 +223,51 @@ document.addEventListener("DOMContentLoaded", () => {
     const resetButton = footprintRoot.querySelector("[data-footprint-reset]");
     const markerLayer = footprintRoot.querySelector("[data-footprint-markers]");
     const panel = footprintRoot.querySelector("[data-footprint-panel]");
+    const popup = footprintRoot.querySelector("[data-footprint-popup]");
     const footprintData = Array.isArray(window.levelupFootprint) ? window.levelupFootprint : [];
+    let activeItem = null;
+    let activeMarker = null;
 
     const uniqueValues = (items, key) =>
       [...new Set(items.map((item) => item[key]).filter(Boolean))].sort((a, b) => a.localeCompare(b));
+
+    const focusLabel = (focus) => {
+      if (focus === "accelerators") return "Accelerators";
+      return focus.charAt(0).toUpperCase() + focus.slice(1);
+    };
+
+    const markerTheme = (item) => {
+      if (item.status === "active") return "clay";
+      if (item.focus === "capital" || item.focus === "accelerators") return "gold";
+      if (item.focus === "institutions" || item.focus === "ecosystems") return "green";
+      if (item.focus === "employers") return "blue";
+      return "blue";
+    };
+
+    const groupedLocations = Array.from(
+      footprintData.reduce((map, item) => {
+        const key = `${item.city}__${item.country}`;
+        if (!map.has(key)) {
+          map.set(key, {
+            city: item.city,
+            country: item.country,
+            region: item.region,
+            lat: item.lat,
+            lng: item.lng,
+            projects: []
+          });
+        }
+        map.get(key).projects.push(item);
+        return map;
+      }, new Map()).values()
+    ).map((location) => ({
+      ...location,
+      focuses: [...new Set(location.projects.map((project) => project.focus))],
+      statuses: [...new Set(location.projects.map((project) => project.status || "past"))],
+      markerTheme: location.projects.some((project) => (project.status || "past") === "active")
+        ? "clay"
+        : markerTheme(location.projects[0])
+    }));
 
     const createOption = (value, label) => {
       const option = document.createElement("option");
@@ -240,16 +281,28 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     uniqueValues(footprintData, "focus").forEach((focus) => {
-      const label = focus === "accelerators"
-        ? "Accelerators"
-        : focus.charAt(0).toUpperCase() + focus.slice(1);
-      focusSelect?.appendChild(createOption(focus, label));
+      focusSelect?.appendChild(createOption(focus, focusLabel(focus)));
     });
 
-    const projectPoint = ({ lat, lng }) => ({
-      left: `${((lng + 180) / 360) * 100}%`,
-      top: `${((90 - lat) / 180) * 100}%`
-    });
+    const projectPoint = ({ lat, lng }, overlapIndex = 0) => {
+      const baseLeft = ((lng + 180) / 360) * 100;
+      const baseTop = ((90 - lat) / 180) * 100;
+      const overlapOffsets = [
+        [0, 0],
+        [1.2, -0.9],
+        [-1.2, 0.9],
+        [1.3, 1.1],
+        [-1.3, -1.1],
+        [0, -1.5],
+        [0, 1.5]
+      ];
+      const [offsetX, offsetY] = overlapOffsets[overlapIndex % overlapOffsets.length];
+
+      return {
+        left: `${Math.min(98, Math.max(2, baseLeft + offsetX))}%`,
+        top: `${Math.min(96, Math.max(4, baseTop + offsetY))}%`
+      };
+    };
 
     const renderPanel = (item, count) => {
       if (!panel) return;
@@ -263,12 +316,63 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
+      const locationLabel = item.focuses.length === 1
+        ? focusLabel(item.focuses[0])
+        : `${item.focuses.length} focus areas`;
+      const locationStatus = item.statuses.includes("active") ? "Active" : "Past";
+      const projectsMarkup = item.projects.map((project) => `
+        <li>
+          <strong>${project.projectTitle}</strong>
+          <span>${focusLabel(project.focus)} / ${project.status === "active" ? "Active" : "Past"}</span>
+          <a class="button secondary" href="${project.projectUrl}">View project</a>
+        </li>
+      `).join("");
+
       panel.innerHTML = `
-        <div class="label">${item.region} / ${item.focus === "accelerators" ? "Accelerators" : item.focus}</div>
+        <div class="label">${item.region} / ${locationLabel} / ${locationStatus}</div>
         <h3>${item.city}, ${item.country}</h3>
-        <p>${item.summary}</p>
-        <ul>${item.highlights.map((highlight) => `<li>${highlight}</li>`).join("")}</ul>
+        <p class="footprint-project-title">${item.projects.length} project${item.projects.length === 1 ? "" : "s"} in this city</p>
+        <ul>${item.projects[0].highlights.map((highlight) => `<li>${highlight}</li>`).join("")}</ul>
+        <div class="footprint-project-list">
+          <div class="label">Projects</div>
+          <ul>${projectsMarkup}</ul>
+        </div>
       `;
+    };
+
+    const hidePopup = () => {
+      if (!popup) return;
+      popup.hidden = true;
+      popup.innerHTML = "";
+    };
+
+    const renderPopup = (item, marker) => {
+      if (!popup || !marker) return;
+      const projectLinks = item.projects.map((project) => `
+        <li><a href="${project.projectUrl}">${project.projectTitle}</a></li>
+      `).join("");
+      popup.hidden = false;
+      popup.innerHTML = `
+        <div class="footprint-popup-kicker">${item.region}</div>
+        <h3>${item.city}</h3>
+        <p>${item.projects.length} project${item.projects.length === 1 ? "" : "s"}</p>
+        <ul>${projectLinks}</ul>
+      `;
+      const markerLeft = parseFloat(marker.style.left || "50");
+      const markerTop = parseFloat(marker.style.top || "50");
+      popup.style.left = `${Math.min(78, Math.max(14, markerLeft))}%`;
+      popup.style.top = `${Math.min(76, Math.max(12, markerTop - 7))}%`;
+    };
+
+    const setActiveMarker = (item, marker) => {
+      activeItem = item;
+      activeMarker = marker;
+      markerLayer?.querySelectorAll(".footprint-marker").forEach((entry) => {
+        entry.classList.remove("is-active");
+      });
+      marker?.classList.add("is-active");
+      renderPanel(item, 1);
+      renderPopup(item, marker);
     };
 
     const applyFilters = () => {
@@ -282,27 +386,36 @@ document.addEventListener("DOMContentLoaded", () => {
         const city = marker.getAttribute("data-city") || "";
         const country = marker.getAttribute("data-country") || "";
         const region = marker.getAttribute("data-region") || "";
-        const focus = marker.getAttribute("data-focus") || "";
+        const focuses = (marker.getAttribute("data-focuses") || "").split("|").filter(Boolean);
 
         const matchesSearch =
           !searchValue ||
           city.toLowerCase().includes(searchValue) ||
           country.toLowerCase().includes(searchValue);
         const matchesRegion = regionValue === "all" || region === regionValue;
-        const matchesFocus = focusValue === "all" || focus === focusValue;
+        const matchesFocus = focusValue === "all" || focuses.includes(focusValue);
         const isVisible = matchesSearch && matchesRegion && matchesFocus;
 
         marker.hidden = !isVisible;
-        marker.classList.remove("is-active");
+        if (!isVisible && marker === activeMarker) {
+          activeItem = null;
+          activeMarker = null;
+        }
         if (isVisible) visibleMarkers.push(marker);
       });
 
-      renderPanel(null, visibleMarkers.length);
+      if (activeItem && activeMarker && !activeMarker.hidden) {
+        renderPanel(activeItem, visibleMarkers.length);
+        renderPopup(activeItem, activeMarker);
+      } else {
+        hidePopup();
+        renderPanel(null, visibleMarkers.length);
+      }
     };
 
-    footprintData.forEach((item, index) => {
+    groupedLocations.forEach((item, index) => {
       const marker = document.createElement("button");
-      const position = projectPoint(item);
+      const position = projectPoint(item, 0);
       marker.type = "button";
       marker.className = "footprint-marker";
       marker.style.left = position.left;
@@ -310,17 +423,15 @@ document.addEventListener("DOMContentLoaded", () => {
       marker.setAttribute("data-city", item.city);
       marker.setAttribute("data-country", item.country);
       marker.setAttribute("data-region", item.region);
-      marker.setAttribute("data-focus", item.focus);
-      marker.setAttribute("aria-label", `${item.city}, ${item.country}`);
+      marker.setAttribute("data-focuses", item.focuses.join("|"));
+      marker.setAttribute("data-status", item.statuses.join("|"));
+      marker.setAttribute("data-theme", item.markerTheme);
+      marker.setAttribute("aria-label", `${item.city}, ${item.country}, ${item.projects.length} project${item.projects.length === 1 ? "" : "s"}`);
       marker.setAttribute("title", `${item.city}, ${item.country}`);
       marker.style.zIndex = String(10 + index);
 
       marker.addEventListener("click", () => {
-        markerLayer?.querySelectorAll(".footprint-marker").forEach((entry) => {
-          entry.classList.remove("is-active");
-        });
-        marker.classList.add("is-active");
-        renderPanel(item, 1);
+        setActiveMarker(item, marker);
       });
 
       markerLayer?.appendChild(marker);
@@ -333,7 +444,25 @@ document.addEventListener("DOMContentLoaded", () => {
       if (searchInput) searchInput.value = "";
       if (regionSelect) regionSelect.value = "all";
       if (focusSelect) focusSelect.value = "all";
+      activeItem = null;
+      activeMarker = null;
+      markerLayer?.querySelectorAll(".footprint-marker").forEach((entry) => {
+        entry.classList.remove("is-active");
+      });
+      hidePopup();
       applyFilters();
+    });
+
+    footprintRoot.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        activeItem = null;
+        activeMarker = null;
+        markerLayer?.querySelectorAll(".footprint-marker").forEach((entry) => {
+          entry.classList.remove("is-active");
+        });
+        hidePopup();
+        applyFilters();
+      }
     });
 
     applyFilters();
