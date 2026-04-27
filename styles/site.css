@@ -4763,6 +4763,8 @@ h3,
   gap: 0;
   border: 2px solid var(--line);
   align-items: stretch;
+  block-size: clamp(560px, 48vw, 860px);
+  overflow: hidden;
 }
 
 .page-intro--split .hero-main,
@@ -4770,12 +4772,13 @@ h3,
   display: grid;
   align-content: start;
   gap: 0;
-  min-height: clamp(460px, 44vw, 720px);
-  padding: clamp(40px, 5.5vw, 88px) clamp(28px, 4vw, 64px);
+  min-height: 100%;
+  padding: clamp(28px, 3.8vw, 56px) clamp(26px, 3.2vw, 50px);
   border: 0;
   border-right: 2px solid var(--line);
   background: var(--panel-blue);
   color: #000000;
+  overflow: hidden;
 }
 
 .page-intro--split.page-intro--media-left .hero-main {
@@ -4796,18 +4799,18 @@ h3,
 
 .page-intro--split .hero-main h1,
 .editorial-hero-main h1 {
-  max-width: 11.5ch;
+  max-width: 10.5ch;
   margin: 0;
-  font-size: clamp(2.75rem, 5vw, 5.35rem);
+  font-size: clamp(2.45rem, 4.35vw, 4.7rem);
   line-height: 0.94;
 }
 
 .page-intro--split .hero-main .lead,
 .editorial-hero-main .lead {
-  max-width: 30rem;
-  margin-top: 28px;
-  font-size: clamp(1.15rem, 1.6vw, 1.55rem);
-  line-height: 1.55;
+  max-width: 27rem;
+  margin-top: 20px;
+  font-size: clamp(1rem, 1.28vw, 1.22rem);
+  line-height: 1.5;
   color: rgba(0, 0, 0, 0.92);
 }
 
@@ -4815,7 +4818,7 @@ h3,
 .page-intro--split .hero-actions,
 .page-intro--split .inline-actions,
 .editorial-hero-main .hero-actions {
-  margin-top: 30px;
+  margin-top: 22px;
 }
 
 .page-intro--split .hero-actions > .button:first-child,
@@ -4835,14 +4838,14 @@ h3,
 }
 
 .hero-support-list {
-  max-width: 33rem;
-  margin-top: 32px;
+  max-width: 29rem;
+  margin-top: 22px;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 16px;
+  gap: 14px;
 }
 
 .hero-support-item {
-  padding: 15px 0 0;
+  padding: 12px 0 0;
   border-top: 2px solid rgba(0, 0, 0, 0.8);
 }
 
@@ -4851,6 +4854,8 @@ h3,
 }
 
 .hero-support-item p {
+  font-size: 0.94rem;
+  line-height: 1.42;
   color: rgba(0, 0, 0, 0.82);
 }
 
@@ -4873,7 +4878,7 @@ h3,
   position: relative;
   display: grid;
   place-items: stretch;
-  min-height: clamp(460px, 44vw, 720px);
+  min-height: 100%;
   overflow: hidden;
   padding: 0;
   background: var(--panel-rose);
@@ -5475,6 +5480,7 @@ h3,
 @media (max-width: 1180px) {
   .page-intro.page-intro--split,
   .editorial-hero-grid {
+    block-size: clamp(520px, 52vw, 760px);
     grid-template-columns: 1fr 1fr;
   }
 
@@ -5496,6 +5502,7 @@ h3,
 @media (max-width: 900px) {
   .page-intro.page-intro--split,
   .editorial-hero-grid {
+    block-size: auto;
     grid-template-columns: 1fr;
   }
 
