@@ -4483,6 +4483,10 @@ h3,
   background: var(--white);
 }
 
+.page-intro--split .hero-main.hero-main--blue {
+  background: var(--blue);
+}
+
 .page-intro--split.page-intro--media-left .hero-main {
   order: 2;
   border-right: none;
@@ -4597,6 +4601,10 @@ h3,
 .hero-visual-panel.is-photo img,
 .hero-visual-panel.is-photo video {
   object-fit: cover;
+}
+
+.home-hero .hero-visual-frame {
+  background: #ffffff;
 }
 
 .page-intro--split .hero-meta {
