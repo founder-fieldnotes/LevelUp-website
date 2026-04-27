@@ -1,41 +1,119 @@
 # Image Specs
 
-Use these as the default export targets for new website visuals so panels fill cleanly without custom overrides.
+Use these as the permanent media-slot rules for the site. The key idea is:
 
-## Split hero media
+- every panel has a slot type
+- every asset is exported for that slot
+- the HTML declares the intended fit mode
 
-- Target size: `2200 x 1600 px`
-- Aspect ratio: `11:8` or close to `4:3`
-- Safe area: keep critical faces, text, and diagram labels inside the center `80%`
-- Default behavior in the site: `cover`
+Do not drop raw source files into a panel and hope CSS fixes it.
 
-## Homepage feature visuals
+## Slot types
 
-- Target size: `2200 x 1400 px`
-- Aspect ratio: `11:7`
-- Safe area: center-weighted composition with at least `8%` margin on all sides
-- Default behavior in the site: `cover`
+### `cover`
 
-## Cards and thumbnails
+Use for:
 
-- Target size: `1600 x 1200 px`
-- Aspect ratio: `4:3`
-- Safe area: avoid placing important content tight to edges
-- Default behavior in the site: `cover`
+- photos
+- collages
+- editorial portraits
+- video loops where edge cropping is acceptable
 
-## Videos
+Markup:
 
-- Target size: `1920 x 1080 px`
-- Aspect ratio: `16:9`
-- Keep the main subject centered since panel crops can tighten at smaller breakpoints
+- `data-media-fit="cover"`
 
-## Diagrams and sketches
+Export rules:
 
-- Preferred size: `2400 x 1600 px`
-- Background: solid or transparent with generous outer padding
-- If the full diagram must remain visible, mark that panel with a dedicated diagram class so it uses `contain`
+- target artboard: `2200 x 1600 px`
+- ratio: `11:8`
+- keep the subject centered
+- assume the outer `8%` may crop on smaller screens
 
-## Rule of thumb
+### `contain`
 
-- Use `cover` for photos, collages, and cinematic visuals
-- Use `contain` only for diagrams, maps, or illustrations that cannot be cropped
+Use for:
+
+- diagrams
+- maps
+- frameworks
+- tables
+- illustrations that must stay fully visible
+
+Markup:
+
+- `data-media-fit="contain"`
+
+Export rules:
+
+- target artboard: `2200 x 1600 px`
+- ratio: `11:8`
+- trim dead whitespace before export
+- keep outer padding tight: roughly `4%` to `6%`
+- never leave large blank canvas around the content
+
+### `contain-tight`
+
+Use for:
+
+- homepage diagrams
+- system maps
+- dense frameworks that should fill as much of the panel as possible without cropping
+
+Markup:
+
+- `data-media-fit="contain-tight"`
+
+Export rules:
+
+- target artboard: `2200 x 1600 px`
+- ratio: `11:8`
+- trim dead whitespace aggressively before export
+- keep outer padding very small: roughly `2%` to `4%`
+- this is the right mode when the asset must remain fully visible but still feel large in the frame
+
+## Default sizes by section
+
+### Split hero panels
+
+- export size: `2200 x 1600 px`
+- default mode:
+  - photos/video stills: `cover`
+  - diagrams/frameworks: `contain` or `contain-tight`
+
+### Homepage paired visuals
+
+- export size: `2200 x 1600 px`
+- default mode:
+  - photo/collage: `cover`
+  - animated systems model / framework art: `contain-tight`
+
+### Cards and thumbnails
+
+- export size: `1600 x 1200 px`
+- ratio: `4:3`
+- default mode: `cover`
+
+### Video masters
+
+- export size: `1920 x 1080 px`
+- ratio: `16:9`
+- when used inside framed website panels, also prepare:
+  - a poster image at `2200 x 1600`
+  - or a panel-specific export if full visibility matters
+
+## Never again rules
+
+- Never use a diagram with large built-in white margins.
+- Never use different artboard ratios for assets that share the same panel type.
+- Never rely on filename detection alone when adding new media.
+- Always set the intended fit in the markup:
+  - `cover`
+  - `contain`
+  - `contain-tight`
+
+## Quick rule of thumb
+
+- If cropping is okay: `cover`
+- If nothing can be cropped: `contain`
+- If nothing can be cropped and it still needs to feel big: `contain-tight`

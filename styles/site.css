@@ -4180,6 +4180,15 @@ h3,
   background: #ffffff;
 }
 
+.home-systems-visual.is-diagram-tight img,
+.home-systems-visual.is-diagram-tight video,
+.home-initiative-visual.is-diagram-tight img,
+.home-initiative-visual.is-diagram-tight video {
+  object-fit: contain;
+  padding: clamp(6px, 0.7vw, 10px);
+  background: #ffffff;
+}
+
 .home-systems-visual figcaption,
 .home-initiative-visual figcaption {
   display: grid;
@@ -4896,6 +4905,12 @@ h3,
   background: #ffffff;
 }
 
+.hero-visual-panel.is-diagram-tight .hero-visual-frame,
+.hero-map-shell.is-diagram-tight .hero-map-panel {
+  place-items: center;
+  background: #ffffff;
+}
+
 .hero-visual-panel.is-diagram .hero-visual-frame img,
 .hero-visual-panel.is-diagram .hero-visual-frame video,
 .hero-map-shell.is-diagram .hero-map-panel img,
@@ -4906,6 +4921,19 @@ h3,
 .home-initiative-visual.is-diagram img {
   object-fit: contain;
   padding: clamp(14px, 1.5vw, 22px);
+  background: #ffffff;
+}
+
+.hero-visual-panel.is-diagram-tight .hero-visual-frame img,
+.hero-visual-panel.is-diagram-tight .hero-visual-frame video,
+.hero-map-shell.is-diagram-tight .hero-map-panel img,
+.hero-map-shell.is-diagram-tight .hero-map-panel video,
+.home-systems-visual.is-diagram-tight img,
+.home-systems-visual.is-diagram-tight video,
+.home-initiative-visual.is-diagram-tight video,
+.home-initiative-visual.is-diagram-tight img {
+  object-fit: contain;
+  padding: clamp(6px, 0.7vw, 10px);
   background: #ffffff;
 }
 

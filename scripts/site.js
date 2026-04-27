@@ -258,6 +258,25 @@ document.addEventListener("DOMContentLoaded", () => {
   document.querySelectorAll(panelMediaSelectors).forEach((panel) => {
     const media = panel.querySelector("img, video");
     const filename = getMediaFilename(media);
+    const explicitFit = panel.dataset.mediaFit || "";
+
+    panel.classList.remove("is-photo", "is-diagram", "is-diagram-tight");
+
+    if (explicitFit === "cover") {
+      panel.classList.add("is-photo");
+      return;
+    }
+
+    if (explicitFit === "contain") {
+      panel.classList.add("is-diagram");
+      return;
+    }
+
+    if (explicitFit === "contain-tight") {
+      panel.classList.add("is-diagram", "is-diagram-tight");
+      return;
+    }
+
     if (!filename) return;
 
     const isDiagram = diagramMediaNames.has(filename);
