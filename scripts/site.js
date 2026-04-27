@@ -215,6 +215,56 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  const diagramMediaNames = new Set([
+    "levelup-build-cycle.png",
+    "levelup-builder-economy.png",
+    "levelup-building-strong-economies.png",
+    "levelup-city-illustration.png",
+    "levelup-foundation-framework.png",
+    "levelup-five-pillar-systems.png",
+    "levelup-homepage-diagram.png",
+    "levelup-homepage-model-video.mp4",
+    "levelup-homepage-systems-map.png",
+    "levelup-partnership-table.png",
+    "levhub-platform-concept-v2.png",
+    "world-map-ghost.svg"
+  ]);
+
+  const panelMediaSelectors = [
+    ".hero-visual-panel",
+    ".home-systems-visual",
+    ".home-initiative-visual"
+  ].join(", ");
+
+  const getMediaFilename = (element) => {
+    if (!element) return "";
+
+    const candidate =
+      element.getAttribute("src") ||
+      element.currentSrc ||
+      element.querySelector("source")?.getAttribute("src") ||
+      "";
+
+    if (!candidate) return "";
+
+    try {
+      const url = new URL(candidate, window.location.href);
+      return url.pathname.split("/").pop() || "";
+    } catch {
+      return candidate.split("/").pop() || "";
+    }
+  };
+
+  document.querySelectorAll(panelMediaSelectors).forEach((panel) => {
+    const media = panel.querySelector("img, video");
+    const filename = getMediaFilename(media);
+    if (!filename) return;
+
+    const isDiagram = diagramMediaNames.has(filename);
+    panel.classList.toggle("is-diagram", isDiagram);
+    panel.classList.toggle("is-photo", !isDiagram);
+  });
+
   const footprintRoot = document.querySelector("[data-footprint-map]");
   if (footprintRoot) {
     const searchInput = footprintRoot.querySelector("[data-footprint-search]");
