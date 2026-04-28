@@ -482,9 +482,10 @@ document.addEventListener("DOMContentLoaded", () => {
       });
       leafletRoutes.forEach((entry) => {
         entry.route.setStyle({
-          opacity: entry.item === item ? 0.78 : 0.26,
-          weight: entry.item === item ? 2.8 : 1.4
+          opacity: entry.item === item ? 0.42 : 0,
+          weight: entry.item === item ? 2 : 1
         });
+        if (entry.item === item) entry.route.bringToFront();
       });
       renderPanel(item, 1);
       marker.openPopup();
@@ -525,8 +526,8 @@ document.addEventListener("DOMContentLoaded", () => {
         if (isVisible) {
           route.addTo(routeLayer);
           route.setStyle({
-            opacity: activeItem && item === activeItem ? 0.78 : 0.26,
-            weight: activeItem && item === activeItem ? 2.8 : 1.4
+            opacity: activeItem && item === activeItem ? 0.42 : 0,
+            weight: activeItem && item === activeItem ? 2 : 1
           });
         } else {
           route.removeFrom(routeLayer);
@@ -570,9 +571,9 @@ document.addEventListener("DOMContentLoaded", () => {
       if (item.city !== "Seattle") {
         const route = window.L.polyline([seattleLatLng, [item.lat, item.lng]], {
           color: "#111111",
-          opacity: 0.26,
-          weight: 1.4,
-          dashArray: "6 8",
+          opacity: 0,
+          weight: 1,
+          dashArray: "4 10",
           interactive: false
         }).addTo(routeLayer);
         leafletRoutes.push({ item, route });
