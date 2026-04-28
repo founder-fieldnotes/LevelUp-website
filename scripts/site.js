@@ -310,8 +310,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const focusSelect = footprintRoot.querySelector("[data-footprint-focus]");
     const resetButton = footprintRoot.querySelector("[data-footprint-reset]");
     const markerLayer = footprintRoot.querySelector("[data-footprint-markers]");
+    const routeLayer = footprintRoot.querySelector("[data-footprint-routes]");
     const panel = footprintRoot.querySelector("[data-footprint-panel]");
     const popup = footprintRoot.querySelector("[data-footprint-popup]");
+    const visibleLocationCount = footprintRoot.querySelector("[data-footprint-visible-locations]");
+    const visibleProjectCount = footprintRoot.querySelector("[data-footprint-visible-projects]");
+    const activeProjectCount = footprintRoot.querySelector("[data-footprint-active-projects]");
     const footprintData = Array.isArray(window.levelupFootprint) ? window.levelupFootprint : [];
     let activeItem = null;
     let activeMarker = null;
@@ -388,8 +392,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
       return {
         left: `${Math.min(98, Math.max(2, baseLeft + offsetX))}%`,
-        top: `${Math.min(96, Math.max(4, baseTop + offsetY))}%`
+        top: `${Math.min(96, Math.max(4, baseTop + offsetY))}%`,
+        x: Math.min(98, Math.max(2, baseLeft + offsetX)),
+        y: Math.min(96, Math.max(4, baseTop + offsetY))
       };
+    };
+
+    const updateCounts = (items) => {
+      const projectCount = items.reduce((sum, item) => sum + item.projects.length, 0);
+      const activeCount = items.filter((item) => item.statuses.includes("active")).length;
+      if (visibleLocationCount) visibleLocationCount.textContent = String(items.length);
+      if (visibleProjectCount) visibleProjectCount.textContent = String(projectCount);
+      if (activeProjectCount) activeProjectCount.textContent = String(activeCount);
     };
 
     const renderPanel = (item, count) => {
@@ -399,7 +413,7 @@ document.addEventListener("DOMContentLoaded", () => {
         panel.innerHTML = `
           <div class="label">Filtered view</div>
           <h3>${count} location${count === 1 ? "" : "s"} visible</h3>
-          <p class="footprint-empty">Choose a marker to inspect the city, region, and focus area.</p>
+          <p class="footprint-empty">Choose a marker, search, or filter to inspect the city, region, and focus area.</p>
         `;
         return;
       }
@@ -469,6 +483,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const focusValue = focusSelect?.value || "all";
 
       const visibleMarkers = [];
+      const visibleItems = [];
 
       markerLayer?.querySelectorAll(".footprint-marker").forEach((marker) => {
         const city = marker.getAttribute("data-city") || "";
@@ -485,12 +500,24 @@ document.addEventListener("DOMContentLoaded", () => {
         const isVisible = matchesSearch && matchesRegion && matchesFocus;
 
         marker.hidden = !isVisible;
+        const itemIndex = Number(marker.getAttribute("data-location-index") || "-1");
+        if (isVisible && groupedLocations[itemIndex]) visibleItems.push(groupedLocations[itemIndex]);
         if (!isVisible && marker === activeMarker) {
           activeItem = null;
           activeMarker = null;
         }
         if (isVisible) visibleMarkers.push(marker);
       });
+
+      routeLayer?.querySelectorAll(".footprint-route").forEach((route) => {
+        const itemIndex = Number(route.getAttribute("data-location-index") || "-1");
+        const item = groupedLocations[itemIndex];
+        const isVisible = Boolean(item && visibleItems.includes(item));
+        route.classList.toggle("is-visible", isVisible);
+        route.classList.toggle("is-active", Boolean(activeItem && item === activeItem));
+      });
+
+      updateCounts(visibleItems);
 
       if (activeItem && activeMarker && !activeMarker.hidden) {
         renderPanel(activeItem, visibleMarkers.length);
@@ -502,18 +529,22 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     groupedLocations.forEach((item, index) => {
-      const marker = document.createElement("button");
       const position = projectPoint(item, 0);
+      const marker = document.createElement("button");
       marker.type = "button";
       marker.className = "footprint-marker";
       marker.style.left = position.left;
       marker.style.top = position.top;
+      marker.style.setProperty("--marker-x", `${position.x}%`);
+      marker.style.setProperty("--marker-y", `${position.y}%`);
+      marker.setAttribute("data-location-index", String(index));
       marker.setAttribute("data-city", item.city);
       marker.setAttribute("data-country", item.country);
       marker.setAttribute("data-region", item.region);
       marker.setAttribute("data-focuses", item.focuses.join("|"));
       marker.setAttribute("data-status", item.statuses.join("|"));
       marker.setAttribute("data-theme", item.markerTheme);
+      marker.setAttribute("data-label", item.city);
       marker.setAttribute("aria-label", `${item.city}, ${item.country}, ${item.projects.length} project${item.projects.length === 1 ? "" : "s"}`);
       marker.setAttribute("title", `${item.city}, ${item.country}`);
       marker.style.zIndex = String(10 + index);
@@ -523,6 +554,21 @@ document.addEventListener("DOMContentLoaded", () => {
       });
 
       markerLayer?.appendChild(marker);
+
+      if (routeLayer && item.city !== "Seattle") {
+        const seattle = projectPoint({ lat: 47.6062, lng: -122.3321 });
+        const x1 = seattle.x / 1;
+        const y1 = seattle.y / 2;
+        const x2 = position.x / 1;
+        const y2 = position.y / 2;
+        const cx = (x1 + x2) / 2;
+        const cy = Math.min(y1, y2) - Math.max(4, Math.abs(x2 - x1) * 0.08);
+        const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+        path.setAttribute("class", "footprint-route");
+        path.setAttribute("data-location-index", String(index));
+        path.setAttribute("d", `M ${x1.toFixed(2)} ${y1.toFixed(2)} Q ${cx.toFixed(2)} ${cy.toFixed(2)} ${x2.toFixed(2)} ${y2.toFixed(2)}`);
+        routeLayer.appendChild(path);
+      }
     });
 
     searchInput?.addEventListener("input", applyFilters);

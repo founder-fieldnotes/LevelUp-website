@@ -5187,6 +5187,41 @@ h3,
   gap: 0;
 }
 
+.footprint-counts {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0;
+  border-top: 2px solid var(--line);
+  border-bottom: 2px solid var(--line);
+  background: var(--gold);
+}
+
+.footprint-count-card {
+  display: grid;
+  gap: 8px;
+  min-height: 120px;
+  padding: clamp(18px, 2vw, 26px);
+  border-right: 2px solid var(--line);
+}
+
+.footprint-count-card:last-child {
+  border-right: 0;
+}
+
+.footprint-count-card span {
+  font-size: clamp(2.4rem, 4.2vw, 4.4rem);
+  font-weight: 900;
+  line-height: 0.86;
+  letter-spacing: -0.04em;
+}
+
+.footprint-count-card strong {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
 .footprint-controls {
   display: grid;
   grid-template-columns: minmax(0, 1.4fr) auto minmax(0, 1fr) minmax(0, 1fr) auto;
@@ -5306,27 +5341,60 @@ h3,
 .footprint-map {
   position: relative;
   overflow: hidden;
-  background: var(--panel-gray);
+  background: #ffffff;
 }
 
 .footprint-map-stage {
   position: relative;
   aspect-ratio: 2 / 1;
-  min-height: 560px;
+  min-height: 620px;
   background:
-    radial-gradient(circle at 20% 18%, rgba(255, 255, 255, 0.66), transparent 30%),
-    radial-gradient(circle at 82% 72%, rgba(255, 255, 255, 0.48), transparent 26%),
-    #cfcfcf;
+    linear-gradient(90deg, rgba(0, 0, 0, 0.05) 1px, transparent 1px),
+    linear-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 1px),
+    radial-gradient(circle at 18% 18%, rgba(41, 186, 238, 0.2), transparent 28%),
+    radial-gradient(circle at 80% 68%, rgba(253, 216, 55, 0.22), transparent 26%),
+    #f3f1ec;
+  background-size: 64px 64px, 64px 64px, auto, auto, auto;
 }
 
 .footprint-map-image {
   position: absolute;
+  inset: 6% 2% 8%;
+  width: 100%;
+  height: 86%;
+  object-fit: contain;
+  opacity: 0.74;
+  pointer-events: none;
+  filter: contrast(1.08);
+}
+
+.footprint-route-layer {
+  position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  opacity: 0.96;
+  overflow: visible;
   pointer-events: none;
+}
+
+.footprint-route {
+  fill: none;
+  stroke: rgba(0, 0, 0, 0.24);
+  stroke-width: 0.18;
+  stroke-linecap: round;
+  stroke-dasharray: 1.2 1;
+  opacity: 0;
+  transition: opacity 0.18s ease, stroke 0.18s ease, stroke-width 0.18s ease;
+}
+
+.footprint-route.is-visible {
+  opacity: 0.42;
+}
+
+.footprint-route.is-active {
+  opacity: 0.95;
+  stroke: #000000;
+  stroke-width: 0.34;
 }
 
 .footprint-marker-layer {
@@ -5336,14 +5404,14 @@ h3,
 
 .footprint-marker {
   position: absolute;
-  width: 20px;
-  height: 20px;
-  margin-left: -10px;
-  margin-top: -10px;
+  width: 24px;
+  height: 24px;
+  margin-left: -12px;
+  margin-top: -12px;
   border: 3px solid var(--line);
   border-radius: 50%;
   background: var(--blue);
-  box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.72);
+  box-shadow: 0 0 0 7px rgba(255, 255, 255, 0.78), 0 10px 18px rgba(0, 0, 0, 0.16);
   cursor: pointer;
   transition: transform 0.18s ease, background-color 0.18s ease, box-shadow 0.18s ease;
 }
@@ -5351,9 +5419,32 @@ h3,
 .footprint-marker::after {
   content: "";
   position: absolute;
-  inset: 4px;
+  inset: 5px;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.36);
+}
+
+.footprint-marker::before {
+  content: attr(data-label);
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 10px);
+  max-width: 12rem;
+  padding: 5px 7px;
+  border: 2px solid var(--line);
+  background: #ffffff;
+  color: #000000;
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.045em;
+  line-height: 1;
+  text-transform: uppercase;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateX(-50%) translateY(4px);
+  transition: opacity 0.18s ease, transform 0.18s ease;
+  pointer-events: none;
 }
 
 .footprint-marker[data-theme="gold"] { background: var(--gold); }
@@ -5363,16 +5454,23 @@ h3,
 .footprint-marker:hover,
 .footprint-marker:focus-visible,
 .footprint-marker.is-active {
-  transform: scale(1.15);
-  box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.88);
+  transform: scale(1.22);
+  box-shadow: 0 0 0 9px rgba(255, 255, 255, 0.92), 0 14px 24px rgba(0, 0, 0, 0.2);
   z-index: 3;
+}
+
+.footprint-marker:hover::before,
+.footprint-marker:focus-visible::before,
+.footprint-marker.is-active::before {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
 }
 
 .footprint-popup {
   position: absolute;
   display: grid;
   gap: 8px;
-  width: min(280px, calc(100% - 28px));
+  width: min(320px, calc(100% - 28px));
   padding: 14px 16px 16px;
   border: 2px solid var(--line);
   background: #ffffff;
@@ -5428,8 +5526,8 @@ h3,
 
 .footprint-panel {
   display: grid;
-  gap: 10px;
-  padding: 22px 24px;
+  gap: 14px;
+  padding: clamp(22px, 2.4vw, 32px);
   border-top: 2px solid var(--line);
   background: #ffffff;
 }
@@ -5450,12 +5548,16 @@ h3,
 
 .footprint-project-list {
   display: grid;
-  gap: 10px;
+  gap: 12px;
 }
 
 .footprint-project-list li {
   display: grid;
-  gap: 8px;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px 14px;
+  align-items: center;
+  padding: 12px 0;
+  border-top: 2px solid rgba(0, 0, 0, 0.16);
 }
 
 .footprint-project-list li span {
@@ -5463,6 +5565,11 @@ h3,
   font-size: 0.66rem;
   letter-spacing: 0.045em;
   text-transform: uppercase;
+}
+
+.footprint-project-list li .button {
+  grid-row: span 2;
+  padding: 10px 14px;
 }
 
 .footprint-panel ul {
@@ -5494,6 +5601,10 @@ h3,
 
   .footprint-controls {
     grid-template-columns: 1fr 1fr;
+  }
+
+  .footprint-counts {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
   .footprint-legend {
@@ -5546,6 +5657,20 @@ h3,
     gap: 16px;
   }
 
+  .footprint-counts {
+    grid-template-columns: 1fr;
+  }
+
+  .footprint-count-card {
+    min-height: 0;
+    border-right: 0;
+    border-bottom: 2px solid var(--line);
+  }
+
+  .footprint-count-card:last-child {
+    border-bottom: 0;
+  }
+
   .footprint-legend {
     gap: 12px;
     padding-inline: 16px;
@@ -5553,6 +5678,10 @@ h3,
 
   .footprint-map-stage {
     min-height: 420px;
+  }
+
+  .footprint-route-layer {
+    display: none;
   }
 
   .footprint-popup {
@@ -5598,6 +5727,15 @@ h3,
 
   .footprint-map-stage {
     min-height: 320px;
+  }
+
+  .footprint-project-list li {
+    grid-template-columns: 1fr;
+  }
+
+  .footprint-project-list li .button {
+    grid-row: auto;
+    width: 100%;
   }
 }
 
@@ -6459,5 +6597,21 @@ h3,
   .button,
   .text-link {
     padding-inline: 14px;
+  }
+}
+
+.feature-shell.footprint-section {
+  padding: 0;
+  overflow: hidden;
+}
+
+.feature-shell.footprint-section .section-head {
+  padding: clamp(22px, 2.6vw, 36px);
+  margin-bottom: 0;
+}
+
+@media (max-width: 820px) {
+  .feature-shell.footprint-section .section-head {
+    padding: 20px;
   }
 }

@@ -89,6 +89,20 @@
       </div>
       <p>Search and filter the footprint by region or focus area. This module is structured so the full city list can be expanded cleanly as the public record grows.</p>
     </div>
+    <div class="footprint-counts" data-footprint-counts aria-label="Visible footprint totals">
+      <div class="footprint-count-card">
+        <span data-footprint-visible-locations>0</span>
+        <strong>Locations visible</strong>
+      </div>
+      <div class="footprint-count-card">
+        <span data-footprint-visible-projects>0</span>
+        <strong>Projects visible</strong>
+      </div>
+      <div class="footprint-count-card">
+        <span data-footprint-active-projects>0</span>
+        <strong>Active nodes</strong>
+      </div>
+    </div>
     <div class="footprint-controls">
       <label class="footprint-search">
         <span class="screen-reader-text">Search cities</span>
@@ -118,6 +132,7 @@
     <div class="footprint-map">
       <div class="footprint-map-stage">
         <img class="footprint-map-image" src="../images/world-map-ghost.svg" alt="" aria-hidden="true" />
+        <svg class="footprint-route-layer" viewBox="0 0 100 50" preserveAspectRatio="none" aria-hidden="true" data-footprint-routes></svg>
         <div class="footprint-marker-layer" data-footprint-markers></div>
         <div class="footprint-popup" data-footprint-popup hidden></div>
       </div>
