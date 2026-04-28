@@ -5494,19 +5494,22 @@ h3,
 }
 
 .footprint-leaflet-map .leaflet-popup-content-wrapper {
+  overflow: hidden;
   border: 2px solid var(--line);
   border-radius: 0;
-  box-shadow: 0 20px 34px rgba(0, 0, 0, 0.16);
+  background: #ffffff;
+  box-shadow: 0 22px 42px rgba(0, 0, 0, 0.2);
 }
 
 .footprint-leaflet-map .leaflet-popup-content {
-  display: grid;
-  gap: 8px;
-  width: min(280px, 72vw);
-  margin: 14px 16px 16px;
+  width: min(360px, 76vw);
+  max-height: min(440px, calc(100vh - 210px));
+  margin: 0;
+  overflow: auto;
 }
 
 .footprint-leaflet-map .leaflet-popup-tip {
+  background: #ffffff;
   border-right: 2px solid var(--line);
   border-bottom: 2px solid var(--line);
   box-shadow: none;
@@ -5519,12 +5522,32 @@ h3,
   height: 34px;
   color: #000000;
   font-size: 1.4rem;
+  z-index: 2;
 }
 
 .footprint-leaflet-map .leaflet-popup-close-button:hover,
 .footprint-leaflet-map .leaflet-popup-close-button:focus {
   background: var(--gold);
   color: #000000;
+}
+
+.footprint-popup-card {
+  --popup-accent: var(--blue);
+  display: grid;
+  gap: 10px;
+  padding: 20px 22px 22px;
+  border-top: 8px solid var(--popup-accent);
+  background:
+    radial-gradient(circle at 94% 12%, color-mix(in srgb, var(--popup-accent) 38%, #ffffff 62%) 0 34px, transparent 35px),
+    linear-gradient(180deg, color-mix(in srgb, var(--popup-accent) 12%, #ffffff 88%), #ffffff 52%);
+}
+
+.footprint-popup-topline {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  padding-right: 28px;
 }
 
 .footprint-popup-kicker {
@@ -5535,24 +5558,141 @@ h3,
   text-transform: uppercase;
 }
 
-.footprint-popup h3,
+.footprint-popup-status,
+.footprint-popup-chip,
+.footprint-popup-section-label {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.045em;
+  text-transform: uppercase;
+}
+
+.footprint-popup-status {
+  padding: 5px 7px;
+  border: 2px solid var(--line);
+  background: var(--popup-accent);
+}
+
+.footprint-popup-card h3,
 .footprint-project-title {
   margin: 0;
 }
 
-.footprint-popup ul,
+.footprint-popup-card h3 {
+  max-width: 14ch;
+  font-size: clamp(1.45rem, 2.1vw, 1.9rem);
+  line-height: 0.95;
+  letter-spacing: 0;
+}
+
+.footprint-popup-summary {
+  display: -webkit-box;
+  margin: 0;
+  overflow: hidden;
+  color: rgba(0, 0, 0, 0.78);
+  font-size: 0.92rem;
+  line-height: 1.38;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+.footprint-popup-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.footprint-popup-chip {
+  padding: 6px 8px;
+  border: 2px solid rgba(0, 0, 0, 0.18);
+  background: #ffffff;
+}
+
+.footprint-popup-meta {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 10px;
+  align-items: center;
+  padding: 9px 0;
+  border-top: 2px solid var(--line);
+  border-bottom: 2px solid var(--line);
+}
+
+.footprint-popup-meta strong {
+  font-size: 1.65rem;
+  font-weight: 900;
+  line-height: 0.9;
+}
+
+.footprint-popup-meta span {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.045em;
+  line-height: 1.25;
+  text-transform: uppercase;
+}
+
+.footprint-popup-highlights,
+.footprint-popup-projects ul,
 .footprint-project-list ul {
   margin: 0;
   padding-left: 18px;
 }
 
-.footprint-popup li,
-.footprint-project-list li {
-  margin: 0;
+.footprint-popup-highlights {
+  display: grid;
+  gap: 3px;
+  color: rgba(0, 0, 0, 0.78);
+  font-size: 0.86rem;
+  line-height: 1.28;
 }
 
-.footprint-popup a {
-  font-weight: 700;
+.footprint-popup-projects {
+  display: grid;
+  gap: 8px;
+}
+
+.footprint-popup-projects ul {
+  display: grid;
+  gap: 8px;
+  padding-left: 0;
+  list-style: none;
+}
+
+.footprint-popup-projects a {
+  display: grid;
+  gap: 3px;
+  padding: 10px 12px;
+  border: 2px solid var(--line);
+  background: #ffffff;
+  color: #000000;
+  text-decoration: none;
+  transition: background-color 0.16s ease, transform 0.16s ease;
+}
+
+.footprint-popup-projects a:hover,
+.footprint-popup-projects a:focus-visible {
+  background: var(--popup-accent);
+  transform: translateY(-1px);
+}
+
+.footprint-popup-projects a span {
+  font-weight: 900;
+}
+
+.footprint-popup-projects a small {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.045em;
+  text-transform: uppercase;
+}
+
+.footprint-popup-highlights li,
+.footprint-project-list li {
+  margin: 0;
 }
 
 .footprint-panel {

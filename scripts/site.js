@@ -459,18 +459,44 @@ document.addEventListener("DOMContentLoaded", () => {
       html: `<span style="--marker-color: ${themeColor(item.markerTheme)}"></span>`,
       iconSize: [26, 26],
       iconAnchor: [13, 13],
-      popupAnchor: [0, -14]
+      popupAnchor: [0, 168]
     });
 
     const popupMarkup = (item) => {
+      const locationStatus = item.statuses.includes("active") ? "Active node" : "Past work";
+      const summary = item.projects[0]?.summary || "Project context connected to LevelUp's economic systems work.";
+      const highlights = [...new Set(item.projects.flatMap((project) => project.highlights || []))].slice(0, 4);
+      const focusChips = item.focuses.map((focus) => `
+        <span class="footprint-popup-chip">${focusLabel(focus)}</span>
+      `).join("");
+      const highlightMarkup = highlights.map((highlight) => `<li>${highlight}</li>`).join("");
       const projectLinks = item.projects.map((project) => `
-        <li><a href="${project.projectUrl}">${project.projectTitle}</a></li>
+        <li>
+          <a href="${project.projectUrl}">
+            <span>${project.projectTitle}</span>
+            <small>${focusLabel(project.focus)} / ${project.status === "active" ? "Active" : "Past"}</small>
+          </a>
+        </li>
       `).join("");
       return `
-        <div class="footprint-popup-kicker">${item.region}</div>
-        <h3>${item.city}</h3>
-        <p>${item.projects.length} project${item.projects.length === 1 ? "" : "s"}</p>
-        <ul>${projectLinks}</ul>
+        <article class="footprint-popup-card" style="--popup-accent: ${themeColor(item.markerTheme)}">
+          <div class="footprint-popup-topline">
+            <span class="footprint-popup-kicker">${item.region}</span>
+            <span class="footprint-popup-status">${locationStatus}</span>
+          </div>
+          <h3>${item.city}, ${item.country}</h3>
+          <p class="footprint-popup-summary">${summary}</p>
+          <div class="footprint-popup-chips">${focusChips}</div>
+          <div class="footprint-popup-meta">
+            <strong>${item.projects.length}</strong>
+            <span>project${item.projects.length === 1 ? "" : "s"} connected to this location</span>
+          </div>
+          ${highlightMarkup ? `<ul class="footprint-popup-highlights">${highlightMarkup}</ul>` : ""}
+          <div class="footprint-popup-projects">
+            <div class="footprint-popup-section-label">Project links</div>
+            <ul>${projectLinks}</ul>
+          </div>
+        </article>
       `;
     };
 
@@ -488,8 +514,8 @@ document.addEventListener("DOMContentLoaded", () => {
         if (entry.item === item) entry.route.bringToFront();
       });
       renderPanel(item, 1);
-      marker.openPopup();
       map.flyTo([item.lat, item.lng], Math.max(map.getZoom(), 4), { duration: 0.65 });
+      window.setTimeout(() => marker.openPopup(), 700);
     };
 
     const applyFilters = () => {
@@ -558,7 +584,10 @@ document.addEventListener("DOMContentLoaded", () => {
       }).bindPopup(popupMarkup(item), {
         closeButton: true,
         autoPan: true,
-        maxWidth: 320
+        autoPanPadding: [32, 32],
+        keepInView: true,
+        maxWidth: 420,
+        minWidth: 320
       });
 
       marker.on("click", () => {
