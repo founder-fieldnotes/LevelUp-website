@@ -309,16 +309,16 @@ document.addEventListener("DOMContentLoaded", () => {
     const regionSelect = footprintRoot.querySelector("[data-footprint-region]");
     const focusSelect = footprintRoot.querySelector("[data-footprint-focus]");
     const resetButton = footprintRoot.querySelector("[data-footprint-reset]");
-    const markerLayer = footprintRoot.querySelector("[data-footprint-markers]");
-    const routeLayer = footprintRoot.querySelector("[data-footprint-routes]");
+    const mapElement = footprintRoot.querySelector("[data-footprint-leaflet-map]");
     const panel = footprintRoot.querySelector("[data-footprint-panel]");
-    const popup = footprintRoot.querySelector("[data-footprint-popup]");
     const visibleLocationCount = footprintRoot.querySelector("[data-footprint-visible-locations]");
     const visibleProjectCount = footprintRoot.querySelector("[data-footprint-visible-projects]");
     const activeProjectCount = footprintRoot.querySelector("[data-footprint-active-projects]");
     const footprintData = Array.isArray(window.levelupFootprint) ? window.levelupFootprint : [];
     let activeItem = null;
-    let activeMarker = null;
+    let activeLocation = null;
+    const leafletMarkers = [];
+    const leafletRoutes = [];
 
     const uniqueValues = (items, key) =>
       [...new Set(items.map((item) => item[key]).filter(Boolean))].sort((a, b) => a.localeCompare(b));
@@ -334,6 +334,13 @@ document.addEventListener("DOMContentLoaded", () => {
       if (item.focus === "institutions" || item.focus === "ecosystems") return "green";
       if (item.focus === "employers") return "blue";
       return "blue";
+    };
+
+    const themeColor = (theme) => {
+      if (theme === "clay") return "#ff624a";
+      if (theme === "gold") return "#fdd837";
+      if (theme === "green") return "#05c145";
+      return "#29baee";
     };
 
     const groupedLocations = Array.from(
@@ -375,28 +382,6 @@ document.addEventListener("DOMContentLoaded", () => {
     uniqueValues(footprintData, "focus").forEach((focus) => {
       focusSelect?.appendChild(createOption(focus, focusLabel(focus)));
     });
-
-    const projectPoint = ({ lat, lng }, overlapIndex = 0) => {
-      const baseLeft = ((lng + 180) / 360) * 100;
-      const baseTop = ((90 - lat) / 180) * 100;
-      const overlapOffsets = [
-        [0, 0],
-        [1.2, -0.9],
-        [-1.2, 0.9],
-        [1.3, 1.1],
-        [-1.3, -1.1],
-        [0, -1.5],
-        [0, 1.5]
-      ];
-      const [offsetX, offsetY] = overlapOffsets[overlapIndex % overlapOffsets.length];
-
-      return {
-        left: `${Math.min(98, Math.max(2, baseLeft + offsetX))}%`,
-        top: `${Math.min(96, Math.max(4, baseTop + offsetY))}%`,
-        x: Math.min(98, Math.max(2, baseLeft + offsetX)),
-        y: Math.min(96, Math.max(4, baseTop + offsetY))
-      };
-    };
 
     const updateCounts = (items) => {
       const projectCount = items.reduce((sum, item) => sum + item.projects.length, 0);
@@ -442,39 +427,68 @@ document.addEventListener("DOMContentLoaded", () => {
       `;
     };
 
-    const hidePopup = () => {
-      if (!popup) return;
-      popup.hidden = true;
-      popup.innerHTML = "";
-    };
+    const mapIsAvailable = mapElement && window.L;
+    if (!mapIsAvailable) return;
 
-    const renderPopup = (item, marker) => {
-      if (!popup || !marker) return;
+    const map = window.L.map(mapElement, {
+      center: [18, 12],
+      zoom: 2,
+      minZoom: 1,
+      maxZoom: 7,
+      maxBounds: [[-82, -180], [84, 180]],
+      maxBoundsViscosity: 0.9,
+      worldCopyJump: false,
+      scrollWheelZoom: false,
+      zoomControl: false
+    });
+
+    window.L.control.zoom({ position: "bottomright" }).addTo(map);
+
+    window.L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
+      attribution: "&copy; OpenStreetMap contributors &copy; CARTO",
+      maxZoom: 20,
+      noWrap: true
+    }).addTo(map);
+
+    const routeLayer = window.L.layerGroup().addTo(map);
+    const markerLayer = window.L.layerGroup().addTo(map);
+    const seattleLatLng = window.L.latLng(47.6062, -122.3321);
+
+    const makeMarkerIcon = (item, isActive = false) => window.L.divIcon({
+      className: `leaflet-footprint-marker${isActive ? " is-active" : ""}`,
+      html: `<span style="--marker-color: ${themeColor(item.markerTheme)}"></span>`,
+      iconSize: [26, 26],
+      iconAnchor: [13, 13],
+      popupAnchor: [0, -14]
+    });
+
+    const popupMarkup = (item) => {
       const projectLinks = item.projects.map((project) => `
         <li><a href="${project.projectUrl}">${project.projectTitle}</a></li>
       `).join("");
-      popup.hidden = false;
-      popup.innerHTML = `
+      return `
         <div class="footprint-popup-kicker">${item.region}</div>
         <h3>${item.city}</h3>
         <p>${item.projects.length} project${item.projects.length === 1 ? "" : "s"}</p>
         <ul>${projectLinks}</ul>
       `;
-      const markerLeft = parseFloat(marker.style.left || "50");
-      const markerTop = parseFloat(marker.style.top || "50");
-      popup.style.left = `${Math.min(78, Math.max(14, markerLeft))}%`;
-      popup.style.top = `${Math.min(76, Math.max(12, markerTop - 7))}%`;
     };
 
-    const setActiveMarker = (item, marker) => {
+    const setActiveLocation = (item, marker) => {
       activeItem = item;
-      activeMarker = marker;
-      markerLayer?.querySelectorAll(".footprint-marker").forEach((entry) => {
-        entry.classList.remove("is-active");
+      activeLocation = marker;
+      leafletMarkers.forEach((entry) => {
+        entry.marker.setIcon(makeMarkerIcon(entry.item, entry.marker === marker));
       });
-      marker?.classList.add("is-active");
+      leafletRoutes.forEach((entry) => {
+        entry.route.setStyle({
+          opacity: entry.item === item ? 0.78 : 0.26,
+          weight: entry.item === item ? 2.8 : 1.4
+        });
+      });
       renderPanel(item, 1);
-      renderPopup(item, marker);
+      marker.openPopup();
+      map.flyTo([item.lat, item.lng], Math.max(map.getZoom(), 4), { duration: 0.65 });
     };
 
     const applyFilters = () => {
@@ -482,92 +496,86 @@ document.addEventListener("DOMContentLoaded", () => {
       const regionValue = regionSelect?.value || "all";
       const focusValue = focusSelect?.value || "all";
 
-      const visibleMarkers = [];
       const visibleItems = [];
 
-      markerLayer?.querySelectorAll(".footprint-marker").forEach((marker) => {
-        const city = marker.getAttribute("data-city") || "";
-        const country = marker.getAttribute("data-country") || "";
-        const region = marker.getAttribute("data-region") || "";
-        const focuses = (marker.getAttribute("data-focuses") || "").split("|").filter(Boolean);
-
+      leafletMarkers.forEach(({ item, marker }) => {
         const matchesSearch =
           !searchValue ||
-          city.toLowerCase().includes(searchValue) ||
-          country.toLowerCase().includes(searchValue);
-        const matchesRegion = regionValue === "all" || region === regionValue;
-        const matchesFocus = focusValue === "all" || focuses.includes(focusValue);
+          item.city.toLowerCase().includes(searchValue) ||
+          item.country.toLowerCase().includes(searchValue);
+        const matchesRegion = regionValue === "all" || item.region === regionValue;
+        const matchesFocus = focusValue === "all" || item.focuses.includes(focusValue);
         const isVisible = matchesSearch && matchesRegion && matchesFocus;
 
-        marker.hidden = !isVisible;
-        const itemIndex = Number(marker.getAttribute("data-location-index") || "-1");
-        if (isVisible && groupedLocations[itemIndex]) visibleItems.push(groupedLocations[itemIndex]);
-        if (!isVisible && marker === activeMarker) {
-          activeItem = null;
-          activeMarker = null;
+        if (isVisible) {
+          marker.addTo(markerLayer);
+          visibleItems.push(item);
+        } else {
+          marker.removeFrom(markerLayer);
         }
-        if (isVisible) visibleMarkers.push(marker);
+
+        if (!isVisible && marker === activeLocation) {
+          activeItem = null;
+          activeLocation = null;
+        }
       });
 
-      routeLayer?.querySelectorAll(".footprint-route").forEach((route) => {
-        const itemIndex = Number(route.getAttribute("data-location-index") || "-1");
-        const item = groupedLocations[itemIndex];
+      leafletRoutes.forEach(({ item, route }) => {
         const isVisible = Boolean(item && visibleItems.includes(item));
-        route.classList.toggle("is-visible", isVisible);
-        route.classList.toggle("is-active", Boolean(activeItem && item === activeItem));
+        if (isVisible) {
+          route.addTo(routeLayer);
+          route.setStyle({
+            opacity: activeItem && item === activeItem ? 0.78 : 0.26,
+            weight: activeItem && item === activeItem ? 2.8 : 1.4
+          });
+        } else {
+          route.removeFrom(routeLayer);
+        }
       });
 
       updateCounts(visibleItems);
 
-      if (activeItem && activeMarker && !activeMarker.hidden) {
-        renderPanel(activeItem, visibleMarkers.length);
-        renderPopup(activeItem, activeMarker);
+      if (activeItem && activeLocation && visibleItems.includes(activeItem)) {
+        renderPanel(activeItem, visibleItems.length);
       } else {
-        hidePopup();
-        renderPanel(null, visibleMarkers.length);
+        map.closePopup();
+        renderPanel(null, visibleItems.length);
+      }
+
+      if (visibleItems.length) {
+        const bounds = window.L.latLngBounds(visibleItems.map((item) => [item.lat, item.lng]));
+        map.fitBounds(bounds.pad(0.18), { animate: true, duration: 0.45, maxZoom: 4 });
       }
     };
 
-    groupedLocations.forEach((item, index) => {
-      const position = projectPoint(item, 0);
-      const marker = document.createElement("button");
-      marker.type = "button";
-      marker.className = "footprint-marker";
-      marker.style.left = position.left;
-      marker.style.top = position.top;
-      marker.style.setProperty("--marker-x", `${position.x}%`);
-      marker.style.setProperty("--marker-y", `${position.y}%`);
-      marker.setAttribute("data-location-index", String(index));
-      marker.setAttribute("data-city", item.city);
-      marker.setAttribute("data-country", item.country);
-      marker.setAttribute("data-region", item.region);
-      marker.setAttribute("data-focuses", item.focuses.join("|"));
-      marker.setAttribute("data-status", item.statuses.join("|"));
-      marker.setAttribute("data-theme", item.markerTheme);
-      marker.setAttribute("data-label", item.city);
-      marker.setAttribute("aria-label", `${item.city}, ${item.country}, ${item.projects.length} project${item.projects.length === 1 ? "" : "s"}`);
-      marker.setAttribute("title", `${item.city}, ${item.country}`);
-      marker.style.zIndex = String(10 + index);
-
-      marker.addEventListener("click", () => {
-        setActiveMarker(item, marker);
+    groupedLocations.forEach((item) => {
+      const marker = window.L.marker([item.lat, item.lng], {
+        icon: makeMarkerIcon(item),
+        keyboard: true,
+        title: `${item.city}, ${item.country}`,
+        alt: `${item.city}, ${item.country}`
+      }).bindPopup(popupMarkup(item), {
+        closeButton: true,
+        autoPan: true,
+        maxWidth: 320
       });
 
-      markerLayer?.appendChild(marker);
+      marker.on("click", () => {
+        setActiveLocation(item, marker);
+      });
 
-      if (routeLayer && item.city !== "Seattle") {
-        const seattle = projectPoint({ lat: 47.6062, lng: -122.3321 });
-        const x1 = seattle.x / 1;
-        const y1 = seattle.y / 2;
-        const x2 = position.x / 1;
-        const y2 = position.y / 2;
-        const cx = (x1 + x2) / 2;
-        const cy = Math.min(y1, y2) - Math.max(4, Math.abs(x2 - x1) * 0.08);
-        const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
-        path.setAttribute("class", "footprint-route");
-        path.setAttribute("data-location-index", String(index));
-        path.setAttribute("d", `M ${x1.toFixed(2)} ${y1.toFixed(2)} Q ${cx.toFixed(2)} ${cy.toFixed(2)} ${x2.toFixed(2)} ${y2.toFixed(2)}`);
-        routeLayer.appendChild(path);
+      marker.addTo(markerLayer);
+      leafletMarkers.push({ item, marker });
+
+      if (item.city !== "Seattle") {
+        const route = window.L.polyline([seattleLatLng, [item.lat, item.lng]], {
+          color: "#111111",
+          opacity: 0.26,
+          weight: 1.4,
+          dashArray: "6 8",
+          interactive: false
+        }).addTo(routeLayer);
+        leafletRoutes.push({ item, route });
       }
     });
 
@@ -579,26 +587,23 @@ document.addEventListener("DOMContentLoaded", () => {
       if (regionSelect) regionSelect.value = "all";
       if (focusSelect) focusSelect.value = "all";
       activeItem = null;
-      activeMarker = null;
-      markerLayer?.querySelectorAll(".footprint-marker").forEach((entry) => {
-        entry.classList.remove("is-active");
-      });
-      hidePopup();
+      activeLocation = null;
+      leafletMarkers.forEach((entry) => entry.marker.setIcon(makeMarkerIcon(entry.item)));
+      map.closePopup();
       applyFilters();
     });
 
     footprintRoot.addEventListener("keydown", (event) => {
       if (event.key === "Escape") {
         activeItem = null;
-        activeMarker = null;
-        markerLayer?.querySelectorAll(".footprint-marker").forEach((entry) => {
-          entry.classList.remove("is-active");
-        });
-        hidePopup();
+        activeLocation = null;
+        leafletMarkers.forEach((entry) => entry.marker.setIcon(makeMarkerIcon(entry.item)));
+        map.closePopup();
         applyFilters();
       }
     });
 
+    setTimeout(() => map.invalidateSize(), 100);
     applyFilters();
   }
 });

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>About | LevelUp Economy</title><meta name="description" content="Why LevelUp exists, what it believes, and how it approaches economic growth as an integrated system." /><link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin /><link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Figtree:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" /><link rel="stylesheet" href="../styles/site.css" /></head>
+<head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>About | LevelUp Economy</title><meta name="description" content="Why LevelUp exists, what it believes, and how it approaches economic growth as an integrated system." /><link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin /><link rel="preconnect" href="https://unpkg.com" crossorigin /><link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Figtree:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" /><link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" /><link rel="stylesheet" href="../styles/site.css" /></head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
 <header class="site-header"><div class="site-header-inner"><div class="brand-lockup"><a href="../"><div class="brand-title"><img src="../images/branding/logo-black.png" alt="LevelUp Economy" /></div></a></div><div class="site-nav-wrap"><button class="nav-toggle" data-nav-toggle aria-expanded="false" aria-controls="site-nav">Menu</button><nav id="site-nav" class="site-nav" data-nav data-open="false" aria-label="Primary">
@@ -131,10 +131,7 @@
     </div>
     <div class="footprint-map">
       <div class="footprint-map-stage">
-        <img class="footprint-map-image" src="../images/world-map-ghost.svg" alt="" aria-hidden="true" />
-        <svg class="footprint-route-layer" viewBox="0 0 100 50" preserveAspectRatio="none" aria-hidden="true" data-footprint-routes></svg>
-        <div class="footprint-marker-layer" data-footprint-markers></div>
-        <div class="footprint-popup" data-footprint-popup hidden></div>
+        <div class="footprint-leaflet-map" data-footprint-leaflet-map aria-label="Interactive global map of LevelUp footprint locations"></div>
       </div>
       <div class="footprint-panel" data-footprint-panel>
         <div class="label">Select a marker</div>
@@ -196,6 +193,7 @@
   </div>
 </footer>
 <script src="../scripts/footprint-data.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 <script src="../scripts/site.js"></script>
 </body>
 </html>

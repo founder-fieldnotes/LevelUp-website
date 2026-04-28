@@ -5346,154 +5346,134 @@ h3,
 
 .footprint-map-stage {
   position: relative;
-  aspect-ratio: 2 / 1;
+  aspect-ratio: 16 / 9;
   min-height: 620px;
-  background:
-    linear-gradient(90deg, rgba(0, 0, 0, 0.05) 1px, transparent 1px),
-    linear-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 1px),
-    radial-gradient(circle at 18% 18%, rgba(41, 186, 238, 0.2), transparent 28%),
-    radial-gradient(circle at 80% 68%, rgba(253, 216, 55, 0.22), transparent 26%),
-    #f3f1ec;
-  background-size: 64px 64px, 64px 64px, auto, auto, auto;
+  background: #f3f1ec;
 }
 
-.footprint-map-image {
-  position: absolute;
-  inset: 6% 2% 8%;
-  width: 100%;
-  height: 86%;
-  object-fit: contain;
-  opacity: 0.74;
-  pointer-events: none;
-  filter: contrast(1.08);
-}
-
-.footprint-route-layer {
-  position: absolute;
-  inset: 0;
+.footprint-leaflet-map {
   width: 100%;
   height: 100%;
-  overflow: visible;
-  pointer-events: none;
+  min-height: 620px;
 }
 
-.footprint-route {
-  fill: none;
-  stroke: rgba(0, 0, 0, 0.24);
-  stroke-width: 0.18;
-  stroke-linecap: round;
-  stroke-dasharray: 1.2 1;
-  opacity: 0;
-  transition: opacity 0.18s ease, stroke 0.18s ease, stroke-width 0.18s ease;
+.footprint-leaflet-map.leaflet-container {
+  background: #f3f1ec;
+  color: var(--ink);
+  font-family: var(--font-sans);
 }
 
-.footprint-route.is-visible {
-  opacity: 0.42;
+.footprint-leaflet-map .leaflet-tile-pane {
+  filter: saturate(0.55) contrast(1.08);
 }
 
-.footprint-route.is-active {
-  opacity: 0.95;
-  stroke: #000000;
-  stroke-width: 0.34;
-}
-
-.footprint-marker-layer {
-  position: absolute;
-  inset: 0;
-}
-
-.footprint-marker {
-  position: absolute;
-  width: 24px;
-  height: 24px;
-  margin-left: -12px;
-  margin-top: -12px;
-  border: 3px solid var(--line);
-  border-radius: 50%;
-  background: var(--blue);
-  box-shadow: 0 0 0 7px rgba(255, 255, 255, 0.78), 0 10px 18px rgba(0, 0, 0, 0.16);
-  cursor: pointer;
-  transition: transform 0.18s ease, background-color 0.18s ease, box-shadow 0.18s ease;
-}
-
-.footprint-marker::after {
-  content: "";
-  position: absolute;
-  inset: 5px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.36);
-}
-
-.footprint-marker::before {
-  content: attr(data-label);
-  position: absolute;
-  left: 50%;
-  bottom: calc(100% + 10px);
-  max-width: 12rem;
-  padding: 5px 7px;
+.footprint-leaflet-map .leaflet-control-zoom {
+  overflow: hidden;
   border: 2px solid var(--line);
+  border-radius: 0;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.14);
+}
+
+.footprint-leaflet-map .leaflet-control-zoom a {
+  width: 42px;
+  height: 42px;
+  border: 0;
+  border-bottom: 2px solid var(--line);
   background: #ffffff;
   color: #000000;
   font-family: var(--font-mono);
-  font-size: 0.58rem;
-  font-weight: 700;
-  letter-spacing: 0.045em;
-  line-height: 1;
-  text-transform: uppercase;
-  white-space: nowrap;
-  opacity: 0;
-  transform: translateX(-50%) translateY(4px);
-  transition: opacity 0.18s ease, transform 0.18s ease;
-  pointer-events: none;
+  font-size: 1.25rem;
+  font-weight: 800;
+  line-height: 40px;
 }
 
-.footprint-marker[data-theme="gold"] { background: var(--gold); }
-.footprint-marker[data-theme="green"] { background: var(--green); }
-.footprint-marker[data-theme="clay"] { background: var(--clay); }
-
-.footprint-marker:hover,
-.footprint-marker:focus-visible,
-.footprint-marker.is-active {
-  transform: scale(1.22);
-  box-shadow: 0 0 0 9px rgba(255, 255, 255, 0.92), 0 14px 24px rgba(0, 0, 0, 0.2);
-  z-index: 3;
+.footprint-leaflet-map .leaflet-control-zoom a:last-child {
+  border-bottom: 0;
 }
 
-.footprint-marker:hover::before,
-.footprint-marker:focus-visible::before,
-.footprint-marker.is-active::before {
-  opacity: 1;
-  transform: translateX(-50%) translateY(0);
+.footprint-leaflet-map .leaflet-control-zoom a:hover,
+.footprint-leaflet-map .leaflet-control-zoom a:focus {
+  background: var(--blue);
+  color: #000000;
 }
 
-.footprint-popup {
-  position: absolute;
+.footprint-leaflet-map .leaflet-control-attribution {
+  border-top: 2px solid rgba(0, 0, 0, 0.12);
+  border-left: 2px solid rgba(0, 0, 0, 0.12);
+  background: rgba(255, 255, 255, 0.9);
+  color: #252525;
+  font-size: 0.66rem;
+}
+
+.leaflet-footprint-marker {
   display: grid;
-  gap: 8px;
-  width: min(320px, calc(100% - 28px));
-  padding: 14px 16px 16px;
-  border: 2px solid var(--line);
-  background: #ffffff;
-  box-shadow: 0 18px 32px rgba(0, 0, 0, 0.12);
-  transform: translate(-50%, -110%);
-  z-index: 12;
+  place-items: center;
 }
 
-.footprint-popup::after {
+.leaflet-footprint-marker span {
+  position: relative;
+  display: block;
+  width: 24px;
+  height: 24px;
+  border: 2px solid var(--line);
+  border-radius: 50%;
+  background: var(--marker-color, var(--blue));
+  box-shadow: 0 0 0 7px rgba(255, 255, 255, 0.82), 0 13px 22px rgba(0, 0, 0, 0.22);
+  transition: box-shadow 0.18s ease, transform 0.18s ease;
+}
+
+.leaflet-footprint-marker span::after {
   content: "";
   position: absolute;
-  left: 50%;
-  top: calc(100% - 2px);
-  width: 14px;
-  height: 14px;
-  border-right: 2px solid var(--line);
-  border-bottom: 2px solid var(--line);
-  background: #ffffff;
-  transform: translateX(-50%) rotate(45deg);
+  inset: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.42);
 }
 
-.footprint-popup[hidden] {
-  display: none;
+.leaflet-footprint-marker:hover span,
+.leaflet-footprint-marker.is-active span {
+  transform: scale(1.22);
+  box-shadow: 0 0 0 9px rgba(255, 255, 255, 0.96), 0 16px 28px rgba(0, 0, 0, 0.26);
+}
+
+.footprint-leaflet-map .leaflet-marker-icon:focus-visible span,
+.footprint-leaflet-map .leaflet-interactive:focus-visible {
+  outline: 3px solid var(--blue);
+  outline-offset: 4px;
+}
+
+.footprint-leaflet-map .leaflet-popup-content-wrapper {
+  border: 2px solid var(--line);
+  border-radius: 0;
+  box-shadow: 0 20px 34px rgba(0, 0, 0, 0.16);
+}
+
+.footprint-leaflet-map .leaflet-popup-content {
+  display: grid;
+  gap: 8px;
+  width: min(280px, 72vw);
+  margin: 14px 16px 16px;
+}
+
+.footprint-leaflet-map .leaflet-popup-tip {
+  border-right: 2px solid var(--line);
+  border-bottom: 2px solid var(--line);
+  box-shadow: none;
+}
+
+.footprint-leaflet-map .leaflet-popup-close-button {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  color: #000000;
+  font-size: 1.4rem;
+}
+
+.footprint-leaflet-map .leaflet-popup-close-button:hover,
+.footprint-leaflet-map .leaflet-popup-close-button:focus {
+  background: var(--gold);
+  color: #000000;
 }
 
 .footprint-popup-kicker {
@@ -5678,14 +5658,11 @@ h3,
 
   .footprint-map-stage {
     min-height: 420px;
+    aspect-ratio: auto;
   }
 
-  .footprint-route-layer {
-    display: none;
-  }
-
-  .footprint-popup {
-    width: min(240px, calc(100% - 16px));
+  .footprint-leaflet-map {
+    min-height: 420px;
   }
 
   .home-systems-visual,
@@ -5726,6 +5703,10 @@ h3,
   }
 
   .footprint-map-stage {
+    min-height: 320px;
+  }
+
+  .footprint-leaflet-map {
     min-height: 320px;
   }
 
