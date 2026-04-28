@@ -81,6 +81,25 @@ document.addEventListener("DOMContentLoaded", () => {
       const trigger = item.querySelector("[data-nav-trigger]");
       item.dataset.open = "false";
 
+      if (trigger) {
+        trigger.addEventListener("click", (event) => {
+          if (window.innerWidth > 820) return;
+
+          const submenu = item.querySelector(".nav-submenu");
+          if (!submenu) return;
+
+          event.preventDefault();
+          const willOpen = item.dataset.open !== "true";
+          navItems.forEach((other) => {
+            other.dataset.open = "false";
+            const otherTrigger = other.querySelector("[data-nav-trigger]");
+            if (otherTrigger) otherTrigger.setAttribute("aria-expanded", "false");
+          });
+          item.dataset.open = String(willOpen);
+          trigger.setAttribute("aria-expanded", String(willOpen));
+        });
+      }
+
       item.addEventListener("mouseenter", () => {
         if (window.innerWidth <= 820) return;
         navItems.forEach((other) => {
